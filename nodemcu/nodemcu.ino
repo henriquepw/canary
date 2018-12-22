@@ -1,8 +1,7 @@
 
+#include "ESP8266HTTPUpdateServer.h"
 #include "ESP8266WebServer.h"
-#include "ESP8266mDNS.h"
 #include "ESP8266WiFi.h"
-#include "WiFiClient.h"
 #include "DHT.h"
 
 /*
@@ -26,12 +25,12 @@
 
 DHT dht(DHTPIN, DHTTYPE, 15);
 
-
 //rede Wifi
 const char* ssid = "";
 const char* password = "";
 
 ESP8266WebServer server(80);
+ESP8266HTTPUpdateServer upServer;
 
 IPAddress ip(192, 168, 0, 180);
 IPAddress gateway(192, 168, 0, 1);
@@ -84,6 +83,8 @@ void setup() {
   Serial.println("Conectado");
 
   initPage();
+
+  upServer.setup(&server);
   server.on("/", handleRoot);
   server.begin();
 }
