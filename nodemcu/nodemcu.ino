@@ -57,9 +57,7 @@ void loop() {
  
   Serial.print("Umidade          : "); Serial.println(humidity);
   Serial.print("Temperatura em C : "); Serial.println(temp);
-  Serial.print("Temperatura em F : "); Serial.println(tempf);
-  Serial.print("ic               : "); Serial.println(ic);
-  Serial.print("icC              : "); Serial.println(icC);
+  Serial.print("Indice de calor  : "); Serial.println(icC);
  
   // Repetindo a cada 6 segundos
   delay(6000);
