@@ -111,6 +111,6 @@ void loop() {
   Serial.print("Temperatura em C : "); Serial.println(temp);
   Serial.print("Indice de calor  : "); Serial.println(icC);
  
-  // Repetindo a cada 6 segundos
+  // Repetindo a cada 10 segundos
   delay(10000);
 }
