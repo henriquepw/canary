@@ -3,7 +3,8 @@ CREATE TABLE persona(
     nome TEXT,
     email TEXT,
     password VARCHAR(32),
-    PRIMARY KEY(id)
+    PRIMARY KEY(id),
+    UNIQUE(email)
 );
 
 CREATE TABLE canary(
