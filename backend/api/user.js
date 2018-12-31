@@ -9,17 +9,20 @@ module.exports = app => {
     };
 
     const save = async (req, res) => {
+        console.log("Save");
+
         const user = { ...req.body };
 
         if (req.params.id) user.id = req.params.id;
-
+        
         try {
             if (!user.id) {
+                console.log("4");
                 const userFromDB = await app
                     .db("tb_user")
-                    .where({ email: user.email })
-                    .first();
-
+                    .where({ email: user.email });
+                
+                console.log("5");
                 isNotEmpy(userFromDB, "Usuário já estava cadastrado");
             }
         } catch (msg) {
@@ -27,6 +30,7 @@ module.exports = app => {
         }
 
         user.password = encryptPass(user.password);
+        console.log(user.password);
 
         if (user.id) {
             app.db("tb_user")
