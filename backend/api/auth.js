@@ -10,7 +10,7 @@ module.exports = app => {
             .first();
 
         if (!user) {
-            return res.status(400).send("Usuário não encontrado");
+            return res.status(400).send("Email e/ou Senha invalido(s)");
         }
 
         const isMatch = bcrypt.compareSync(req.body.password, user.password);
@@ -25,7 +25,7 @@ module.exports = app => {
         const payload = {
             ...user,
             iat: now,
-            exp: now + 60 * 60 * 24
+            exp: now + (60 * 60 * 24)
         };
 
         res.json({
