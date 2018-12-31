@@ -22,7 +22,7 @@ CREATE TABLE tb_canary (
     PRIMARY KEY(id)
 );
 
-CREATE TABLE tb_user_tb_canary (
+CREATE TABLE tb_user_canary (
     user_id INTEGER,
     canary_id INTEGER,
     PRIMARY KEY(user_id, canary_id),
@@ -30,7 +30,7 @@ CREATE TABLE tb_user_tb_canary (
     FOREIGN KEY(canary_id) REFERENCES tb_canary(id)
 );
 
-CREATE TABLE daily_reading (
+CREATE TABLE tb_daily_reading (
     id SERIAL,
     nh3 REAL,
     co2 REAL,
