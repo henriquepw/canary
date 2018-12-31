@@ -14,15 +14,14 @@ module.exports = app => {
         const user = { ...req.body };
 
         if (req.params.id) user.id = req.params.id;
-        
+
         try {
             if (!user.id) {
-                console.log("4");
                 const userFromDB = await app
                     .db("tb_user")
-                    .where({ email: user.email });
-                
-                console.log("5");
+                    .where({ email: user.email })
+                    .first();
+
                 isNotEmpy(userFromDB, "Usuário já estava cadastrado");
             }
         } catch (msg) {
@@ -30,7 +29,6 @@ module.exports = app => {
         }
 
         user.password = encryptPass(user.password);
-        console.log(user.password);
 
         if (user.id) {
             app.db("tb_user")
@@ -46,18 +44,24 @@ module.exports = app => {
         }
     };
 
-    const remove = (req, res) => {};
+    const remove = (req, res) => {
+        app.db("tb_user")
+            .delete()
+            .where({ id: req.params.id })
+            .then(_ => res.status(204).send("Conta excluidada com sucesso"))
+            .catch(err => res.status(500).send(err));
+    };
 
     const get = (_, res) => {
         app.db("tb_user")
-            .select()
+            .select("id", "name", "email")
             .then(users => res.json(users))
             .catch(err => res.status(500).send(err));
     };
 
     const getById = (req, res) => {
         app.db("tb_user")
-            .select()
+            .select("id", "name", "email")
             .where({ id: req.params.id })
             .first()
             .then(user => res.json(user))
