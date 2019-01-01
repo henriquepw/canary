@@ -8,7 +8,7 @@ module.exports = app => {
         return bcrypt.hashSync(password, salt);
     };
 
-    const save = async (req, res) => {
+    const insert = async (req, res) => {
         console.log("Save");
 
         const user = { ...req.body };
@@ -69,7 +69,7 @@ module.exports = app => {
     };
 
     return {
-        save,
+        insert,
         remove,
         get,
         getById

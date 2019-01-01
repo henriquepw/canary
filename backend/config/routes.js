@@ -3,6 +3,9 @@ module.exports = app => {
     app.post("/signin", app.api.auth.signin);
     app.post("/validateToken", app.api.auth.validateToken);
 
+    /********
+     * User *
+     ********/
     app.route("/users")
         //.all(app.config.passport.authenticate())
         .post(app.api.user.save)
@@ -13,6 +16,24 @@ module.exports = app => {
         .put(app.api.user.save)
         .get(app.api.user.getById)
         .delete(app.api.user.remove);
+
+    /**********
+     * canary *
+     **********/
+    app.route("./canaries")
+        //.all(app.config.passport.authenticate())
+        .post(app.api.canary.insert)
+        .get(app.api.canary.get);
+
+    app.route("./canaries/:id")
+        //.all(app.config.passport.authenticate())
+        .put(app.api.canary.update)
+        .get(app.api.canary.getById)
+        .delete(app.api.canary.remove);
+
+    /***************
+     * user_canary *
+     ***************/
 
     /*
     app.route("/rota/das/paradas")
