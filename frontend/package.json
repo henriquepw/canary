@@ -4,6 +4,7 @@
     "private": true,
     "scripts": {
         "android": "react-native run-android",
+        "clear" : "yarn ceche clean",
         "ios": "react-native run-ios",
         "link": "react-native link",
         "start": "node node_modules/react-native/local-cli/cli.js start",
