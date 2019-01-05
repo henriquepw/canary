@@ -7,16 +7,18 @@ import {
     Image,
     Dimensions,
     Platform,
-    Alert,
-    ToastAndroid,
     LayoutAnimation,
     UIManager,
     KeyboardAvoidingView,
-    Keyboard
+    Keyboard,
+    ActivityIndicator,
+    ActivityIndicatorIOS,
+    ProgressBarAndroid
 } from "react-native";
 
 import { Input } from "react-native-elements";
-import Button from "react-native-button";
+//import Button from "react-native-button";
+import Button from "react-native-smart-button";
 
 import Icon from "react-native-vector-icons/FontAwesome";
 import SimpleIcon from "react-native-vector-icons/SimpleLineIcons";
@@ -44,8 +46,8 @@ export default class Authentication extends Component {
         email: "",
         password: "",
         confirmPassword: "",
-        fontLoaded: false,
-        selectedStage: 0,
+        isLoading: false,
+        selectedStage: false,
         isHider: false,
         isNameValid: true,
         isEmailValid: true,
@@ -84,6 +86,30 @@ export default class Authentication extends Component {
         this.setState({
             isHider: false
         });
+    };
+
+    _renderLoadingComponent = () => {
+        return ActivityIndicator ? (
+            <ActivityIndicator
+                style={{ margin: 10 }}
+                animating={true}
+                color={"#464646"}
+                size={"small"}
+            />
+        ) : Platform.OS == "android" ? (
+            <ProgressBarAndroid
+                style={{ margin: 10 }}
+                color={"#464646"}
+                styleAttr={"Small"}
+            />
+        ) : (
+            <ActivityIndicatorIOS
+                style={{ margin: 10 }}
+                animating={true}
+                color={"#464646"}
+                size={"small"}
+            />
+        );
     };
 
     componentWillUnmount() {}
@@ -128,6 +154,8 @@ export default class Authentication extends Component {
         } catch (err) {
             showError(err);
         }
+
+        this.setState({ isLoading: false });
     };
 
     signup = async (name, email, password) => {
@@ -143,9 +171,13 @@ export default class Authentication extends Component {
         } catch (err) {
             showError(err);
         }
+
+        this.setState({ isLoading: false });
     };
 
     onClick = async () => {
+        this.setState({ isLoading: true });
+
         const {
             name,
             email,
@@ -181,11 +213,13 @@ export default class Authentication extends Component {
                 this.login(email, password);
             }
         }
+
+        this.setState({ isLoading: false });
     };
 
     render() {
-        const isLogIn = this.state.selectedStage === 0;
-        const isSignUp = this.state.selectedStage === 1;
+        const isLogIn = this.state.selectedStage == false;
+        const isSignUp = this.state.selectedStage == true;
 
         return (
             <View style={styles.container}>
@@ -371,6 +405,21 @@ export default class Authentication extends Component {
                                 }}
                             >
                                 <Button
+                                    loading={this.state.isLoading}
+                                    touchableType={
+                                        Button.constants.touchableTypes.fade
+                                    }
+                                    style={styles.buttonStyle}
+                                    textStyle={{ fontSize: 16, color: "#464646" }}
+                                    renderLoadingComponent={
+                                        this._renderLoadingComponent
+                                    }
+                                    onPress={this.onClick}
+                                >
+                                    {isLogIn ? "ENTRAR" : "CADASTAR"}
+                                </Button>
+                                {/*
+                                <Button
                                     style={{ fontSize: 16, color: "#464646" }}
                                     styleDisabled={{ color: "#292929" }}
                                     containerStyle={{
@@ -379,10 +428,11 @@ export default class Authentication extends Component {
                                         overflow: "hidden",
                                         backgroundColor: "#FFF176"
                                     }}
-                                    onPress={this.onClick} //isLogIn ? this.login : this.signup}
+                                    onPress={this.onClick}
                                 >
                                     {isLogIn ? "ENTRAR" : "CADASTAR"}
                                 </Button>
+                                */}
                             </View>
                         </View>
                     </KeyboardAvoidingView>
@@ -413,6 +463,12 @@ const styles = StyleSheet.create({
         fontSize: 24,
         textAlign: "center",
         color: "#fff"
+    },
+    buttonStyle: {
+        padding: 10,
+        height: 45,
+        overflow: "hidden",
+        backgroundColor: "#FFF176"
     },
     inputContainer: {
         backgroundColor: "#fff",
