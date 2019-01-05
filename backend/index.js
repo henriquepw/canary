@@ -6,9 +6,11 @@ PORT = 3000;
 app.db = db;
 
 consign()
-    .then("./config/middlewares")
+    .include("./config/passport.js")
+    .then("./config/middlewares.js")
+    .then("./api/validator.js")
     .then("./api")
-    .then("./config/routes")
+    .then("./config/routes.js")
     .into(app);
 
 app.listen(PORT, () => {
