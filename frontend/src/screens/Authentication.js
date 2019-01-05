@@ -23,6 +23,9 @@ import SimpleIcon from "react-native-vector-icons/SimpleLineIcons";
 
 import Orientation from "react-native-orientation";
 
+import axios from "axios";
+import { server, showError, showInfo } from "../common";
+
 let SCREEN_WIDTH = Dimensions.get("window").width;
 let SCREEN_HEIGHT = Dimensions.get("window").height;
 
@@ -35,14 +38,6 @@ const TabSelector = ({ selected }) => (
     </View>
 );
 
-const notificar = msg => {
-    if (Platform.OS === "android") {
-        ToastAndroid.show(msg, ToastAndroid.SHORT);
-    } else {
-        Alert.alert("informação", msg);
-    }
-};
-
 export default class Authentication extends Component {
     state = {
         name: "",
@@ -50,7 +45,7 @@ export default class Authentication extends Component {
         password: "",
         confirmPassword: "",
         fontLoaded: false,
-        selectedCategory: 0,
+        selectedStage: 0,
         isHider: false,
         isNameValid: true,
         isEmailValid: true,
@@ -93,10 +88,10 @@ export default class Authentication extends Component {
 
     componentWillUnmount() {}
 
-    selectCategory = selectedCategory => {
+    selectCategory = selectedStage => {
         LayoutAnimation.easeInEaseOut();
         this.setState({
-            selectedCategory
+            selectedStage
         });
     };
 
@@ -118,8 +113,46 @@ export default class Authentication extends Component {
         return password == confirmPassword;
     }
 
-    login = () => {
-        const { email, password } = this.state;
+    login = async (email, password) => {
+        try {
+            const res = await axios.post(`${server}/signin`, {
+                email,
+                password
+            });
+
+            axios.defaults.headers.common["Authorization"] = `bearer ${
+                res.data.token
+            }`;
+
+            showInfo(`Logado com sucesso!`);
+        } catch (err) {
+            showError(err);
+        }
+    };
+
+    signup = async (name, email, password) => {
+        try {
+            await axios.post(`${server}/signup`, {
+                name,
+                email,
+                password
+            });
+
+            showInfo("Cadastrado com sucesso!");
+            this.setState({ selectedStage: 0 });
+        } catch (err) {
+            showError(err);
+        }
+    };
+
+    onClick = async () => {
+        const {
+            name,
+            email,
+            password,
+            confirmPassword,
+            selectedStage
+        } = this.state;
         const validEmail = this.validateEmail(email);
         const validPassword = this.validatePassword(password);
 
@@ -129,30 +162,30 @@ export default class Authentication extends Component {
         });
 
         if (validEmail && validPassword) {
-        }
-    };
+            if (selectedStage) {
+                const validName = this.validateName(name);
+                const validConfirmPassowrd = this.isEquals(
+                    password,
+                    confirmPassword
+                );
 
-    signup = () => {
-        const { name, email, password, confirmPassword } = this.state;
-        const validName = this.validateName(name);
-        const validEmail = this.validateEmail(email);
-        const validPassword = this.validatePassword(password);
-        const validConfirmPassowrd = this.isEquals(password, confirmPassword);
+                this.setState({
+                    email: validName,
+                    confirmPassword: validConfirmPassowrd
+                });
 
-        this.setState({
-            isEmailValid: validEmail,
-            isPasswordValid: validPassword,
-            isConfirmPasswordValid: validConfirmPassowrd,
-            isNameValid: validName
-        });
-
-        if (validName && validEmail && validPassword && validConfirmPassowrd) {
+                if (validName && validConfirmPassowrd) {
+                    this.signup(name, email, password);
+                }
+            } else {
+                this.login(email, password);
+            }
         }
     };
 
     render() {
-        const isLogIn = this.state.selectedCategory === 0;
-        const isSignUp = this.state.selectedCategory === 1;
+        const isLogIn = this.state.selectedStage === 0;
+        const isSignUp = this.state.selectedStage === 1;
 
         return (
             <View style={styles.container}>
@@ -346,7 +379,7 @@ export default class Authentication extends Component {
                                         overflow: "hidden",
                                         backgroundColor: "#FFF176"
                                     }}
-                                    onPress={isLogIn ? this.login : this.signup}
+                                    onPress={this.onClick} //isLogIn ? this.login : this.signup}
                                 >
                                     {isLogIn ? "ENTRAR" : "CADASTAR"}
                                 </Button>
