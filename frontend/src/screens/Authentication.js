@@ -261,7 +261,11 @@ export default class Authentication extends Component {
                     >
                         <View style={styles.buttomContainer}>
                             <TouchableWithoutFeedback
-                                onPress={() => this.selectCategory(0)}
+                                onPress={() =>
+                                    !this.isLoading
+                                        ? this.selectCategory(false)
+                                        : ""
+                                }
                             >
                                 <Text
                                     style={[
@@ -273,7 +277,11 @@ export default class Authentication extends Component {
                                 </Text>
                             </TouchableWithoutFeedback>
                             <TouchableWithoutFeedback
-                                onPress={() => this.selectCategory(1)}
+                                onPress={() =>
+                                    !this.isLoading
+                                        ? this.selectCategory(true)
+                                        : ""
+                                }
                             >
                                 <Text
                                     style={[
@@ -331,7 +339,7 @@ export default class Authentication extends Component {
                                     />
                                 }
                                 containerStyle={{
-                                    marginTop: 10,
+                                    marginTop: 8,
                                     borderBottomColor: "rgba(0, 0, 0, 0.38)"
                                 }}
                                 inputStyle={{ marginLeft: 10 }}
@@ -355,7 +363,7 @@ export default class Authentication extends Component {
                                     />
                                 }
                                 containerStyle={{
-                                    marginTop: 10,
+                                    marginTop: 8,
                                     borderBottomColor: "rgba(0, 0, 0, 0.38)"
                                 }}
                                 inputStyle={{ marginLeft: 10 }}
@@ -383,7 +391,7 @@ export default class Authentication extends Component {
                                         />
                                     }
                                     containerStyle={{
-                                        marginTop: 10,
+                                        marginTop: 8,
                                         borderBottomColor: "rgba(0, 0, 0, 0.38)"
                                     }}
                                     inputStyle={{ marginLeft: 10 }}
@@ -410,7 +418,10 @@ export default class Authentication extends Component {
                                         Button.constants.touchableTypes.fade
                                     }
                                     style={styles.buttonStyle}
-                                    textStyle={{ fontSize: 16, color: "#464646" }}
+                                    textStyle={{
+                                        fontSize: 16,
+                                        color: "#464646"
+                                    }}
                                     renderLoadingComponent={
                                         this._renderLoadingComponent
                                     }
@@ -466,9 +477,11 @@ const styles = StyleSheet.create({
     },
     buttonStyle: {
         padding: 10,
-        height: 45,
-        overflow: "hidden",
-        backgroundColor: "#FFF176"
+        height: 40,
+        backgroundColor: "#FFF176",
+        borderRadius: 3,
+        borderWidth: StyleSheet.hairlineWidth,
+        borderColor: "#FFF176"
     },
     inputContainer: {
         backgroundColor: "#fff",
