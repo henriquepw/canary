@@ -1,0 +1,429 @@
+import React, { Component } from "react";
+import {
+    View,
+    Text,
+    StyleSheet,
+    TouchableWithoutFeedback,
+    Image,
+    Dimensions,
+    Platform,
+    Alert,
+    ToastAndroid,
+    LayoutAnimation,
+    UIManager,
+    KeyboardAvoidingView,
+    Keyboard
+} from "react-native";
+
+import { Input } from "react-native-elements";
+import Button from "react-native-button";
+
+import Icon from "react-native-vector-icons/FontAwesome";
+import SimpleIcon from "react-native-vector-icons/SimpleLineIcons";
+
+import Orientation from "react-native-orientation";
+
+let SCREEN_WIDTH = Dimensions.get("window").width;
+let SCREEN_HEIGHT = Dimensions.get("window").height;
+
+UIManager.setLayoutAnimationEnabledExperimental &&
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+
+const TabSelector = ({ selected }) => (
+    <View style={styles.selectorContainer}>
+        <View style={selected && styles.selected} />
+    </View>
+);
+
+const notificar = msg => {
+    if (Platform.OS === "android") {
+        ToastAndroid.show(msg, ToastAndroid.SHORT);
+    } else {
+        Alert.alert("informação", msg);
+    }
+};
+
+export default class Authentication extends Component {
+    state = {
+        name: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+        fontLoaded: false,
+        selectedCategory: 0,
+        isHider: false,
+        isNameValid: true,
+        isEmailValid: true,
+        isPasswordValid: true,
+        isConfirmPasswordValid: true
+    };
+
+    componentWillMount() {
+        const initial = Orientation.getInitialOrientation();
+        /*if (initial === "LANDSCAPE") {
+            orient = false;
+        }*/
+        Orientation.lockToPortrait();
+    }
+
+    componentDidMount() {
+        Orientation.lockToPortrait();
+
+        this.keyboardDidShowListiner = Keyboard.addListener(
+            "keyboardDidShow",
+            this._keyboardDidShow
+        );
+        this.keyboardDidHideListiner = Keyboard.addListener(
+            "keyboardDidHide",
+            this._keyboardDidHide
+        );
+    }
+
+    _keyboardDidShow = () => {
+        this.setState({
+            isHider: true
+        });
+    };
+
+    _keyboardDidHide = () => {
+        this.setState({
+            isHider: false
+        });
+    };
+
+    componentWillUnmount() {}
+
+    selectCategory = selectedCategory => {
+        LayoutAnimation.easeInEaseOut();
+        this.setState({
+            selectedCategory
+        });
+    };
+
+    validateName(name) {
+        const re = /\d+/;
+        return name.length && !re.test(name);
+    }
+
+    validateEmail(email) {
+        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(email);
+    }
+
+    validatePassword(password) {
+        return password.length >= 5;
+    }
+
+    isEquals(password, confirmPassword) {
+        return password == confirmPassword;
+    }
+
+    login = () => {
+        const { email, password } = this.state;
+        const validEmail = this.validateEmail(email);
+        const validPassword = this.validatePassword(password);
+
+        this.setState({
+            isEmailValid: validEmail,
+            isPasswordValid: validPassword
+        });
+
+        if (validEmail && validPassword) {
+        }
+    };
+
+    signup = () => {
+        const { name, email, password, confirmPassword } = this.state;
+        const validName = this.validateName(name);
+        const validEmail = this.validateEmail(email);
+        const validPassword = this.validatePassword(password);
+        const validConfirmPassowrd = this.isEquals(password, confirmPassword);
+
+        this.setState({
+            isEmailValid: validEmail,
+            isPasswordValid: validPassword,
+            isConfirmPasswordValid: validConfirmPassowrd,
+            isNameValid: validName
+        });
+
+        if (validName && validEmail && validPassword && validConfirmPassowrd) {
+        }
+    };
+
+    render() {
+        const isLogIn = this.state.selectedCategory === 0;
+        const isSignUp = this.state.selectedCategory === 1;
+
+        return (
+            <View style={styles.container}>
+                {!this.state.isHider && (
+                    <View style={styles.imageContainer}>
+                        <Image
+                            style={styles.logo}
+                            source={require("../../assets/imgs/logo.png")}
+                        />
+                    </View>
+                )}
+                {!this.state.isHider && (
+                    <View
+                        style={[
+                            styles.imageContainer,
+                            {
+                                position: "absolute",
+                                marginTop:
+                                    SCREEN_HEIGHT - styles.logo.height - 32
+                            }
+                        ]}
+                    >
+                        <Image
+                            style={styles.image}
+                            source={require("../../assets/imgs/background2x.png")}
+                        />
+                    </View>
+                )}
+                <View
+                    style={{
+                        flex: 9,
+                        justifyContent: "flex-start",
+                        alignItems: "center"
+                    }}
+                >
+                    <KeyboardAvoidingView
+                        contentContainerStyle={styles.KeyboardAvoidingContainer}
+                        behavior="position"
+                    >
+                        <View style={styles.buttomContainer}>
+                            <TouchableWithoutFeedback
+                                onPress={() => this.selectCategory(0)}
+                            >
+                                <Text
+                                    style={[
+                                        styles.textButtom,
+                                        isSignUp && styles.notSeleteted
+                                    ]}
+                                >
+                                    Log in
+                                </Text>
+                            </TouchableWithoutFeedback>
+                            <TouchableWithoutFeedback
+                                onPress={() => this.selectCategory(1)}
+                            >
+                                <Text
+                                    style={[
+                                        styles.textButtom,
+                                        isLogIn && styles.notSeleteted
+                                    ]}
+                                >
+                                    Sign up
+                                </Text>
+                            </TouchableWithoutFeedback>
+                        </View>
+                        <View style={styles.rowSelector}>
+                            <TabSelector selected={isLogIn} />
+                            <TabSelector selected={isSignUp} />
+                        </View>
+                        <View style={styles.inputContainer}>
+                            {isSignUp && (
+                                <Input
+                                    placeholder="Nome completo..."
+                                    leftIcon={
+                                        <SimpleIcon
+                                            name="user"
+                                            color="rgba(0, 0, 0, 0.38)"
+                                            size={25}
+                                            style={{
+                                                backgroundColor: "transparent"
+                                            }}
+                                        />
+                                    }
+                                    containerStyle={{
+                                        borderBottomColor: "rgba(0, 0, 0, 0.38)"
+                                    }}
+                                    inputStyle={{ marginLeft: 10 }}
+                                    onChangeText={name =>
+                                        this.setState({ name })
+                                    }
+                                    errorMessage={
+                                        !this.state.isNameValid
+                                            ? "Nome invalido"
+                                            : ""
+                                    }
+                                />
+                            )}
+                            <Input
+                                placeholder="E-mail..."
+                                leftIcon={
+                                    <Icon
+                                        name="envelope-o"
+                                        color="rgba(0, 0, 0, 0.38)"
+                                        size={25}
+                                        style={{
+                                            backgroundColor: "transparent"
+                                        }}
+                                        keyboardType="email-address"
+                                    />
+                                }
+                                containerStyle={{
+                                    marginTop: 10,
+                                    borderBottomColor: "rgba(0, 0, 0, 0.38)"
+                                }}
+                                inputStyle={{ marginLeft: 10 }}
+                                onChangeText={email => this.setState({ email })}
+                                errorMessage={
+                                    !this.state.isEmailValid
+                                        ? "E-mal invalido"
+                                        : ""
+                                }
+                            />
+                            <Input
+                                placeholder="Senha..."
+                                leftIcon={
+                                    <SimpleIcon
+                                        name="lock"
+                                        color="rgba(0, 0, 0, 0.38)"
+                                        size={25}
+                                        style={{
+                                            backgroundColor: "transparent"
+                                        }}
+                                    />
+                                }
+                                containerStyle={{
+                                    marginTop: 10,
+                                    borderBottomColor: "rgba(0, 0, 0, 0.38)"
+                                }}
+                                inputStyle={{ marginLeft: 10 }}
+                                secureTextEntry={true}
+                                onChangeText={password =>
+                                    this.setState({ password })
+                                }
+                                errorMessage={
+                                    !this.state.isPasswordValid
+                                        ? "Senhar invalida"
+                                        : ""
+                                }
+                            />
+                            {isSignUp && (
+                                <Input
+                                    placeholder="Confirmar senha..."
+                                    leftIcon={
+                                        <SimpleIcon
+                                            name="lock"
+                                            color="rgba(0, 0, 0, 0.38)"
+                                            size={25}
+                                            style={{
+                                                backgroundColor: "transparent"
+                                            }}
+                                        />
+                                    }
+                                    containerStyle={{
+                                        marginTop: 10,
+                                        borderBottomColor: "rgba(0, 0, 0, 0.38)"
+                                    }}
+                                    inputStyle={{ marginLeft: 10 }}
+                                    secureTextEntry={true}
+                                    onChangeText={confirmPassword =>
+                                        this.setState({ confirmPassword })
+                                    }
+                                    errorMessage={
+                                        !this.state.isConfirmPasswordValid
+                                            ? "Você digitou senhas diferentes"
+                                            : ""
+                                    }
+                                />
+                            )}
+                            <View
+                                style={{
+                                    marginTop: 16,
+                                    width: styles.inputContainer.width - 64
+                                }}
+                            >
+                                <Button
+                                    style={{ fontSize: 16, color: "#464646" }}
+                                    styleDisabled={{ color: "#292929" }}
+                                    containerStyle={{
+                                        padding: 10,
+                                        height: 45,
+                                        overflow: "hidden",
+                                        backgroundColor: "#FFF176"
+                                    }}
+                                    onPress={isLogIn ? this.login : this.signup}
+                                >
+                                    {isLogIn ? "ENTRAR" : "CADASTAR"}
+                                </Button>
+                            </View>
+                        </View>
+                    </KeyboardAvoidingView>
+                </View>
+            </View>
+        );
+    }
+}
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: "#5C6BC0"
+    },
+    KeyboardAvoidingContainer: {
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    buttomContainer: {
+        width: SCREEN_WIDTH,
+        flexDirection: "row",
+        alignItems: "flex-start",
+        justifyContent: "center",
+        marginTop: 16
+    },
+    textButtom: {
+        flex: 1,
+        fontSize: 24,
+        textAlign: "center",
+        color: "#fff"
+    },
+    inputContainer: {
+        backgroundColor: "#fff",
+        width: SCREEN_WIDTH - 32,
+        paddingHorizontal: 16,
+        paddingVertical: 16,
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    imageContainer: {
+        flex: 3,
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    image: {
+        width: SCREEN_WIDTH,
+        height: SCREEN_HEIGHT * 0.183
+    },
+    logo: {
+        width: SCREEN_WIDTH * 0.55,
+        height: SCREEN_HEIGHT * 0.18,
+        marginVertical: 16
+    },
+    rowSelector: {
+        height: 20,
+        flexDirection: "row"
+    },
+    selectorContainer: {
+        flex: 1,
+        alignItems: "center"
+    },
+    selected: {
+        position: "absolute",
+        height: 0,
+        width: 0,
+        top: -10,
+        borderWidth: 70,
+        borderTopWidth: 15,
+        borderColor: "#fff",
+        borderEndColor: "transparent",
+        borderStartColor: "transparent",
+        borderTopColor: "transparent"
+    },
+    notSeleteted: {
+        opacity: 0.5
+    }
+});
