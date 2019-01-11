@@ -74,6 +74,7 @@ export default class Authentication extends Component {
             "keyboardDidHide",
             this._keyboardDidHide
         );
+        
     }
 
     _keyboardDidShow = () => {

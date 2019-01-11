@@ -1,26 +1,40 @@
 import React, { Component } from "react";
 import { Platform, StyleSheet, Text, View } from "react-native";
+import { createStackNavigator, createDrawerNavigator, createAppContainer } from "react-navigation";
+import Autentication from "./screens/Authentication.js";
+import Home from "./screens/Home.js";
 
-const instructions = Platform.select({
-    ios: "Press Cmd+R to reload,\n" + "Cmd+D or shake for dev menu",
-    android:
-        "Double tap R on your keyboard to reload,\n" +
-        "Shake or press menu button for dev menu"
-});
 
-export default class App extends Component {
+class DrawerComponent extends Component {
     render() {
         return (
-            <View style={styles.container}>
-                <Text style={styles.welcome}>Welcome to React Native!</Text>
-                <Text style={styles.instructions}>
-                    To get started, edit App.js
-                </Text>
-                <Text style={styles.instructions}>{instructions}</Text>
+            <View>
+                <Image source/>
             </View>
         );
     }
 }
+
+
+
+const AppDrawerNavigator = createDrawerNavigator({
+    Home: { screen: Home },
+},
+);
+
+const AppStackNavigator = createStackNavigator(
+    {
+        Autentication: { screen: Autentication },
+        Home: { screen: AppDrawerNavigator }
+    },
+    {
+        headerMode: "none",
+    }
+);
+
+const AppContainer = createAppContainer(AppStackNavigator);
+
+export default AppContainer;
 
 const styles = StyleSheet.create({
     container: {
