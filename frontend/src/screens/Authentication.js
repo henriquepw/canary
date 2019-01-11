@@ -74,6 +74,8 @@ export default class Authentication extends Component {
             "keyboardDidHide",
             this._keyboardDidHide
         );
+
+       this.props.navigation.navigate("Home");
         
     }
 

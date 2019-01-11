@@ -1,25 +1,33 @@
 import React, { Component } from "react";
-import { Platform, StyleSheet, Text, View } from "react-native";
+import { Platform, StyleSheet, Text, View, Image, Container, Content, ScrollView, SafeAreaView, AppContainer } from "react-native";
 import { createStackNavigator, createDrawerNavigator, createAppContainer } from "react-navigation";
 import Autentication from "./screens/Authentication.js";
 import Home from "./screens/Home.js";
 
 
-class DrawerComponent extends Component {
-    render() {
-        return (
-            <View>
-                <Image source/>
-            </View>
-        );
-    }
-}
+const CustomDrawerComponent = (props) => (
+    <View style={styles.container} forceInset={{ top: 'always', horizontal: 'never' }}>
+        <Image source={require("../assets/imgs/logo.png")}
+        style={{}}/>
+        <Text>Text</Text>
+        <Text>Text</Text>
+        <Text>Text</Text>
+        <Text>Text</Text>
+        <Text>Text</Text>
+        <Text>Text</Text>
+    </View>
+);
+
 
 
 
 const AppDrawerNavigator = createDrawerNavigator({
     Home: { screen: Home },
 },
+{
+    initialRouteName: "Home",
+    contentComponent: CustomDrawerComponent
+}
 );
 
 const AppStackNavigator = createStackNavigator(
@@ -32,25 +40,16 @@ const AppStackNavigator = createStackNavigator(
     }
 );
 
-const AppContainer = createAppContainer(AppStackNavigator);
 
-export default AppContainer;
+
+export default createAppContainer(AppStackNavigator);
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "#F5FCFF"
+        backgroundColor: "#5C6BC0"
     },
-    welcome: {
-        fontSize: 20,
-        textAlign: "center",
-        margin: 10
-    },
-    instructions: {
-        textAlign: "center",
-        color: "#333333",
-        marginBottom: 5
-    }
+    
 });
