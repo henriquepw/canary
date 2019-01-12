@@ -1,4 +1,3 @@
-
 #include "ESP8266HTTPUpdateServer.h"
 #include "ESP8266WebServer.h"
 #include "ESP8266WiFi.h"
@@ -58,6 +57,7 @@ const char *password = "";
 ESP8266WebServer server(80);
 ESP8266HTTPUpdateServer upServer;
 
+IPAddress service{192,168,0,105};
 IPAddress ip(192, 168, 0, 180);
 IPAddress gateway(192, 168, 0, 1);
 IPAddress subnet(255, 255, 255, 0);
@@ -147,6 +147,10 @@ void loop(){
   float ic = dht.computeHeatIndex(tempf, humidity);
   icC = dht.convertFtoC(ic);
 
+  ppm_co = get_gas(CO);
+  ppm_co2 = get_gas(CO2);
+  ppm_nh4 = get_gas(NH4);
+
   Serial.print("Umidade          : ");
   Serial.println(humidity);
 
@@ -159,10 +163,6 @@ void loop(){
   Serial.print("Leitura: ");
   Serial.println(analogRead(MQ_PIN_ANG));
 
-  ppm_co = get_gas(CO);
-  ppm_co2 = get_gas(CO2);
-  ppm_nh4 = get_gas(NH4);
-
   Serial.print(" PPM de CO: ");
   Serial.println(ppm_co);
 
@@ -171,6 +171,8 @@ void loop(){
 
   Serial.print(" PPM de NH4: ");
   Serial.println(ppm_nh4);
+
+  post(get_json());
   
   delay(10000);
 }
@@ -241,4 +243,40 @@ float Calibration(){
                    NUMBER_OF_CALIBRATION_SAMPLE);
 
   return R0_calibrated;
+}
+
+string get_json(){
+  string json = "{";
+
+  json += "\"temperature\": " + String(temperature) + ", ";
+  json += "\"humidity\": " + String(humidity) + ", ";
+  json += "\"co\": " + String(ppm_co) + ", ";
+  json += "\"co2\": " + String(ppm_co2) + ", ";
+  json += "\"nh4\": " + String(ppm_nh4);
+
+  json += "}";
+
+  return json;
+}
+
+void post(String json){
+  if (client.connect(service, 8080)){
+    Serial.print("Connected - ");
+    Serial.println(json);
+
+    client.println("POST /link HTTP/1.1");
+    client.println("Host: 192.168.0.198");
+    client.println("User-Agent: NodeMCU");
+    client.println("Content-Type: application/json");
+    client.println("Connection: Close");
+    client.print("Content-Length: ");
+    client.println(json.length());
+    client.println();
+    client.println(json);
+    client.stop();
+
+    Serial.println("Client has closed");
+  } else {
+    Serial.println("Connection failed");
+  }
 }
