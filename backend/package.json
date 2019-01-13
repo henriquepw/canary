@@ -4,7 +4,8 @@
     "description": "",
     "main": "./index.js",
     "scripts": {
-        "start": "nodemon"
+        "start": "nodemon",
+        "clear" : "yarn cache clean"
     },
     "author": "Henrique Martins",
     "license": "ISC",
