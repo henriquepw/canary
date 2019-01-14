@@ -2,10 +2,8 @@ import React from "react";
 
 import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity} from "react-native";
 
-import SimpleIcon from "react-native-vector-icons/SimpleLineIcons";
-import AntDesign from "react-native-vector-icons/AntDesign";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import Octicons from "react-native-vector-icons/Octicons";
+import DrawerItem from "../components/DrawerItem.js";
+
 
 const CustomDrawerComponent = (props) => (
     <View style={styles.container} forceInset={{ top: 'always', horizontal: 'never' }}>
@@ -14,58 +12,40 @@ const CustomDrawerComponent = (props) => (
             style={styles.logo}/>
             <Text style={[styles.border, styles.margin]}></Text>
 
-            <TouchableOpacity style={styles.itemContainer} onPress={()=>{props.navigation.navigate("Home")}}>
-                <SimpleIcon name="home" color="white" size={20} style={styles.icon}/> 
-                <Text style={styles.item} >Home</Text>
-            </TouchableOpacity>
+            <DrawerItem name="Home" iconFamily="SimpleIcon" iconName="home" onPress={()=>{props.navigation.navigate("Home")}}/>
             
-            <View style={styles.itemContainer}>
-                <AntDesign name="yuque" color="white" size={20} style={styles.icon}/>
-                <Text style={styles.item}>Canarios</Text>
-            </View>
+            <DrawerItem name="Canarios" iconFamily="AntDesign" iconName="yuque"/>
 
             <Text style={[styles.border, styles.margin]}></Text>
 
-            <TouchableOpacity style={styles.itemContainer}>
-                <MaterialCommunityIcons name="map-marker-outline" color="white" size={20} style={styles.icon}/>
-                <Text style={styles.item}>Mapa</Text>
-            </TouchableOpacity>
+            <DrawerItem name="Mapa" iconFamily="MaterialCommunityIcons" iconName="map-marker-outline"  />
+           
+            <DrawerItem name="Perfil" iconFamily="AntDesign" iconName="user"  onPress={()=>{props.navigation.navigate("Settings")}}/>
 
-            <TouchableOpacity style={styles.itemContainer} onPress={()=>{props.navigation.navigate("Settings")}}>
-                <AntDesign name="user" color="white" size={20} style={styles.icon}/>
-                <Text style={[styles.item]}>Perfil</Text>
-            </TouchableOpacity>
         </ScrollView>
 
 
-        <View styles={{flex: 1}}>
+        <View styles={{flex: 1,}}>
             <Text style={styles.sistema}>Sistema</Text>
-            <TouchableOpacity style={styles.itemContainer}>
-                <SimpleIcon name="exclamation" color="white" size={20} style={{marginLeft:27}}/>
-                <Text style={styles.item}>Sobre</Text>
-            </TouchableOpacity>
 
-            <TouchableOpacity style={styles.itemContainer}>
-                <Octicons name="trashcan" color="#f1c484" size={20} style={styles.icon}/>
-                <Text style={[styles.item, styles.delete]}>Excluir Conta</Text>
-            </TouchableOpacity>
+            <DrawerItem name="Sobre" iconFamily="SimpleIcon" iconName="exclamation" iconStyle={{marginLeft:27}} />
 
+            <DrawerItem name="Excluir Conta" iconFamily="Octicons" iconName="trashcan" iconColor={"#f1c484"}  textStyle={[styles.item, styles.delete]}/>
+        
             <Text style={styles.border}></Text>
             
-            <TouchableOpacity style={[styles.itemContainer, {marginBottom: 8, marginTop: 8}]}>
-                <SimpleIcon name="logout" color="white" size={20} style={{marginLeft:25}}/>
-                <Text style={styles.item}>Sair</Text>
-            </TouchableOpacity>
+            <DrawerItem name="Sair" iconFamily="SimpleIcon" iconName="logout"  iconStyle={{marginLeft:25}}  containerStyle={{marginBottom: 8, marginTop: 8}}/>
         </View>  
     </View>
 );
 
 
+export default CustomDrawerComponent;
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: "space-between",
-       /* alignItems: "center",*/
         backgroundColor: "#5C6BC0",
         color: "white"
     },
@@ -101,18 +81,7 @@ const styles = StyleSheet.create({
     },
     delete: {
         color:"#f1c484",
-    },
-    icon: {
-        marginLeft: 30
-    },
-    itemContainer: {
-        flexDirection:'row', 
-        flexWrap:'wrap',
-        marginTop: 8,
-        paddingVertical: 1,
-    }
-    
+    },   
 });
 
 
-export default CustomDrawerComponent;
