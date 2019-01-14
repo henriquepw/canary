@@ -1,8 +1,11 @@
 import React, { Component } from "react";
 import { Platform, StyleSheet, Text, View, Image } from "react-native";
+import { StackActions, NavigationActions } from "react-navigation"; 
+
 
 
 class Home extends Component {
+    
     render() {
         return (
             <View style={{alignItems:"center", backgroundColor: "#5C6BC0",flex:1}}>

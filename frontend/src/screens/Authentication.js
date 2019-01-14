@@ -25,6 +25,8 @@ import SimpleIcon from "react-native-vector-icons/SimpleLineIcons";
 
 import Orientation from "react-native-orientation";
 
+import { NavigationActions, StackActions } from "react-navigation";
+
 import axios from "axios";
 import { server, showError, showInfo } from "../common";
 
@@ -75,8 +77,7 @@ export default class Authentication extends Component {
             this._keyboardDidHide
         );
 
-       this.props.navigation.navigate("Home");
-        
+        this.navigateToHome();   
     }
 
     _keyboardDidShow = () => {
@@ -219,6 +220,14 @@ export default class Authentication extends Component {
 
         this.setState({ isLoading: false });
     };
+
+    navigateToHome(){
+        const resetAction = StackActions.reset({
+            index: 0,
+            actions: [NavigationActions.navigate({ routeName: 'Home' })],
+          });
+          this.props.navigation.dispatch(resetAction);
+    }
 
     render() {
         const isLogIn = this.state.selectedStage == false;
