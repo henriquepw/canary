@@ -9,48 +9,27 @@ import Octicons from "react-native-vector-icons/Octicons";
 class DrawerItem extends Component {
     onPress() {}
 
+    iconProps = {
+        name: this.props.iconName,
+        color: this.iconColor(),
+        size: 20,
+        style: this.iconStyle()
+    };
+
     icon() {
         let returning = "";
         switch (this.props.iconFamily) {
             case "SimpleIcon":
-                returning = (
-                    <SimpleIcon
-                        name={this.props.iconName}
-                        color={this.iconColor()}
-                        size={20}
-                        style={this.iconStyle()}
-                    />
-                );
+                returning = <SimpleIcon {...this.iconProps} />;
                 break;
             case "AntDesign":
-                returning = (
-                    <AntDesign
-                        name={this.props.iconName}
-                        color={this.iconColor()}
-                        size={20}
-                        style={this.iconStyle()}
-                    />
-                );
+                returning = <AntDesign {...this.iconProps} />;
                 break;
             case "MaterialCommunityIcons":
-                returning = (
-                    <MaterialCommunityIcons
-                        name={this.props.iconName}
-                        color={this.iconColor()}
-                        size={20}
-                        style={this.iconStyle()}
-                    />
-                );
+                returning = <MaterialCommunityIcons {...this.iconProps} />;
                 break;
             case "Octicons":
-                returning = (
-                    <Octicons
-                        name={this.props.iconName}
-                        color={this.iconColor()}
-                        size={20}
-                        style={this.iconStyle()}
-                    />
-                );
+                returning = <Octicons {...this.iconProps} />;
                 break;
         }
         return returning;
@@ -72,8 +51,7 @@ class DrawerItem extends Component {
     }
 
     textStyle() {
-        let style = this.props.textStyle ? this.props.textStyle : styles.item;
-        return style;
+        return (this.props.textStyle ? this.props.textStyle : styles.item);
     }
 
     render() {
