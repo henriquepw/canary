@@ -1,19 +1,24 @@
-import { createStackNavigator, createDrawerNavigator, createAppContainer} from "react-navigation";
+import {
+    createStackNavigator,
+    createDrawerNavigator,
+    createAppContainer
+} from "react-navigation";
 
 import Autentication from "./screens/Authentication.js";
 import Home from "./screens/Home.js";
 import Settings from "./screens/Settings.js";
 
-import CustomDrawerComponent from "./components/CustomDrawerContent"
+import CustomDrawerComponent from "./components/CustomDrawerContent";
 
-const AppDrawerNavigator = createDrawerNavigator({
-    Home: { screen: Home },
-    Settings: { screen: Settings},
-},
-{
-    initialRouteName: "Home",
-    contentComponent: CustomDrawerComponent
-}
+const AppDrawerNavigator = createDrawerNavigator(
+    {
+        Home: { screen: Home },
+        Settings: { screen: Settings }
+    },
+    {
+        initialRouteName: "Home",
+        contentComponent: CustomDrawerComponent
+    }
 );
 
 const AppStackNavigator = createStackNavigator(
@@ -22,11 +27,8 @@ const AppStackNavigator = createStackNavigator(
         Home: { screen: AppDrawerNavigator }
     },
     {
-        headerMode: "none",
+        headerMode: "none"
     }
 );
 
-
-
 export default createAppContainer(AppStackNavigator);
-
