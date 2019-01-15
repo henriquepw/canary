@@ -1,22 +1,27 @@
 import React, { Component } from "react";
-import { Platform, StyleSheet, Text, View, Image } from "react-native";
-import DrawerItem from "../components/DrawerItem.js";
+import { StyleSheet, Text, View } from "react-native";
 
+import Header from "../components/Header";
 
-
-class Home extends Component {
-
+export default class Home extends Component {
     render() {
         return (
-            <View style={{alignItems:"center", backgroundColor: "#5C6BC0",flex:1}}>
-             <Image source={require("../../assets/imgs/logo.png")}
-        style={{ width: 150,borderBottomWidth: 5,
-            height: 80 }}/>
-                <Text style={{fontSize: 30, color:"white"}}>Home</Text>   
-                
+            <View style={styles.container}>
+                <Header
+                    iconLeft="arrow-left"
+                    iconRight="social-twitter"
+                    onPressLeft={this.props.navigation.openDrawer}
+                />
+
+                <Text style={{ fontSize: 30, color: "white" }}>Home</Text>
             </View>
         );
     }
 }
 
-export default Home;
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: "#649AE8"
+    }
+});
