@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from "react-native";
 
 import Header from "../components/Header";
 import Welcome from "../components/Welcome";
+
 import { colors } from "../common";
 
 export default class Home extends Component {
@@ -16,7 +17,7 @@ export default class Home extends Component {
         return (
             <View style={styles.container}>
                 <Header
-                    iconLeft="arrow-left"
+                    iconLeft="menu"
                     iconRight="social-twitter"
                     onPressLeft={this.props.navigation.openDrawer}
                 />

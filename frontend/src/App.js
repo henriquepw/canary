@@ -4,19 +4,21 @@ import {
     createAppContainer
 } from "react-navigation";
 
-import Autentication from "./screens/Authentication.js";
-import Home from "./screens/Home.js";
-import Settings from "./screens/Settings.js";
+import Autentication from "./screens/Authentication";
+import Home from "./screens/Home";
+import Settings from "./screens/Settings";
+import Profile from "./screens/Profile";
 
 import CustomDrawerComponent from "./components/CustomDrawerContent";
 
 const AppDrawerNavigator = createDrawerNavigator(
     {
         Home: { screen: Home },
-        Settings: { screen: Settings }
+        Settings: { screen: Settings },
+        Profile: { screen: Profile }
     },
     {
-        initialRouteName: "Home",
+        initialRouteName: "Profile",
         contentComponent: CustomDrawerComponent
     }
 );

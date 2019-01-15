@@ -5,7 +5,8 @@ import {
     Text,
     View,
     Image,
-    ScrollView
+    ScrollView,
+    Dimensions
 } from "react-native";
 
 import DrawerItem from "../components/DrawerItem.js";
