@@ -2,12 +2,16 @@ import React from "react";
 import { View, StatusBar, StyleSheet, Dimensions, Text } from "react-native";
 
 import DrawerItem from "./DrawerItem";
+import { colors } from "../common";
 
 const With = Dimensions.get("window").width;
 
 export default props => (
     <View style={styles.container}>
-        <StatusBar backgroundColor="#4d2c91" barStyle="light-content" />
+        <StatusBar
+            backgroundColor={colors.primaryDarkColor}
+            barStyle="light-content"
+        />
 
         <View style={styles.context}>
             <DrawerItem
@@ -35,7 +39,7 @@ const styles = StyleSheet.create({
     container: {
         width: With,
         height: 56,
-        backgroundColor: "#7e57c2"
+        backgroundColor: colors.primaryColor
     },
     context: {
         flex: 1,
@@ -46,7 +50,7 @@ const styles = StyleSheet.create({
     text: {
         flex: 1,
         fontSize: 20,
-        color: "#fff",
+        color: colors.primaryTextColor,
         marginLeft: 32
     },
     icon: {

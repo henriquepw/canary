@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from "react-native";
 
 import Header from "../components/Header";
 import Welcome from "../components/Welcome";
+import { colors } from "../common";
 
 export default class Home extends Component {
     state = {
@@ -11,7 +12,7 @@ export default class Home extends Component {
 
     render() {
         const { first } = this.state;
-        
+
         return (
             <View style={styles.container}>
                 <Header
@@ -28,6 +29,6 @@ export default class Home extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#9575cd"
+        backgroundColor: colors.primaryLightColor
     }
 });

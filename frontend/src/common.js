@@ -14,4 +14,15 @@ function showInfo(msg) {
     }
 }
 
-export { server, showError, showInfo };
+const colors = {
+    primaryColor: "#7e57c2",
+    primaryLightColor: "#b085f5",
+    primaryDarkColor: "#4d2c91",
+    secondaryColor: "#90caf9",
+    secondaryLightColor: "#c3fdff",
+    secondaryDarkColor: "#5d99c6",
+    primaryTextColor: "#ffffff",
+    secondaryTextColor: "#000000"
+};
+
+export { server, showError, showInfo, colors };
