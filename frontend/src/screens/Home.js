@@ -2,9 +2,16 @@ import React, { Component } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
 import Header from "../components/Header";
+import Welcome from "../components/Welcome";
 
 export default class Home extends Component {
+    state = {
+        first: true
+    };
+
     render() {
+        const { first } = this.state;
+        
         return (
             <View style={styles.container}>
                 <Header
@@ -12,8 +19,7 @@ export default class Home extends Component {
                     iconRight="social-twitter"
                     onPressLeft={this.props.navigation.openDrawer}
                 />
-
-                <Text style={{ fontSize: 30, color: "white" }}>Home</Text>
+                {first ? <Welcome /> : ""}
             </View>
         );
     }
@@ -22,6 +28,6 @@ export default class Home extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#649AE8"
+        backgroundColor: "#9575cd"
     }
 });

@@ -1,11 +1,5 @@
 import React from "react";
-import {
-    View,
-    StatusBar,
-    StyleSheet,
-    Dimensions,
-    Text
-} from "react-native";
+import { View, StatusBar, StyleSheet, Dimensions, Text } from "react-native";
 
 import DrawerItem from "./DrawerItem";
 
@@ -13,13 +7,13 @@ const With = Dimensions.get("window").width;
 
 export default props => (
     <View style={styles.container}>
-        <StatusBar backgroundColor="#49599A" barStyle="light-content" />
+        <StatusBar backgroundColor="#4d2c91" barStyle="light-content" />
 
         <View style={styles.context}>
             <DrawerItem
                 iconFamily="SimpleIcon"
                 iconName={props.iconLeft}
-                textStyle={{fontSize: 0}}
+                textStyle={{ fontSize: 0 }}
                 iconStyle={styles.icon}
                 onPress={props.onPressLeft}
             />
@@ -29,7 +23,7 @@ export default props => (
             <DrawerItem
                 iconFamily="SimpleIcon"
                 iconName={props.iconRight}
-                textStyle={{fontSize: 0}}
+                textStyle={{ fontSize: 0 }}
                 iconStyle={styles.icon}
                 onPress={props.onPressRight}
             />
@@ -41,7 +35,7 @@ const styles = StyleSheet.create({
     container: {
         width: With,
         height: 56,
-        backgroundColor: "#5C6BC0"
+        backgroundColor: "#7e57c2"
     },
     context: {
         flex: 1,
@@ -53,9 +47,9 @@ const styles = StyleSheet.create({
         flex: 1,
         fontSize: 20,
         color: "#fff",
-        marginLeft: 32,
+        marginLeft: 32
     },
-    icon:{
+    icon: {
         marginBottom: 7
     }
 });

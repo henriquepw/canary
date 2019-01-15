@@ -17,7 +17,7 @@ import {
 } from "react-native";
 
 import { Input } from "react-native-elements";
-//import Button from "react-native-button";
+
 import Button from "react-native-smart-button";
 
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -77,7 +77,7 @@ export default class Authentication extends Component {
             this._keyboardDidHide
         );
 
-        this.navigateToHome();   
+        this.navigateToHome();
     }
 
     _keyboardDidShow = () => {
@@ -221,12 +221,12 @@ export default class Authentication extends Component {
         this.setState({ isLoading: false });
     };
 
-    navigateToHome(){
+    navigateToHome() {
         const resetAction = StackActions.reset({
             index: 0,
-            actions: [NavigationActions.navigate({ routeName: 'Home' })],
-          });
-          this.props.navigation.dispatch(resetAction);
+            actions: [NavigationActions.navigate({ routeName: "Home" })]
+        });
+        this.props.navigation.dispatch(resetAction);
     }
 
     render() {
@@ -441,21 +441,6 @@ export default class Authentication extends Component {
                                 >
                                     {isLogIn ? "ENTRAR" : "CADASTAR"}
                                 </Button>
-                                {/*
-                                <Button
-                                    style={{ fontSize: 16, color: "#464646" }}
-                                    styleDisabled={{ color: "#292929" }}
-                                    containerStyle={{
-                                        padding: 10,
-                                        height: 45,
-                                        overflow: "hidden",
-                                        backgroundColor: "#FFF176"
-                                    }}
-                                    onPress={this.onClick}
-                                >
-                                    {isLogIn ? "ENTRAR" : "CADASTAR"}
-                                </Button>
-                                */}
                             </View>
                         </View>
                     </KeyboardAvoidingView>
