@@ -14,6 +14,24 @@ function showInfo(msg) {
     }
 }
 
+function validateName(name) {
+    const re = /\d+/;
+    return name.length && !re.test(name);
+}
+
+function validateEmail(email) {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+}
+
+function validatePassword(password) {
+    return password.length >= 5;
+}
+
+function isEquals(valueA, valueB) {
+    return valueA == valueB;
+}
+
 const colors = {
     primaryColor: "#7e57c2",
     primaryLightColor: "#b085f5",
@@ -25,4 +43,13 @@ const colors = {
     secondaryTextColor: "#000000"
 };
 
-export { server, showError, showInfo, colors };
+export { 
+    server, 
+    showError, 
+    showInfo, 
+    colors,
+    validateEmail,
+    validateName,
+    validatePassword,
+    isEquals
+};

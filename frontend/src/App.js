@@ -14,13 +14,14 @@ import CanaryRegister from "./screens/CanaryRegister";
 
 const AppDrawerNavigator = createDrawerNavigator(
     {
+        Autentication: { screen: Autentication },
         Home: { screen: Home },
         Settings: { screen: Settings },
         Profile: { screen: Profile },
         CanaryRegister: { screen: CanaryRegister }
     },
     {
-        initialRouteName: "Home",
+        initialRouteName: "Autentication",
         contentComponent: CustomDrawerComponent
     }
 );
@@ -28,7 +29,7 @@ const AppDrawerNavigator = createDrawerNavigator(
 const AppStackNavigator = createStackNavigator(
     {
         //Autentication: { screen: Autentication },
-        Home: { screen: AppDrawerNavigator }
+        Autentication: { screen: AppDrawerNavigator }
     },
     {
         headerMode: "none"

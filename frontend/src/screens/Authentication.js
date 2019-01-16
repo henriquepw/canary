@@ -28,7 +28,15 @@ import Orientation from "react-native-orientation";
 import { NavigationActions, StackActions } from "react-navigation";
 
 import axios from "axios";
-import { server, showError, showInfo } from "../common";
+import {
+    server,
+    showError,
+    showInfo,
+    validateEmail,
+    validatePassword,
+    validateName,
+    isEquals
+} from "../common";
 
 let SCREEN_WIDTH = Dimensions.get("window").width;
 let SCREEN_HEIGHT = Dimensions.get("window").height;
@@ -97,21 +105,21 @@ export default class Authentication extends Component {
             <ActivityIndicator
                 style={{ margin: 10 }}
                 animating={true}
-                color={"#464646"}
-                size={"small"}
+                color="#464646"
+                size="small"
             />
         ) : Platform.OS == "android" ? (
             <ProgressBarAndroid
                 style={{ margin: 10 }}
-                color={"#464646"}
-                styleAttr={"Small"}
+                color="#464646"
+                styleAttr="Small"
             />
         ) : (
             <ActivityIndicatorIOS
                 style={{ margin: 10 }}
                 animating={true}
-                color={"#464646"}
-                size={"small"}
+                color="#464646"
+                size="small"
             />
         );
     };
@@ -120,28 +128,8 @@ export default class Authentication extends Component {
 
     selectCategory = selectedStage => {
         LayoutAnimation.easeInEaseOut();
-        this.setState({
-            selectedStage
-        });
+        this.setState({ selectedStage });
     };
-
-    validateName(name) {
-        const re = /\d+/;
-        return name.length && !re.test(name);
-    }
-
-    validateEmail(email) {
-        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return re.test(email);
-    }
-
-    validatePassword(password) {
-        return password.length >= 5;
-    }
-
-    isEquals(password, confirmPassword) {
-        return password == confirmPassword;
-    }
 
     login = async (email, password) => {
         try {
@@ -189,8 +177,8 @@ export default class Authentication extends Component {
             confirmPassword,
             selectedStage
         } = this.state;
-        const validEmail = this.validateEmail(email);
-        const validPassword = this.validatePassword(password);
+        const validEmail = validateEmail(email);
+        const validPassword = validatePassword(password);
 
         this.setState({
             isEmailValid: validEmail,
@@ -199,8 +187,8 @@ export default class Authentication extends Component {
 
         if (validEmail && validPassword) {
             if (selectedStage) {
-                const validName = this.validateName(name);
-                const validConfirmPassowrd = this.isEquals(
+                const validName = validateName(name);
+                const validConfirmPassowrd = isEquals(
                     password,
                     confirmPassword
                 );
