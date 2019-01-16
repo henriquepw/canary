@@ -10,6 +10,7 @@ import Settings from "./screens/Settings";
 import Profile from "./screens/Profile";
 
 import CustomDrawerComponent from "./components/CustomDrawerContent";
+import CanaryRegister from "./screens/CanaryRegister";
 
 const AppDrawerNavigator = createDrawerNavigator(
     {
@@ -25,7 +26,7 @@ const AppDrawerNavigator = createDrawerNavigator(
 
 const AppStackNavigator = createStackNavigator(
     {
-        Autentication: { screen: Autentication },
+        Autentication: { screen: CanaryRegister },
         Home: { screen: AppDrawerNavigator }
     },
     {
