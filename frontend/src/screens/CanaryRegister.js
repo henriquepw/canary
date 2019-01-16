@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, ScrollView, KeyboardAvoidingView } from "react-native";
+import { StyleSheet, Text, View, ScrollView } from "react-native";
 
 import Button from 'react-native-smart-button';
 import { Input } from 'react-native-elements';
@@ -59,34 +59,36 @@ export default class CanaryRegister extends Component {
                     iconRight="social-twitter"
                     onPressLeft={this.props.navigation.openDrawer}
                 />
-                <View style={styles.body}>
-                    <View style={styles.bairroNum}>
-                        <Input placeholder="Nome" containerStyle={{ width: 140, margin: 10 }} value={this.state.nome} onChangeText={(nome) => this.setNome(nome)}></Input>
-                        <Input placeholder="Codigo" containerStyle={{ width: 80, margin: 10 }} value={this.state.codigo} onChangeText={(codigo) => this.setCodigo(codigo)}></Input>
-                    </View>
-                    <Text style={styles.text}>Preencha com o Endereço do Canário</Text>
-                    <View style={styles.innerBody}>
+                <ScrollView >
+                    <View style={styles.body}>
                         <View style={styles.bairroNum}>
-                            <Input placeholder="Bairro" containerStyle={{ width: 150, margin: 10 }} value={this.state.bairro} onChangeText={(bairro) => this.setBairro(bairro)}></Input>
-                            <Input placeholder="Nº" containerStyle={{ width: 80, margin: 10 }} value={this.state.numero} onChangeText={(numero) => this.setNumero(numero)}></Input>
+                            <Input placeholder="Nome" containerStyle={{ width: 140, margin: 10 }} value={this.state.nome} onChangeText={(nome) => this.setNome(nome)}></Input>
+                            <Input placeholder="Codigo" containerStyle={{ width: 80, margin: 10 }} value={this.state.codigo} onChangeText={(codigo) => this.setCodigo(codigo)}></Input>
                         </View>
-                        <View style={styles.rua}>
-                            <Input placeholder="Rua" containerStyle={{ width: 250, margin: 10 }} value={this.state.numero} value={this.state.rua} onChangeText={(rua) => this.setRua(rua)}></Input>
+                        <Text style={styles.text}>Preencha com o Endereço do Canário</Text>
+                        <View style={styles.innerBody}>
+                            <View style={styles.bairroNum}>
+                                <Input placeholder="Bairro" containerStyle={{ width: 150, margin: 10 }} value={this.state.bairro} onChangeText={(bairro) => this.setBairro(bairro)}></Input>
+                                <Input placeholder="Nº" containerStyle={{ width: 80, margin: 10 }} value={this.state.numero} onChangeText={(numero) => this.setNumero(numero)}></Input>
+                            </View>
+                            <View style={styles.rua}>
+                                <Input placeholder="Rua" containerStyle={{ width: 250, margin: 10 }} value={this.state.numero} value={this.state.rua} onChangeText={(rua) => this.setRua(rua)}></Input>
+                            </View>
+                        </View>
+                        <Text style={styles.text}>Ou Ative Sua Localização</Text>
+                        <View style={styles.buttonContainer}>
+                            <Button style={styles.button}>
+                                <Text>Ativar GPS</Text>
+                            </Button>
+                        </View>
+                        <View style={styles.line}></View>
+                        <View style={styles.footer}>
+                            <Button style={styles.register}>
+                                <Text style={styles.buttonText}>Cadastrar</Text>
+                            </Button>
                         </View>
                     </View>
-                    <Text style={styles.text}>Ou Ative Sua Localização</Text>
-                    <View style={styles.buttonContainer}>
-                        <Button style={styles.button}>
-                            <Text>Ativar GPS</Text>
-                        </Button>
-                    </View>
-                    <View style={styles.line}></View>
-                    <View style={styles.footer}>
-                        <Button style={styles.register}>
-                            <Text style={styles.buttonText}>Cadastrar</Text>
-                        </Button>
-                    </View>
-                </View>
+                </ScrollView>
             </View>
         );
     }
@@ -106,7 +108,7 @@ const styles = StyleSheet.create({
         borderRadius: 5
     },
     text: {
-        marginTop: 30,
+        marginTop: 20,
         fontSize: 16,
         fontWeight: 'bold'
     },
@@ -148,7 +150,8 @@ const styles = StyleSheet.create({
     },
     footer: {
         alignItems: 'flex-end',
-        marginTop: 35,
+        marginBottom: 10,
+        marginTop: 20
     }
 
 });
