@@ -13,7 +13,7 @@ module.exports = app => {
 
         app.db("tb_canary")
             .update(canary)
-            .where({ id: canary.id })
+            .where({ id: canary.id || req.params.id })
             .then(_ => res.status(204).send("Atualizado com sucesso"))
             .catch(err => res.status(500).send(err));
     };

@@ -17,8 +17,11 @@ module.exports = app => {
         .get(app.api.user.getById)
         .delete(app.api.user.remove);
 
+    app.route("/user/:user_id/register/:canary_id")
+        .post(app.api.user.registerCanary);
+        
     /**********
-     * canary *
+     * Canary *
      **********/
     app.route("./canaries")
         //.all(app.config.passport.authenticate())
@@ -31,9 +34,9 @@ module.exports = app => {
         .get(app.api.canary.getById)
         .delete(app.api.canary.remove);
 
-    /***************
-     * user_canary *
-     ***************/
+    /*****************
+     * Daily reading *
+     *****************/
 
     /*
     app.route("/rota/das/paradas")

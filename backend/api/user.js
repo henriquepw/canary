@@ -68,10 +68,24 @@ module.exports = app => {
             .catch(err => res.status(500).send(err));
     };
 
+    // /user/:user_id/register/:canary_id
+    const registerCanary = (req, res) => {
+        user_canary = {
+            user_id: req.params.user_id,
+            canary_id: req.params.canary_id
+        };
+
+        app.db("tb_user_canary")
+            .insert(user_canary)
+            .then(_ => res.status(204).send("Canary registrado com sucesso"))
+            .catch(err => res.status(500).send(err));
+    };
+
     return {
         insert,
         remove,
         get,
-        getById
+        getById,
+        registerCanary
     };
 };
