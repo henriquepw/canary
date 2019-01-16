@@ -11,12 +11,27 @@ import Header from "../components/Header";
 import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
 import DrawerItem from "../components/DrawerItem";
 
+import Axios from "axios";
+
 import { colors } from "../common";
 
 export default class Profile extends Component {
-    state = {};
+    state = {
+        edit: false,
+        name: "Nome",
+        email: "E-mail",
+        password: "",
+        confirmPassword: ""
+    };
+
+    handleEdit = () => {
+        const edit = !this.state.edit;
+        this.setState({ edit });
+    };
 
     render() {
+        const { edit, name, email, password, confirmPassword } = this.state;
+
         return (
             <View style={styles.container}>
                 <Header
@@ -24,18 +39,28 @@ export default class Profile extends Component {
                     iconRight="social-twitter"
                     onPressLeft={this.props.navigation.openDrawer}
                 />
+
                 <View style={styles.category}>
                     <Text style={[styles.text, { flex: 1 }]}> Perfil </Text>
 
-                    <TouchableOpacity>
-                        <SimpleLineIcons name="pencil" color="#000" size={22} />
+                    <TouchableOpacity onPress={this.handleEdit}>
+                        <SimpleLineIcons
+                            name={edit ? "check" : "pencil"}
+                            color="#000"
+                            size={22}
+                        />
                     </TouchableOpacity>
                 </View>
 
                 <View style={styles.input}>
                     <SimpleLineIcons name="user" size={20} color="#fff" />
 
-                    <TextInput style={styles.textInput} placeholder="Nome" />
+                    <TextInput
+                        style={styles.textInput}
+                        value={name}
+                        editable={edit}
+                        onChangeText={name => this.setState({ name })}
+                    />
                 </View>
 
                 <View style={styles.divider} />
@@ -43,18 +68,59 @@ export default class Profile extends Component {
                 <View style={styles.input}>
                     <SimpleLineIcons name="envelope" size={20} color="#fff" />
 
-                    <TextInput style={styles.textInput} placeholder="E-mail" />
+                    <TextInput
+                        style={styles.textInput}
+                        value={email}
+                        editable={edit}
+                        onChangeText={email => this.setState({ email })}
+                    />
                 </View>
 
                 <View style={styles.divider} />
 
-                <View style={styles.input}>
-                    <SimpleLineIcons name="lock" size={20} color="#fff" />
+                {edit && (
+                    <View>
+                        <View style={styles.input}>
+                            <SimpleLineIcons
+                                name="lock"
+                                size={20}
+                                color="#fff"
+                            />
 
-                    <TextInput style={styles.textInput} placeholder="Senha" />
-                </View>
+                            <TextInput
+                                style={styles.textInput}
+                                placeholder="Nova senha"
+                                //placeholderTextColor="#fff"
+                                secureTextEntry={true}
+                                onChangeText={password =>
+                                    this.setState({ password })
+                                }
+                            />
+                        </View>
 
-                <View style={styles.divider} />
+                        <View style={styles.divider} />
+
+                        <View style={styles.input}>
+                            <SimpleLineIcons
+                                name="lock"
+                                size={20}
+                                color="#fff"
+                            />
+
+                            <TextInput
+                                style={styles.textInput}
+                                placeholder="Confirmar senha"
+                                //placeholderTextColor="#fff"
+                                secureTextEntry={true}
+                                onChangeText={confirmPassword =>
+                                    this.setState({ confirmPassword })
+                                }
+                            />
+                        </View>
+
+                        <View style={styles.divider} />
+                    </View>
+                )}
 
                 <View style={styles.category}>
                     <Text style={styles.text}> Canario </Text>
@@ -81,7 +147,7 @@ export default class Profile extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: colors.secondaryColor
+        backgroundColor: colors.primaryLightColor
     },
     category: {
         backgroundColor: "rgba(255, 255, 255, 0.5)",
