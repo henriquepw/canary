@@ -37,7 +37,8 @@ export default class Profile extends Component {
                 <Header
                     iconLeft="arrow-left"
                     iconRight="social-twitter"
-                    onPressLeft={this.props.navigation.openDrawer}
+                    onPressLeft={() => this.props.navigation.navigate("Home")}
+                    onPressRight={() => this.props.navigation.navigate("CanaryRegister")}
                 />
 
                 <View style={styles.category}>

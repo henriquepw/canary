@@ -9,7 +9,7 @@ import {
     Dimensions
 } from "react-native";
 
-import DrawerItem from "../components/DrawerItem.js";
+import DrawerItem from "../components/DrawerItem";
 
 const CustomDrawerComponent = props => (
     <View
@@ -27,9 +27,7 @@ const CustomDrawerComponent = props => (
                 name="Home"
                 iconFamily="SimpleIcon"
                 iconName="home"
-                onPress={() => {
-                    props.navigation.navigate("Home");
-                }}
+                onPress={() => props.navigation.navigate("Home")}
             />
 
             <DrawerItem
@@ -50,9 +48,7 @@ const CustomDrawerComponent = props => (
                 name="Perfil"
                 iconFamily="AntDesign"
                 iconName="user"
-                onPress={() => {
-                    props.navigation.navigate("Settings");
-                }}
+                onPress={() => props.navigation.navigate("Profile")}
             />
         </ScrollView>
 

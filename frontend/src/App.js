@@ -16,17 +16,18 @@ const AppDrawerNavigator = createDrawerNavigator(
     {
         Home: { screen: Home },
         Settings: { screen: Settings },
-        Profile: { screen: Profile }
+        Profile: { screen: Profile },
+        CanaryRegister: { screen: CanaryRegister }
     },
     {
-        initialRouteName: "Profile",
+        initialRouteName: "Home",
         contentComponent: CustomDrawerComponent
     }
 );
 
 const AppStackNavigator = createStackNavigator(
     {
-        Autentication: { screen: CanaryRegister },
+        //Autentication: { screen: Autentication },
         Home: { screen: AppDrawerNavigator }
     },
     {

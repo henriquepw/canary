@@ -51,7 +51,7 @@ class DrawerItem extends Component {
     }
 
     textStyle() {
-        return (this.props.textStyle ? this.props.textStyle : styles.item);
+        return this.props.textStyle ? this.props.textStyle : styles.item;
     }
 
     render() {

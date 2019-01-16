@@ -1,31 +1,36 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
 
-import Button from 'react-native-smart-button';
-import { Input } from 'react-native-elements';
+import Button from "react-native-smart-button";
+import { Input } from "react-native-elements";
 
 import Header from "../components/Header";
 import { colors } from "../common";
 
 export default class CanaryRegister extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
-            codigo: '',
-            nome: '',
-            rua: '',
-            bairro: '',
-            numero: ''
+            codigo: "",
+            nome: "",
+            rua: "",
+            bairro: "",
+            numero: ""
         };
     }
 
+    /*
+        setNome = nome => this.setState({ nome }); 
+    */
     setNome(nome) {
         let s = this.state;
         s.nome = nome;
         this.setState(s);
     }
 
+    /*
+        setNome = codigo => this.setState({ codigo }); 
+    */
     setCodigo(codigo) {
         let c = this.state;
         c.codigo = codigo;
@@ -51,37 +56,71 @@ export default class CanaryRegister extends Component {
     }
 
     render() {
-
         return (
             <View style={styles.container}>
                 <Header
                     iconLeft="arrow-left"
                     iconRight="social-twitter"
-                    onPressLeft={this.props.navigation.openDrawer}
+                    onPressLeft={() => this.props.navigation.navigate("Home")}
+                    onPressRight={() => this.props.navigation.navigate("CanaryRegister")}
                 />
-                <ScrollView >
+                <ScrollView>
                     <View style={styles.body}>
                         <View style={styles.bairroNum}>
-                            <Input placeholder="Nome" containerStyle={{ width: 140, margin: 10 }} value={this.state.nome} onChangeText={(nome) => this.setNome(nome)}></Input>
-                            <Input placeholder="Codigo" containerStyle={{ width: 80, margin: 10 }} value={this.state.codigo} onChangeText={(codigo) => this.setCodigo(codigo)}></Input>
+                            <Input
+                                placeholder="Nome"
+                                containerStyle={{ width: 140, margin: 10 }}
+                                value={this.state.nome}
+                                onChangeText={nome => this.setNome(nome)}
+                            />
+                            <Input
+                                placeholder="Codigo"
+                                containerStyle={{ width: 80, margin: 10 }}
+                                value={this.state.codigo}
+                                onChangeText={codigo => this.setCodigo(codigo)}
+                            />
                         </View>
-                        <Text style={styles.text}>Preencha com o Endereço do Canário</Text>
+                        <Text style={styles.text}>
+                            Preencha com o Endereço do Canário
+                        </Text>
                         <View style={styles.innerBody}>
                             <View style={styles.bairroNum}>
-                                <Input placeholder="Bairro" containerStyle={{ width: 150, margin: 10 }} value={this.state.bairro} onChangeText={(bairro) => this.setBairro(bairro)}></Input>
-                                <Input placeholder="Nº" containerStyle={{ width: 80, margin: 10 }} value={this.state.numero} onChangeText={(numero) => this.setNumero(numero)}></Input>
+                                <Input
+                                    placeholder="Bairro"
+                                    containerStyle={{ width: 150, margin: 10 }}
+                                    value={this.state.bairro}
+                                    onChangeText={bairro =>
+                                        this.setBairro(bairro)
+                                    }
+                                />
+                                <Input
+                                    placeholder="Nº"
+                                    containerStyle={{ width: 80, margin: 10 }}
+                                    value={this.state.numero}
+                                    onChangeText={numero =>
+                                        this.setNumero(numero)
+                                    }
+                                />
                             </View>
                             <View style={styles.rua}>
-                                <Input placeholder="Rua" containerStyle={{ width: 250, margin: 10 }} value={this.state.numero} value={this.state.rua} onChangeText={(rua) => this.setRua(rua)}></Input>
+                                <Input
+                                    placeholder="Rua"
+                                    containerStyle={{ width: 250, margin: 10 }}
+                                    value={this.state.numero}
+                                    value={this.state.rua}
+                                    onChangeText={rua => this.setRua(rua)}
+                                />
                             </View>
                         </View>
-                        <Text style={styles.text}>Ou Ative Sua Localização</Text>
+                        <Text style={styles.text}>
+                            Ou Ative Sua Localização
+                        </Text>
                         <View style={styles.buttonContainer}>
                             <Button style={styles.button}>
                                 <Text>Ativar GPS</Text>
                             </Button>
                         </View>
-                        <View style={styles.line}></View>
+                        <View style={styles.line} />
                         <View style={styles.footer}>
                             <Button style={styles.register}>
                                 <Text style={styles.buttonText}>Cadastrar</Text>
@@ -102,20 +141,20 @@ const styles = StyleSheet.create({
     body: {
         margin: 35,
         paddingTop: 10,
-        backgroundColor: 'white',
+        backgroundColor: "white",
         flex: 1,
-        alignItems: 'center',
+        alignItems: "center",
         borderRadius: 5
     },
     text: {
         marginTop: 20,
         fontSize: 16,
-        fontWeight: 'bold'
+        fontWeight: "bold"
     },
     bairroNum: {
         marginTop: 25,
-        flexDirection: 'row',
-        justifyContent: 'space-between'
+        flexDirection: "row",
+        justifyContent: "space-between"
     },
     rua: {
         marginTop: 10
@@ -138,20 +177,19 @@ const styles = StyleSheet.create({
         backgroundColor: "#7e57c2",
         width: 100,
         height: 36,
-        justifyContent: 'center',
+        justifyContent: "center",
         borderRadius: 4
     },
     register: {
         backgroundColor: "#7e57c2",
         width: 150,
         height: 40,
-        justifyContent: 'center',
+        justifyContent: "center",
         borderRadius: 4
     },
     footer: {
-        alignItems: 'flex-end',
+        alignItems: "flex-end",
         marginBottom: 10,
         marginTop: 20
     }
-
 });
