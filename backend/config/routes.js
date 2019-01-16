@@ -23,12 +23,12 @@ module.exports = app => {
     /**********
      * Canary *
      **********/
-    app.route("./canaries")
+    app.route("/canaries")
         //.all(app.config.passport.authenticate())
         .post(app.api.canary.insert)
         .get(app.api.canary.get);
 
-    app.route("./canaries/:id")
+    app.route("/canaries/:id")
         //.all(app.config.passport.authenticate())
         .put(app.api.canary.update)
         .get(app.api.canary.getById)

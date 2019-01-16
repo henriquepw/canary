@@ -8,6 +8,7 @@ import Autentication from "./screens/Authentication";
 import Home from "./screens/Home";
 import Settings from "./screens/Settings";
 import Profile from "./screens/Profile";
+import SplashScreen from "./screens/SplashScreen";
 
 import CustomDrawerComponent from "./components/CustomDrawerContent";
 import CanaryRegister from "./screens/CanaryRegister";
@@ -21,15 +22,16 @@ const AppDrawerNavigator = createDrawerNavigator(
         CanaryRegister: { screen: CanaryRegister }
     },
     {
-        initialRouteName: "Autentication",
+        initialRouteName: "Home",
         contentComponent: CustomDrawerComponent
     }
 );
 
 const AppStackNavigator = createStackNavigator(
     {
-        //Autentication: { screen: Autentication },
-        Autentication: { screen: AppDrawerNavigator }
+        SplashScreen: { screen: SplashScreen },
+        Autentication: { screen: Autentication },
+        Home: { screen: AppDrawerNavigator }
     },
     {
         headerMode: "none"

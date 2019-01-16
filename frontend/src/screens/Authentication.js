@@ -13,7 +13,9 @@ import {
     Keyboard,
     ActivityIndicator,
     ActivityIndicatorIOS,
-    ProgressBarAndroid
+    ProgressBarAndroid,
+    AsyncStorage,
+    StatusBar
 } from "react-native";
 
 import { Input } from "react-native-elements";
@@ -25,8 +27,6 @@ import SimpleIcon from "react-native-vector-icons/SimpleLineIcons";
 
 import Orientation from "react-native-orientation";
 
-import { NavigationActions, StackActions } from "react-navigation";
-
 import axios from "axios";
 import {
     server,
@@ -35,11 +35,13 @@ import {
     validateEmail,
     validatePassword,
     validateName,
-    isEquals
+    isEquals,
+    navigateAction,
+    colors
 } from "../common";
 
-let SCREEN_WIDTH = Dimensions.get("window").width;
-let SCREEN_HEIGHT = Dimensions.get("window").height;
+const SCREEN_WIDTH = Dimensions.get("window").width;
+const SCREEN_HEIGHT = Dimensions.get("window").height;
 
 UIManager.setLayoutAnimationEnabledExperimental &&
     UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -66,10 +68,6 @@ export default class Authentication extends Component {
     };
 
     componentWillMount() {
-        const initial = Orientation.getInitialOrientation();
-        /*if (initial === "LANDSCAPE") {
-            orient = false;
-        }*/
         Orientation.lockToPortrait();
     }
 
@@ -84,9 +82,9 @@ export default class Authentication extends Component {
             "keyboardDidHide",
             this._keyboardDidHide
         );
-
-        this.navigateToHome();
     }
+
+    componentWillUnmount(){}
 
     _keyboardDidShow = () => {
         this.setState({
@@ -124,8 +122,6 @@ export default class Authentication extends Component {
         );
     };
 
-    componentWillUnmount() {}
-
     selectCategory = selectedStage => {
         LayoutAnimation.easeInEaseOut();
         this.setState({ selectedStage });
@@ -142,7 +138,10 @@ export default class Authentication extends Component {
                 res.data.token
             }`;
 
+            AsyncStorage.setItem("userData", JSON.stringify(res.data));
+
             showInfo(`Logado com sucesso!`);
+            navigateAction("Home", this.props.navigation);
         } catch (err) {
             showError(err);
         }
@@ -209,20 +208,16 @@ export default class Authentication extends Component {
         this.setState({ isLoading: false });
     };
 
-    navigateToHome() {
-        const resetAction = StackActions.reset({
-            index: 0,
-            actions: [NavigationActions.navigate({ routeName: "Home" })]
-        });
-        this.props.navigation.dispatch(resetAction);
-    }
-
     render() {
         const isLogIn = this.state.selectedStage == false;
         const isSignUp = this.state.selectedStage == true;
 
         return (
             <View style={styles.container}>
+                <StatusBar
+                    backgroundColor={colors.primaryColor}
+                    barStyle="light-content"
+                />
                 {!this.state.isHider && (
                     <View style={styles.imageContainer}>
                         <Image
@@ -441,7 +436,7 @@ export default class Authentication extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#5C6BC0"
+        backgroundColor: colors.primaryColor
     },
     KeyboardAvoidingContainer: {
         alignItems: "center",

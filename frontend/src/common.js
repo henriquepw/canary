@@ -1,4 +1,5 @@
 import { Alert, Platform, ToastAndroid } from "react-native";
+import { NavigationActions, StackActions } from "react-navigation";
 
 const server = "http://192.168.0.198:3000";
 
@@ -32,6 +33,15 @@ function isEquals(valueA, valueB) {
     return valueA == valueB;
 }
 
+function navigateAction(routeName, navigation) {
+    const resetAction = StackActions.reset({
+        index: 0,
+        actions: [NavigationActions.navigate({ routeName })]
+    });
+
+    navigation.dispatch(resetAction);
+}
+
 const colors = {
     primaryColor: "#7e57c2",
     primaryLightColor: "#b085f5",
@@ -43,13 +53,14 @@ const colors = {
     secondaryTextColor: "#000000"
 };
 
-export { 
-    server, 
-    showError, 
-    showInfo, 
+export {
+    server,
+    showError,
+    showInfo,
     colors,
     validateEmail,
     validateName,
     validatePassword,
-    isEquals
+    isEquals,
+    navigateAction
 };

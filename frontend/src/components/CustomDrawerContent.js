@@ -6,9 +6,10 @@ import {
     View,
     Image,
     ScrollView,
-    Dimensions
+    AsyncStorage
 } from "react-native";
 
+import { colors } from "../common";
 import DrawerItem from "../components/DrawerItem";
 
 const CustomDrawerComponent = props => (
@@ -89,8 +90,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: "space-between",
-        backgroundColor: "#5C6BC0",
-        color: "white"
+        backgroundColor: colors.primaryColor,
+        color: "#fff"
     },
     logo: {
         width: 150,
@@ -98,16 +99,16 @@ const styles = StyleSheet.create({
         marginTop: 15,
         marginHorizontal: 65,
         borderBottomWidth: 50,
-        borderColor: "white"
+        borderColor: "#fff"
     },
     item: {
-        color: "white",
+        color: "#fff",
         marginLeft: 10,
         fontSize: 16
     },
     border: {
         borderBottomWidth: 2,
-        borderColor: "#a8b0de",
+        borderColor: "rgba(255, 255, 255, 0.5)",
         paddingVertical: 0,
         marginVertical: -5
     },
@@ -115,7 +116,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 15
     },
     sistema: {
-        backgroundColor: "#aeb5df",
+        backgroundColor: "rgba(255, 255, 255, 0.5)",
         paddingLeft: 10,
         fontSize: 16,
         fontWeight: "bold",

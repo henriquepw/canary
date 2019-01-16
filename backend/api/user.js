@@ -53,6 +53,7 @@ module.exports = app => {
     };
 
     const get = (_, res) => {
+        console.log("get")
         app.db("tb_user")
             .select("id", "name", "email")
             .then(users => res.json(users))
