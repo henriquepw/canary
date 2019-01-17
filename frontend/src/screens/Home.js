@@ -3,12 +3,13 @@ import { StyleSheet, View } from "react-native";
 
 import Header from "../components/Header";
 import Welcome from "../components/Welcome";
+import Resume from "../components/Resume"
 
 import { colors } from "../common";
 
 export default class Home extends Component {
     state = {
-        first: true
+        first: false
     };
 
     render() {
@@ -22,7 +23,7 @@ export default class Home extends Component {
                     onPressLeft={this.props.navigation.openDrawer}
                     onPressRight={() => this.props.navigation.navigate("CanaryRegister")}
                 />
-                {first ? <Welcome /> : ""}
+                {first ? <Welcome /> : <Resume/>}
             </View>
         );
     }
