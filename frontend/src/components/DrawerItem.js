@@ -12,7 +12,7 @@ class DrawerItem extends Component {
     iconProps = {
         name: this.props.iconName,
         color: this.iconColor(),
-        size: 20,
+        size: this.iconSize(),
         style: this.iconStyle()
     };
 
@@ -33,6 +33,10 @@ class DrawerItem extends Component {
                 break;
         }
         return returning;
+    }
+
+    iconSize() {
+        return this.props.iconSize ? this.props.iconSize : 20;
     }
 
     iconColor() {

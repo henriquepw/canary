@@ -13,6 +13,7 @@ import axios from "axios";
 
 import { colors, navigateAction } from "../common";
 import DrawerItem from "../components/DrawerItem";
+import CanaryOptions from "../components/CanaryOptions.js";
 
 const CustomDrawerComponent = props => {
     const logout = () => {
@@ -42,13 +43,8 @@ const CustomDrawerComponent = props => {
                     onPress={() => props.navigation.navigate("Home")}
                 />
 
-                <DrawerItem
-                    name="Canarios"
-                    iconFamily="AntDesign"
-                    iconName="yuque"
-                />
-
-                <Text style={[styles.border, styles.margin]} />
+                <CanaryOptions/>
+                
 
                 <DrawerItem
                     name="Mapa"
