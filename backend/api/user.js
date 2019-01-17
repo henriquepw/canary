@@ -28,7 +28,7 @@ module.exports = app => {
             return res.status(400).send(msg);
         }
 
-        user.password = encryptPass(user.password);
+        if (user.password) user.password = encryptPass(user.password);
 
         if (user.id) {
             app.db("tb_user")
@@ -53,7 +53,7 @@ module.exports = app => {
     };
 
     const get = (_, res) => {
-        console.log("get")
+        console.log("get");
         app.db("tb_user")
             .select("id", "name", "email")
             .then(users => res.json(users))

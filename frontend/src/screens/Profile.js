@@ -4,33 +4,99 @@ import {
     Text,
     StyleSheet,
     TouchableOpacity,
-    TextInput
+    TextInput,
+    AsyncStorage,
+    Alert
 } from "react-native";
 
 import Header from "../components/Header";
 import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
 import DrawerItem from "../components/DrawerItem";
 
-import Axios from "axios";
+import axios from "axios";
 
-import { colors } from "../common";
+import {
+    server,
+    colors,
+    validateEmail,
+    validateName,
+    isEquals,
+    validatePassword,
+    showError,
+    showInfo
+} from "../common";
 
 export default class Profile extends Component {
+    initialState = {
+        name: "",
+        email: ""
+    };
+
     state = {
         edit: false,
+        id: 0,
         name: "Nome",
         email: "E-mail",
         password: "",
         confirmPassword: ""
     };
 
-    handleEdit = () => {
+    componentWillMount = async () => {
+        const json = await AsyncStorage.getItem("userData");
+        const { id, name, email } = JSON.parse(json);
+
+        initialState = { name, email };
+        this.setState({ id, name, email });
+    };
+
+    handleEdit = async () => {
         const edit = !this.state.edit;
+
+        if (this.state.edit) {
+            const { id, name, email, password, confirmPassword } = this.state;
+            const isEmailEquals = isEquals(this.initialState.name, name);
+            const isNameEquals = isEquals(this.initialState.email, email);
+
+            if (!isEmailEquals && !isNameEquals) {
+                const json = await AsyncStorage.getItem("userData");
+                const userData = JSON.parse(json);
+                const user = {};
+
+                if (validateName(name)) {
+                    user.name = name;
+                    userData.name = name;
+                }
+
+                if (validateEmail(email)) {
+                    user.email = email;
+                    userData.email = email;
+                }
+
+                if (
+                    validatePassword(password) &&
+                    isEquals(password, confirmPassword)
+                ) {
+                    user.password = password;
+                    userData.password = password;
+                }
+
+                try {
+                    await axios.put(`${server}/users/${id}`, user);
+                    
+                    AsyncStorage.setItem("userData", JSON.stringify(userData));
+                    
+                    showInfo("Dados atualizados com sucesso");
+                } catch (err) {
+                    showError(err);
+                }
+            }
+        }
+
         this.setState({ edit });
     };
 
     render() {
-        const { edit, name, email, password, confirmPassword } = this.state;
+        const { edit, name, email } = this.state;
 
         return (
             <View style={styles.container}>
@@ -38,7 +104,9 @@ export default class Profile extends Component {
                     iconLeft="arrow-left"
                     iconRight="social-twitter"
                     onPressLeft={() => this.props.navigation.navigate("Home")}
-                    onPressRight={() => this.props.navigation.navigate("CanaryRegister")}
+                    onPressRight={() =>
+                        this.props.navigation.navigate("CanaryRegister")
+                    }
                 />
 
                 <View style={styles.category}>

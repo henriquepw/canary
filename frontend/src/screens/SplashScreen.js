@@ -16,7 +16,9 @@ const SCREEN_WIDTH = Dimensions.get("window").width;
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 
 export default class SplashScreen extends Component {
-    stage = {};
+    stage = {
+        intervalId: 1
+    };
 
     componentWillMount = async () => {
         const json = await AsyncStorage.getItem("userData");
@@ -33,8 +35,14 @@ export default class SplashScreen extends Component {
             screen = "Autentication";
         }
 
-        setInterval(() => navigateAction(screen, this.props.navigation), 3000);
+        const navigate = () => navigateAction(screen, this.props.navigation);
+
+        this.setState({ intervalId: setInterval(navigate, 1000) });
     };
+
+    componentWillUnmount() {
+        clearInterval(this.state.intervalId);
+    }
 
     render() {
         return (

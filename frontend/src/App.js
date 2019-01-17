@@ -6,7 +6,6 @@ import {
 
 import Autentication from "./screens/Authentication";
 import Home from "./screens/Home";
-import Settings from "./screens/Settings";
 import Profile from "./screens/Profile";
 import SplashScreen from "./screens/SplashScreen";
 
@@ -17,7 +16,6 @@ const AppDrawerNavigator = createDrawerNavigator(
     {
         Autentication: { screen: Autentication },
         Home: { screen: Home },
-        Settings: { screen: Settings },
         Profile: { screen: Profile },
         CanaryRegister: { screen: CanaryRegister }
     },
