@@ -1,31 +1,31 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import AntDesign from "react-native-vector-icons/AntDesign";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 const iconProps = {
-    name: "smileo",
+    name: "smile-o",
     size: 150,
     color: "#649ae8"
 };
 
 const iconProps2 ={
-    name: "frowno",
+    name: "frown-o",
     size: 150,
     color: "red"
 };
 
 
 const iconProps3 = {
-    name: "meh",
+    name: "meh-o",
     size: 150,
-    color: "gray"
+    color: "#ff982b"
 };
 
 export default class Resume extends Component {
     render(){return(
         <View style={styles.container}>
             <View style={styles.resume}>
-                <AntDesign {... iconProps} style={styles.face}/>
+                <FontAwesome {... iconProps} style={styles.face}/>
                 <View style={styles.textContainer}>
                     <Text>Texto Texto Texto Texto Texto Texto</Text>
                     <Text>Texto Texto Texto Texto Texto Texto</Text>
