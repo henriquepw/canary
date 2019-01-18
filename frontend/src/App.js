@@ -27,7 +27,7 @@ const AppDrawerNavigator = createDrawerNavigator(
 
 const AppStackNavigator = createStackNavigator(
     {
-        SplashScreen: { screen: SplashScreen },
+        SplashScreen: { screen: CanaryRegister },
         Autentication: { screen: Autentication },
         Home: { screen: AppDrawerNavigator }
     },

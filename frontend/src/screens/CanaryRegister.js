@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, ScrollView } from "react-native";
 
 import Button from "react-native-smart-button";
 import { Input } from "react-native-elements";
+import Geocoder from 'react-native-geocoding';
 
 import Header from "../components/Header";
 import { colors } from "../common";
@@ -53,6 +54,36 @@ export default class CanaryRegister extends Component {
         let n = this.state;
         n.numero = numero;
         this.setState(n);
+    }
+
+    getData() {
+        Geocoder.init("AIzaSyAke6FU2OYZs-hqu0H6by3FhcZQEDmf_90");
+        navigator.geolocation.getCurrentPosition((data) => {
+
+            let latitude = data.coords.latitude;
+            let longitude = data.coords.longitude;
+
+            Geocoder.from(latitude, longitude)
+                .then(json => {
+                    let s = this.state;
+
+                    var numero = (json.results[0].address_components[0]).long_name;
+                    var rua = (json.results[0].address_components[1]).long_name;
+                    var bairro = (json.results[0].address_components[2]).long_name;
+
+                    alert(numero, rua, bairro);
+
+                    s.numero = numero;
+                    s.rua = rua;
+                    s.bairro = bairro;
+
+                    this.setState(s);
+                })
+                .catch(error => console.warn(error));
+        }, () => {
+            alert("Deu erro")
+        });
+
     }
 
     render() {
@@ -116,7 +147,7 @@ export default class CanaryRegister extends Component {
                             Ou Ative Sua Localização
                         </Text>
                         <View style={styles.buttonContainer}>
-                            <Button style={styles.button}>
+                            <Button style={styles.button} onPress={this.getData}>
                                 <Text>Ativar GPS</Text>
                             </Button>
                         </View>
