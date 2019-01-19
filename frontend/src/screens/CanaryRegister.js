@@ -18,42 +18,8 @@ export default class CanaryRegister extends Component {
             bairro: "",
             numero: ""
         };
-    }
 
-    /*
-        setNome = nome => this.setState({ nome }); 
-    */
-    setNome(nome) {
-        let s = this.state;
-        s.nome = nome;
-        this.setState(s);
-    }
-
-    /*
-        setNome = codigo => this.setState({ codigo }); 
-    */
-    setCodigo(codigo) {
-        let c = this.state;
-        c.codigo = codigo;
-        this.setState(c);
-    }
-
-    setBairro(bairro) {
-        let b = this.state;
-        b.bairro = bairro;
-        this.setState(b);
-    }
-
-    setRua(rua) {
-        let r = this.state;
-        r.rua = rua;
-        this.setState(r);
-    }
-
-    setNumero(numero) {
-        let n = this.state;
-        n.numero = numero;
-        this.setState(n);
+        this.getData = this.getData.bind(this);
     }
 
     getData() {
@@ -67,11 +33,14 @@ export default class CanaryRegister extends Component {
                 .then(json => {
                     let s = this.state;
 
+                    var adress = JSON.stringify(json.results[0].address_components);
+
                     var numero = (json.results[0].address_components[0]).long_name;
                     var rua = (json.results[0].address_components[1]).long_name;
                     var bairro = (json.results[0].address_components[2]).long_name;
 
-                    alert(numero, rua, bairro);
+                    //alert(numero);
+                    alert(adress);
 
                     s.numero = numero;
                     s.rua = rua;
@@ -102,13 +71,13 @@ export default class CanaryRegister extends Component {
                                 placeholder="Nome"
                                 containerStyle={{ width: 140, margin: 10 }}
                                 value={this.state.nome}
-                                onChangeText={nome => this.setNome(nome)}
+                                onChangeText={nome => this.setState({nome})}
                             />
                             <Input
                                 placeholder="Codigo"
                                 containerStyle={{ width: 80, margin: 10 }}
                                 value={this.state.codigo}
-                                onChangeText={codigo => this.setCodigo(codigo)}
+                                onChangeText={codigo => this.setState({codigo})}
                             />
                         </View>
                         <Text style={styles.text}>
@@ -121,7 +90,7 @@ export default class CanaryRegister extends Component {
                                     containerStyle={{ width: 150, margin: 10 }}
                                     value={this.state.bairro}
                                     onChangeText={bairro =>
-                                        this.setBairro(bairro)
+                                        this.setState({bairro})
                                     }
                                 />
                                 <Input
@@ -129,7 +98,7 @@ export default class CanaryRegister extends Component {
                                     containerStyle={{ width: 80, margin: 10 }}
                                     value={this.state.numero}
                                     onChangeText={numero =>
-                                        this.setNumero(numero)
+                                        this.setState({numero})
                                     }
                                 />
                             </View>
@@ -139,7 +108,7 @@ export default class CanaryRegister extends Component {
                                     containerStyle={{ width: 250, margin: 10 }}
                                     value={this.state.numero}
                                     value={this.state.rua}
-                                    onChangeText={rua => this.setRua(rua)}
+                                    onChangeText={rua => this.setState({rua})}
                                 />
                             </View>
                         </View>
@@ -155,6 +124,7 @@ export default class CanaryRegister extends Component {
                         <View style={styles.footer}>
                             <Button style={styles.register}>
                                 <Text style={styles.buttonText}>Cadastrar</Text>
+                                
                             </Button>
                         </View>
                     </View>
