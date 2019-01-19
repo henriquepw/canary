@@ -1,6 +1,9 @@
 #include "ESP8266HTTPUpdateServer.h"
 #include "ESP8266WebServer.h"
 #include "ESP8266WiFi.h"
+#include "ESP8266mDNS.h"
+#include "WiFiClient.h"
+#include "EEPROM.h"
 #include "math.h"
 #include "DHT.h"
 
@@ -57,7 +60,7 @@ const char *password = "";
 ESP8266WebServer server(80);
 ESP8266HTTPUpdateServer upServer;
 
-IPAddress service{192,168,0,105};
+IPAddress service{192, 168, 0, 105};
 IPAddress ip(192, 168, 0, 180);
 IPAddress gateway(192, 168, 0, 1);
 IPAddress subnet(255, 255, 255, 0);
@@ -71,6 +74,9 @@ float icC = 0;
 float ppm_co = 0;
 float ppm_co2 = 0;
 float ppm_nh4 = 0;
+
+int id = -1;
+int condition = 0;
 
 void initPage(){
   page += "<!DOCTYPE html> <html> <head>";
@@ -109,72 +115,30 @@ void handleRoot(){
 
 void setup(){
   Serial.begin(9600);
-  dht.begin();
+  
+  EEPROM.begin(4);
+  condition = EEPROM.read(0);
+  Serial.println(condition);
+  Serial.println(EEPROM.read(1));
 
-  // Conectando na rede wifi
-  Serial.println("Conectando a rede wifi...");
+  if (condition == 255){
+    id = EEPROM.read(1);
+    init_send_readings();
+  } else {
+    //abrir coneçar wifi para poder receber o id
+    init_recev();
+  }
 
-  WiFi.config(ip, gateway, subnet);
-  WiFi.begin(ssid, password);
-
-  while (WiFi.status() != WL_CONNECTED)
-    delay(500);
-
-  Serial.println("Conectado");
-
-  initPage();
-
-  upServer.setup(&server);
-  server.on("/", handleRoot);
-  server.begin();
+  EEPROM.end();
 }
 
 void loop(){
-  server.handleClient();
-  humidity = dht.readHumidity();
-
-  //Verificando se houve falha na leitura
-  if (humidity == 2147483647){
-    Serial.println("Falha na leitura");
-    delay(10);
-    return;
+  if (condition == 255){
+    send_readings();
+  } else {
+    //abrir coneçar wifi para poder receber o id
+    recev();
   }
-
-  temperature = dht.readTemperature();
-
-  // Calculando o indice de calor
-  int tempf = dht.readTemperature(true);
-  float ic = dht.computeHeatIndex(tempf, humidity);
-  icC = dht.convertFtoC(ic);
-
-  ppm_co = get_gas(CO);
-  ppm_co2 = get_gas(CO2);
-  ppm_nh4 = get_gas(NH4);
-
-  Serial.print("Umidade          : ");
-  Serial.println(humidity);
-
-  Serial.print("Temperatura em C : ");
-  Serial.println(temperature);
-
-  Serial.print("Indice de calor  : ");
-  Serial.println(icC);
-
-  Serial.print("Leitura: ");
-  Serial.println(analogRead(MQ_PIN_ANG));
-
-  Serial.print(" PPM de CO: ");
-  Serial.println(ppm_co);
-
-  Serial.print(" PPM de CO2: ");
-  Serial.println(ppm_co2);
-
-  Serial.print(" PPM de NH4: ");
-  Serial.println(ppm_nh4);
-
-  post(get_json());
-  
-  delay(10000);
 }
 
 float get_gas(int gas){
@@ -279,4 +243,81 @@ void post(String json){
   } else {
     Serial.println("Connection failed");
   }
+}
+
+void init_send_readings(){
+  dht.begin();
+
+  // Conectando na rede wifi
+  Serial.println("Conectando a rede wifi...");
+
+  WiFi.config(ip, gateway, subnet);
+  WiFi.begin(ssid, password);
+
+  while (WiFi.status() != WL_CONNECTED)
+    delay(500);
+
+  Serial.println("Conectado");
+
+  initPage();
+
+  upServer.setup(&server);
+  server.on("/", handleRoot);
+  server.begin();
+}
+
+void send_readings(){
+  server.handleClient();
+  humidity = dht.readHumidity();
+
+  //Verificando se houve falha na leitura
+  if (humidity == 2147483647){
+    Serial.println("Falha na leitura");
+    delay(10);
+    return;
+  }
+
+  temperature = dht.readTemperature();
+
+  // Calculando o indice de calor
+  int tempf = dht.readTemperature(true);
+  float ic = dht.computeHeatIndex(tempf, humidity);
+  icC = dht.convertFtoC(ic);
+
+  ppm_co = get_gas(CO);
+  ppm_co2 = get_gas(CO2);
+  ppm_nh4 = get_gas(NH4);
+
+  Serial.print("Umidade          : ");
+  Serial.println(humidity);
+
+  Serial.print("Temperatura em C : ");
+  Serial.println(temperature);
+
+  Serial.print("Indice de calor  : ");
+  Serial.println(icC);
+
+  Serial.print("Leitura: ");
+  Serial.println(analogRead(MQ_PIN_ANG));
+
+  Serial.print(" PPM de CO: ");
+  Serial.println(ppm_co);
+
+  Serial.print(" PPM de CO2: ");
+  Serial.println(ppm_co2);
+
+  Serial.print(" PPM de NH4: ");
+  Serial.println(ppm_nh4);
+
+  post(get_json());
+  
+  delay(10000);
+}
+
+void init_recev(){
+
+}
+
+void recev(){
+
 }
