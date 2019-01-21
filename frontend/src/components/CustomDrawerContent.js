@@ -29,7 +29,8 @@ const CustomDrawerComponent = props => {
             style={styles.container}
             forceInset={{ top: "always", horizontal: "never" }}
         >
-            <ScrollView styles={{ flex: 1 }}>
+            <View style={styles.innerContainer}>
+            <ScrollView styles={{ }}>
                 <Image
                     source={require("../../assets/imgs/logo.png")}
                     style={styles.logo}
@@ -43,7 +44,11 @@ const CustomDrawerComponent = props => {
                     onPress={() => props.navigation.navigate("Home")}
                 />
 
-                <CanaryOptions/>
+                <CanaryOptions 
+                ver={() => props.navigation.navigate("SeeCanaries")} 
+                adicionar={() => props.navigation.navigate("CanaryRegister")}
+                remover={() => alert("remover")}
+                />
                 
 
                 <DrawerItem
@@ -60,7 +65,7 @@ const CustomDrawerComponent = props => {
                 />
             </ScrollView>
 
-            <View styles={{ flex: 1 }}>
+            <View styles={{ marginBottom: 5 }}>
                 <Text style={styles.sistema}>Sistema</Text>
 
                 <DrawerItem
@@ -72,9 +77,11 @@ const CustomDrawerComponent = props => {
 
                 <DrawerItem
                     name="Excluir Conta"
-                    iconFamily="Octicons"
-                    iconName="trashcan"
+                    iconFamily="FontAwesome"
+                    iconName="trash-o"
                     iconColor={"#f1c484"}
+                    iconSize={23}
+                    iconStyle={{marginLeft: 28}}
                     textStyle={[styles.item, styles.delete]}
                 />
 
@@ -88,6 +95,7 @@ const CustomDrawerComponent = props => {
                     onPress={logout}
                 />
             </View>
+            </View>
         </View>
     );
 };
@@ -99,7 +107,12 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "space-between",
         backgroundColor: colors.primaryColor,
-        color: "#fff"
+        color: "#fff",
+    },
+    innerContainer:{
+        flex: 1,
+        justifyContent: "space-between",
+        marginBottom: 5,
     },
     logo: {
         width: 150,
