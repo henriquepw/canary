@@ -1,7 +1,6 @@
 #include "ESP8266HTTPUpdateServer.h"
 #include "ESP8266WebServer.h"
 #include "ESP8266WiFi.h"
-#include "ESP8266mDNS.h"
 #include "WiFiClient.h"
 #include "EEPROM.h"
 #include "math.h"
@@ -53,19 +52,17 @@ float R0 = R_STANDARD_MQ135;
 
 DHT dht(DHTPIN, DHTTYPE, 15);
 
-//rede Wifi
-const char *ssid = "";
-const char *password = "";
+IPAddress local_IP(192,168,4,22);
+IPAddress local_gateway(192,168,4,9);
+IPAddress local_subnet(255,255,255,0);
 
-ESP8266WebServer server(80);
-ESP8266HTTPUpdateServer upServer;
+const char* local_ssid = "canary";
+const char* local_password = "12345678";
 
-IPAddress service{192, 168, 0, 105};
-IPAddress ip(192, 168, 0, 180);
-IPAddress gateway(192, 168, 0, 1);
-IPAddress subnet(255, 255, 255, 0);
-
-String page = "";
+int condition = 0;
+int id = -1;
+String network_wifi = "doriedson";
+String password_wifi = "";
 
 int temperature = 0;
 int humidity = 0;
@@ -75,20 +72,120 @@ float ppm_co = 0;
 float ppm_co2 = 0;
 float ppm_nh4 = 0;
 
-int id = -1;
-int condition = 0;
+String page = "";
+
+ESP8266WebServer server (80);
+ESP8266HTTPUpdateServer upServer;
+
+String EEPROMReadString(int init){
+  String value = "";
+  int len = EEPROM.read(init);
+  
+  for(int i = 0; i < len; i++) 
+    value += (char) EEPROM.read(i+init+1);
+    
+  return value;
+}
+
+void EEPROMWriteString(int limit, int init, String value){
+  int len = value.length() > limit ? limit : value.length();
+  
+  EEPROM.write(init, len);
+
+  for(int i = 0; i < len; i++)
+    EEPROM.write(i+init+1, value[i]);
+}
 
 void initPage(){
   page += "<!DOCTYPE html> <html> <head>";
   page += "<meta charset=\"utf-8\" />";
-  page += "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">";
-  page += "<title>NodeMCU</title>";
+  page += "<title>Canary Beta</title>";
   page += "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">";
   page += "</head> <body>";
 }
 
-void handleRoot(){
+void handleRootGet(){
   String buff = page;
+  
+  buff += "<form action=\"/form\" method=\"GET\">";
+  buff += "<table> <tr>";
+
+  buff += "<td>ID:</td>";
+  buff += "<td>" + String(id) + "</td>";
+  buff += "</tr> <tr>";
+
+  buff += "<td>Rede WiFi:</td>";
+  buff += "<td>" + String(network_wifi) + "</td>";
+  buff += "</tr> </table>";
+
+  buff += "<button>Atualizar Dados</button>";
+
+  buff += "</form> </body> </html>";
+
+  server.send(200, "text/html", buff);
+}
+
+void handleRootPost(){
+  if (server.hasArg("id") && server.hasArg("net") && server.hasArg("password")) {
+    EEPROM.begin(100);
+
+    EEPROM.write(0, 1); // condition
+    EEPROM.write(1, server.arg("id").toInt()); // id
+    
+    EEPROMWriteString(32, 2, server.arg("net"));
+    EEPROMWriteString(32, 36, server.arg("password"));
+
+    id = EEPROM.read(1);
+    Serial.println(id);
+  
+    network_wifi = EEPROMReadString(2);
+    Serial.println(network_wifi);
+
+    password_wifi = EEPROMReadString(36);
+    Serial.println(password_wifi);
+
+    connectWiFi();
+    
+    EEPROM.end();
+  }
+
+  handleRootGet();
+}
+
+void handleForm(){
+  String buff = page;
+  
+  buff += "<form action=\"/\" method=\"POST\">";
+  buff += "<table> <tr>";
+
+  buff += "<td>ID:</td>";
+  buff += "<td><input type=\"number\" name=\"id\" /></td>";
+  buff += "</tr> <tr>";
+
+  buff += "<td>Rede WiFi:</td>";
+  buff += "<td><input type=\"text\" name=\"net\" /></td>";
+  buff += "</tr> <tr>";
+
+  buff += "<td>Senha:</td>";
+  buff += "<td><input type=\"password\" name=\"password\" /></td>";
+  buff += "</tr> </table>";
+
+  buff += "<button>Enviar</button>";
+
+  buff += "</form> </body> </html>";
+
+  server.send(200, "text/html", buff);
+}
+
+void handleStatus(){
+  String buff = "<!DOCTYPE html> <html> <head>";
+  
+  buff += "<meta charset=\"utf-8\" />";
+  buff += "<title>Canary Beta</title>";
+  buff += "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">";
+  buff += "<meta http-equiv=\"refresh\" content=\"5\">";
+  buff += "</head> <body>";
+  
   buff += "<table border=\"1px\">";
   buff += "<tr> <td> Umidade </td>";
   buff += "<td> " + String(humidity) + " </td>";
@@ -115,30 +212,71 @@ void handleRoot(){
 
 void setup(){
   Serial.begin(9600);
+  Serial.println();
   
-  EEPROM.begin(4);
+  EEPROM.begin(100);
+  
   condition = EEPROM.read(0);
   Serial.println(condition);
-  Serial.println(EEPROM.read(1));
+  
+  id = EEPROM.read(1);
+  Serial.println(id);
 
-  if (condition == 255){
-    id = EEPROM.read(1);
-    init_send_readings();
-  } else {
-    //abrir coneçar wifi para poder receber o id
-    init_recev();
-  }
+  network_wifi = EEPROMReadString(2);
+  Serial.println(network_wifi);
+
+  password_wifi = EEPROMReadString(36);
+  Serial.println(password_wifi);
 
   EEPROM.end();
+
+  Serial.print("Configurando Rede... ");
+  Serial.println(WiFi.softAPConfig(local_IP, local_gateway, local_subnet) ? "Ready" : "Failed!");
+
+  Serial.print("Iniciando Rede WiFi... ");
+  Serial.println(WiFi.softAP(local_ssid, local_password) ? "Ready" : "Failed!");
+
+  Serial.print("IP address = ");
+  Serial.println(WiFi.softAPIP());
+  
+  initPage();
+
+  upServer.setup(&server);
+  server.on("/", HTTP_GET, handleRootGet);
+  server.on("/", HTTP_POST, handleRootPost);
+  server.on("/form", handleForm);
+  server.on("/status", handleStatus);
+
+  server.begin();
+
+  if(condition){
+    connectWiFi();
+  }
+}
+
+void connectWiFi(){
+  dht.begin();
+
+  // Conectando na rede wifi
+  Serial.print("Conectando a rede wifi...");
+  
+  const char *ssid = "doriedson ultranet";
+  const char *password = "78623517";
+  
+  WiFi.begin(ssid, password);
+
+  while (WiFi.status() != WL_CONNECTED){
+    delay(500);
+    Serial.print(".");
+  }
+
+  Serial.print(" Conectado, Ip: ");
+  Serial.println(WiFi.localIP());
 }
 
 void loop(){
-  if (condition == 255){
-    send_readings();
-  } else {
-    //abrir coneçar wifi para poder receber o id
-    recev();
-  }
+  server.handleClient();
+  if(condition) readings();
 }
 
 float get_gas(int gas){
@@ -170,7 +308,7 @@ float Ajust_ratio(int r){
   if (humidity > 85 || humidity < 33 || temperature < 0 || temperature > 50)
     return NAN;
 
-  delay(1000);
+  delay(500);
 
   // Curva para 33% de umidade
   max_value_ratio = -0.000005 * pow(temperature, 3) + 0.000653 * pow(temperature, 2) - 0.028508 * temperature + 1.366829;
@@ -209,8 +347,8 @@ float Calibration(){
   return R0_calibrated;
 }
 
-string get_json(){
-  string json = "{";
+String get_json(){
+  String json = "{";
 
   json += "\"temperature\": " + String(temperature) + ", ";
   json += "\"humidity\": " + String(humidity) + ", ";
@@ -245,29 +383,7 @@ void post(String json){
   }
 }
 
-void init_send_readings(){
-  dht.begin();
-
-  // Conectando na rede wifi
-  Serial.println("Conectando a rede wifi...");
-
-  WiFi.config(ip, gateway, subnet);
-  WiFi.begin(ssid, password);
-
-  while (WiFi.status() != WL_CONNECTED)
-    delay(500);
-
-  Serial.println("Conectado");
-
-  initPage();
-
-  upServer.setup(&server);
-  server.on("/", handleRoot);
-  server.begin();
-}
-
-void send_readings(){
-  server.handleClient();
+void readings(){
   humidity = dht.readHumidity();
 
   //Verificando se houve falha na leitura
@@ -309,15 +425,7 @@ void send_readings(){
   Serial.print(" PPM de NH4: ");
   Serial.println(ppm_nh4);
 
-  post(get_json());
+  //post(get_json());
   
-  delay(10000);
-}
-
-void init_recev(){
-
-}
-
-void recev(){
-
+  delay(1000);
 }
