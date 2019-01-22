@@ -2,11 +2,24 @@ import React, { Component } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
-iconProps = {
+
+smileProps = {
     name: "smile-o",
     size: 125,
     color: "#649ae8"
 };
+
+mehProps = {
+    name: "meh-o",
+    size: 125,
+    color: "#ff982b"
+}
+
+frownProps = {
+    name: "frown-o",
+    size: 125,
+    color: "red"
+}
 
 class CanaryMessage extends Component{
     constructor (props){
@@ -14,23 +27,10 @@ class CanaryMessage extends Component{
     }
     
     
-    
-    iconProps = {
-        name: "trashcan",
-        color: "black",
-        size: 25,
-    };
-
-    
-
     render(){return(
         <View style={styles.container}>
-            {(this.props.text) ? <FontAwesome {... iconProps} style={styles.face}/> : <Text></Text>}
+            {(this.props.text) ? <FontAwesome {... smileProps} style={styles.face}/> : <Text></Text>}
             <View style={styles.textContainer}>
-                <Text style={styles.text}>{this.props.text}</Text>
-                <Text style={styles.text}>{this.props.text}</Text>
-                <Text style={styles.text}>{this.props.text}</Text>
-                <Text style={styles.text}>{this.props.text}</Text>
                 <Text style={styles.text}>{this.props.text}</Text>
             </View>
         </View>
