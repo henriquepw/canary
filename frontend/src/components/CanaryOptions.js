@@ -15,21 +15,17 @@ const dataArray = [
     { title: "Canarios", content: "Lorem ipsum dolor sit amet" },
   ];
 
+let onClickVer = () => {alert("ver")};
+let onClickAdicionar = () => {alert("adicionar")};
+let onClickRemover = () => {alert("remover")};
 
 class CanaryOptions extends Component{
-
-
-    onClickVer(){
-        //this.props.navigation.navigate("");    
+    componentWillMount(){
+        onClickVer = this.props.ver;
+        onClickAdicionar = this.props.adicionar;
+        onClickRemover = this.props.remover;
     }
 
-    onClickAdicionar(){
-        //this.props.navigation.navigate("");   
-    }
-
-    onClickRemover(){
-        //this.props.navigation.navigate("");   
-    }
 
     _renderHeader(item, expanded) {
         return(
@@ -55,7 +51,7 @@ class CanaryOptions extends Component{
                     iconFamily="MaterialCommunityIcons"
                     iconName="bullseye"
                     iconSize={23}
-                    onPress={this.onClickVer}
+                    onPress={onClickVer}
                     iconStyle={{marginHorizontal: 15}}
                     
                 />
@@ -63,13 +59,13 @@ class CanaryOptions extends Component{
                     name="Adicionar"
                     iconFamily="AntDesign"
                     iconName="pluscircleo"
-                    onPress={this.onClickAdicionar}
+                    onPress={onClickAdicionar}
                 />
                 <DrawerItem
                     name="Remover"
                     iconFamily="AntDesign"
                     iconName="closecircleo"
-                    onPress={this.onClickRemover}
+                    onPress={onClickRemover}
                 />
             </View>
  
