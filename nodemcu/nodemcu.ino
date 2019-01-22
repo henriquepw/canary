@@ -77,6 +77,9 @@ String page = "";
 ESP8266WebServer server (80);
 ESP8266HTTPUpdateServer upServer;
 
+WiFiClient client;
+IPAddress service(192,168,0,198);
+
 String EEPROMReadString(int init){
   String value = "";
   int len = EEPROM.read(init);
@@ -362,11 +365,12 @@ String get_json(){
 }
 
 void post(String json){
-  if (client.connect(service, 8080)){
+  if (client.connect(service, 3000)){
     Serial.print("Connected - ");
     Serial.println(json);
 
-    client.println("POST /link HTTP/1.1");
+    String link = "POST /link" + String(id + "HTTP/1.1");
+    client.println(link);
     client.println("Host: 192.168.0.198");
     client.println("User-Agent: NodeMCU");
     client.println("Content-Type: application/json");
@@ -425,7 +429,7 @@ void readings(){
   Serial.print(" PPM de NH4: ");
   Serial.println(ppm_nh4);
 
-  //post(get_json());
+  post(get_json());
   
   delay(1000);
 }
