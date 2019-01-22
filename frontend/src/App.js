@@ -19,7 +19,7 @@ const AppDrawerNavigator = createDrawerNavigator(
         Home: { screen: Home },
         Profile: { screen: Profile },
         CanaryRegister: { screen: CanaryRegister },
-        SeeCanaries: { screen: Canaries },
+        SeeCanaries: { screen: Canaries }
     },
     {
         initialRouteName: "Home",
