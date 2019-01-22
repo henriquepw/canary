@@ -9,16 +9,29 @@ iconProps = {
 };
 
 class CanaryMessage extends Component{
+    constructor (props){
+        super(props);
+    }
+    
+    
+    
+    iconProps = {
+        name: "trashcan",
+        color: "black",
+        size: 25,
+    };
+
+    
 
     render(){return(
         <View style={styles.container}>
-            <FontAwesome {... iconProps} style={styles.face}/>
+            {(this.props.text) ? <FontAwesome {... iconProps} style={styles.face}/> : <Text></Text>}
             <View style={styles.textContainer}>
-                <Text style={styles.text}>Texto Texto Texto Texto</Text>
-                <Text style={styles.text}>Texto Texto Texto Texto</Text>
-                <Text style={styles.text}>Texto Texto Texto Texto</Text>
-                <Text style={styles.text}>Texto Texto Texto Texto</Text>
-                <Text style={styles.text}>Texto Texto Texto Texto</Text>
+                <Text style={styles.text}>{this.props.text}</Text>
+                <Text style={styles.text}>{this.props.text}</Text>
+                <Text style={styles.text}>{this.props.text}</Text>
+                <Text style={styles.text}>{this.props.text}</Text>
+                <Text style={styles.text}>{this.props.text}</Text>
             </View>
         </View>
     );}

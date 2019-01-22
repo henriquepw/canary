@@ -7,40 +7,38 @@ import Header from "../components/Header.js";
 import Status from "../components/Status";
 import CanaryMessage from "../components/CanaryMessage";
 import { colors } from "../common.js";
+import Picker from "react-native-picker-select";
 
-
-
+const changeText = (newText)=>{this.setState({ text: newText })};
 class Canaries extends Component{
-    state = {
-        selected: true,
-        status: {
-            temperature: 0,
-            humidity: 0,
-            co: 0,
-            co2: 0,
-            nh3: 0,
-        },
-        selectedCanary: "",
-        data: [{value: "Canario1", canary:"valor 1"}, {value: "Canario2", canary: "valor2"}, {value: "Canario3", canary: "valor3"}]
+
+    constructor(props){
+        super(props);
+        this.state = {
+            selected: true,
+            status: {
+                temperature: 0,
+                humidity: 0,
+                co: 0,
+                co2: 0,
+                nh3: 0,
+            },
+            selectedCanary: "",
+            data: [{label:"Canario1", value: {text: "Texto1 Texto1 Texto1", id:1,},}, 
+                   {label:"Canario2", value: {text: "Texto2 Texto2 Texto2", id:2,},}, 
+                   {label:"Canario3", value: {text: "Texto3 Texto3 Texto3", id:3,},}],
+            text: "",
+        };
+
+        this.pickerProps ={
+            onValueChange: this.onValueChange, 
+            items: this.state.data,
+            placeholder: {label: "Selecione um Canario", value: null},
+            style: styles.picker,
+        };
     }
 
-    dropdownProps = {
-        label:"Selecione",
-        data: this.state.data,
-        containerStyle: styles.dropdown,
-        overlayStyle: styles.overlay,
-        pickerStyle: styles.picker,
-        //textColor: "white"
-        baseColor: "black",
-        //selectedItemColor: "yellow",
-        dropdownOffset: { top: 2, left: 0, bottom: -5},
-        rippleInsets: { top: 0, bottom: 0 },
-        valueExtractor: this.valueExtractor,
-    }
-
-    valueExtractor = ({ canary }) => canary;
-
-    
+    onValueChange = (value, index) => {this.setState({ text: value.text })}
 
     render(){return(
         <View style={styles.container}>
@@ -50,13 +48,16 @@ class Canaries extends Component{
                     onPressLeft={this.props.navigation.openDrawer}
                     onPressRight={() => this.props.navigation.navigate("CanaryRegister")}
             />
-            <Dropdown {... this.dropdownProps} ref="dropdown"/>
+            <View style={styles.picker}>
+                <Picker {...this.pickerProps}/>
+            </View>
             <Divider style={styles.divider}/>
             <Status {...this.state.status}/>
-            <CanaryMessage/>
+            <CanaryMessage ref="message" text={this.state.text}/>
         </View>
     )};
 }
+
 
 export default Canaries;
 
@@ -71,19 +72,10 @@ const styles = StyleSheet.create({
         marginHorizontal: 16,
         marginVertical: 12,
     },
-    dropdown: {
-        backgroundColor: "white",//colors.primaryLightColor,
-        marginHorizontal: 16,
-        marginTop: 20,
-        borderRadius: 5,
-    },
     picker: {
-        marginTop: 0,
-        backgroundColor: colors.primaryLightColor,
-    },
-
-    overlay: {
-        ...StyleSheet.absoluteFillObject
-    },
+        backgroundColor: "white",
+        marginHorizontal: 16,
+        marginTop: 12,
+    },  
 
 });
