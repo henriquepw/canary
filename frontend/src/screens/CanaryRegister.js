@@ -33,14 +33,9 @@ export default class CanaryRegister extends Component {
                 .then(json => {
                     let s = this.state;
 
-                    var adress = JSON.stringify(json.results[0].address_components);
-
                     var numero = (json.results[0].address_components[0]).long_name;
                     var rua = (json.results[0].address_components[1]).long_name;
                     var bairro = (json.results[0].address_components[2]).long_name;
-
-                    //alert(numero);
-                    alert(adress);
 
                     s.numero = numero;
                     s.rua = rua;
@@ -50,7 +45,7 @@ export default class CanaryRegister extends Component {
                 })
                 .catch(error => console.warn(error));
         }, () => {
-            alert("Deu erro")
+            alert("Não foi possivel verificar sua localização, tente novamente")
         });
 
     }
@@ -117,7 +112,7 @@ export default class CanaryRegister extends Component {
                         </Text>
                         <View style={styles.buttonContainer}>
                             <Button style={styles.button} onPress={this.getData}>
-                                <Text>Ativar GPS</Text>
+                                <Text style={styles.buttonText}>Localizar por GPS</Text>
                             </Button>
                         </View>
                         <View style={styles.line} />
@@ -176,10 +171,13 @@ const styles = StyleSheet.create({
     },
     button: {
         backgroundColor: "#7e57c2",
-        width: 100,
+        width: 140,
         height: 36,
         justifyContent: "center",
         borderRadius: 4
+    },
+    buttonText: {
+        fontWeight:'bold'
     },
     register: {
         backgroundColor: "#7e57c2",
