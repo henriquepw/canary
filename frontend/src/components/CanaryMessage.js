@@ -2,22 +2,24 @@ import React, { Component } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
+import { colors } from "../common";
+
 smileProps = {
     name: "smile-o",
     size: 125,
-    color: "#649ae8"
+    color: colors.smile_o
 };
 
 mehProps = {
     name: "meh-o",
     size: 125,
-    color: "#ff982b"
+    color: colors.meh_o
 };
 
 frownProps = {
     name: "frown-o",
     size: 125,
-    color: "red"
+    color: colors.frown_o
 };
 
 class CanaryMessage extends Component {
@@ -57,7 +59,9 @@ const styles = StyleSheet.create({
         alignSelf: "center"
     },
     textContainer: {
-        flex: 5
+        flex: 5,
+        alignItems: "center",
+        justifyContent: "center"
     },
     text: {
         fontSize: 16

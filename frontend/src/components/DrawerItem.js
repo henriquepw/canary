@@ -43,7 +43,7 @@ class DrawerItem extends Component {
     }
 
     iconColor() {
-        return this.props.iconColor ? this.props.iconColor : "white";
+        return this.props.iconColor ? this.props.iconColor : "#fff";
     }
 
     iconStyle() {

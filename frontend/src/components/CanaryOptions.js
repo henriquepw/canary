@@ -5,21 +5,18 @@ import { Accordion, View, Text } from "native-base";
 import { StyleSheet } from "react-native";
 
 import AntDesign from "react-native-vector-icons/AntDesign";
+import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
 import DrawerItem from "./DrawerItem.js";
 
 const dataArray = [
     { title: "Canarios", content: "Lorem ipsum dolor sit amet" }
 ];
 
-let onClickVer = () => {
-    alert("ver");
-};
-let onClickAdicionar = () => {
-    alert("adicionar");
-};
-let onClickRemover = () => {
-    alert("remover");
-};
+let onClickVer = () => alert("ver");
+
+let onClickAdicionar = () => alert("adicionar");
+
+let onClickRemover = () => alert("remover");
 
 class CanaryOptions extends Component {
     componentWillMount() {
@@ -35,26 +32,17 @@ class CanaryOptions extends Component {
                     <AntDesign
                         name="yuque"
                         size={20}
-                        color="white"
+                        color="#fff"
                         style={styles.icon}
                     />
                     <Text style={styles.item}>Canários</Text>
                 </View>
-                {expanded ? (
-                    <AntDesign
-                        name="upcircleo"
-                        size={20}
-                        color="white"
-                        style={styles.rightIcon}
-                    />
-                ) : (
-                    <AntDesign
-                        name="downcircleo"
-                        size={20}
-                        color="white"
-                        style={styles.rightIcon}
-                    />
-                )}
+                <SimpleLineIcons
+                    name={expanded ? "arrow-up" : "arrow-down"}
+                    size={16}
+                    color="#fff"
+                    style={styles.rightIcon}
+                />
             </View>
         );
     }
