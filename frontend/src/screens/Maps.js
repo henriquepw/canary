@@ -1,12 +1,11 @@
-import React, { Component } from 'react';
-import { View } from 'react-native';
+import React, { Component } from "react";
+import { View } from "react-native";
 
-import MapView from 'react-native-maps';
+import MapView from "react-native-maps";
 
 export default class Map extends Component {
-
     state = {
-        region: null,
+        region: null
     };
 
     async componentDidMount() {
@@ -19,18 +18,17 @@ export default class Map extends Component {
                         latitudeDelta: 0.0143,
                         longitudeDelta: 0.0134
                     }
-                })
+                });
             },
             () => {
-                alert("Não foi possivel carregar o mapa, tente novamente.")
+                alert("Não foi possivel carregar o mapa, tente novamente.");
             },
             {
                 timeout: 4000,
                 enableHighAccuracy: true,
-                maximumAge: 1000,
-
+                maximumAge: 1000
             }
-        )
+        );
     }
 
     render() {
