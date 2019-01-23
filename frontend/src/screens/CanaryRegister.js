@@ -158,8 +158,7 @@ const styles = StyleSheet.create({
         margin: 16,
         padding: 16,
         backgroundColor: "#fff",
-        alignItems: "center",
-        borderRadius: 5
+        alignItems: "center"
     },
     text: {
         marginTop: 20,

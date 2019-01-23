@@ -5,8 +5,7 @@ import {
     StyleSheet,
     TouchableOpacity,
     TextInput,
-    AsyncStorage,
-    Alert
+    AsyncStorage
 } from "react-native";
 
 import Header from "../components/Header";
@@ -82,9 +81,9 @@ export default class Profile extends Component {
 
                 try {
                     await axios.put(`${server}/users/${id}`, user);
-                    
+
                     AsyncStorage.setItem("userData", JSON.stringify(userData));
-                    
+
                     showInfo("Dados atualizados com sucesso");
                 } catch (err) {
                     showError(err);

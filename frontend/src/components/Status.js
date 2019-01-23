@@ -1,49 +1,49 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet } from "react-native";
 
-class Status extends Component{
-    temperature(){
+class Status extends Component {
+    temperature() {
         returning = "";
-        if(this.props.temperature != null){
+        if (this.props.temperature != null) {
             returning = this.props.temperature + "°C";
         }
         return returning;
     }
 
-    humidity(){
+    humidity() {
         returning = "";
-        if(this.props.humidity != null){
+        if (this.props.humidity != null) {
             returning = this.props.humidity;
         }
         return returning;
     }
 
-    co(){
+    co() {
         returning = "";
-        if(this.props.co != null){
+        if (this.props.co != null) {
             returning = this.props.co;
         }
         return returning;
     }
 
-    co2(){
+    co2() {
         returning = "";
-        if(this.props.co2 != null){
+        if (this.props.co2 != null) {
             returning = this.props.co2;
         }
         return returning;
     }
 
-    nh3(){
+    nh3() {
         returning = "";
-        if(this.props.nh3 != null){
+        if (this.props.nh3 != null) {
             returning = this.props.nh3;
         }
         return returning;
     }
 
-    render(){
-        return(
+    render() {
+        return (
             <View style={styles.container}>
                 <View style={[styles.lesserContainer, styles.topContainer]}>
                     <View style={styles.unity}>
@@ -78,26 +78,26 @@ export default Status;
 
 const styles = StyleSheet.create({
     container: {
-        marginHorizontal: 16,
+        marginHorizontal: 16
     },
     lesserContainer: {
         flexDirection: "row",
-        justifyContent: "space-between",
+        justifyContent: "space-between"
     },
-    topContainer:{
-        marginHorizontal: 60,
+    topContainer: {
+        marginHorizontal: 60
     },
     bottomContainer: {
-        marginHorizontal: -20,
+        marginHorizontal: -20
     },
     text: {
         color: "white",
         fontSize: 16,
-        fontWeight: "bold",
+        fontWeight: "bold"
     },
     unity: {
         flex: 1,
         justifyContent: "center",
-        alignItems: "center",
+        alignItems: "center"
     }
 });

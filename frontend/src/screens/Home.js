@@ -3,7 +3,7 @@ import { StyleSheet, View } from "react-native";
 
 import Header from "../components/Header";
 import Welcome from "../components/Welcome";
-import Resume from "../components/Resume"
+import Resume from "../components/Resume";
 
 import { colors } from "../common";
 
@@ -21,9 +21,11 @@ export default class Home extends Component {
                     iconLeft="menu"
                     iconRight="social-twitter"
                     onPressLeft={this.props.navigation.openDrawer}
-                    onPressRight={() => this.props.navigation.navigate("CanaryRegister")}
+                    onPressRight={() =>
+                        this.props.navigation.navigate("CanaryRegister")
+                    }
                 />
-                {first ? <Welcome /> : <Resume/>}
+                {first ? <Welcome /> : <Resume />}
             </View>
         );
     }

@@ -8,12 +8,11 @@ const iconProps = {
     color: "#649ae8"
 };
 
-const iconProps2 ={
+const iconProps2 = {
     name: "frown-o",
     size: 150,
     color: "red"
 };
-
 
 const iconProps3 = {
     name: "meh-o",
@@ -22,34 +21,29 @@ const iconProps3 = {
 };
 
 export default class Resume extends Component {
-    render(){return(
-        <View style={styles.container}>
-            <View style={styles.resume}>
-                <FontAwesome {... iconProps} style={styles.face}/>
-                <View style={styles.textContainer}>
-                    <Text>Texto Texto Texto Texto Texto Texto</Text>
-                    <Text>Texto Texto Texto Texto Texto Texto</Text>
-                    <Text>Texto Texto Texto Texto Texto Texto</Text>
-                    <Text>Texto Texto Texto Texto Texto Texto</Text>
-                    <Text>Texto Texto Texto Texto Texto Texto</Text>
-                    <Text>Texto Texto Texto Texto Texto Texto</Text>
+    render() {
+        return (
+            <View style={styles.container}>
+                <View style={styles.resume}>
+                    <FontAwesome {...iconProps} style={styles.face} />
+                    <View style={styles.textContainer}>
+                        <Text>Texto Texto Texto Texto Texto Texto</Text>
+                        <Text>Texto Texto Texto Texto Texto Texto</Text>
+                        <Text>Texto Texto Texto Texto Texto Texto</Text>
+                        <Text>Texto Texto Texto Texto Texto Texto</Text>
+                        <Text>Texto Texto Texto Texto Texto Texto</Text>
+                        <Text>Texto Texto Texto Texto Texto Texto</Text>
+                    </View>
                 </View>
             </View>
-        </View>
         );
     }
 }
 
-
-
-
-
-
-
 const styles = StyleSheet.create({
     container: {
         justifyContent: "center",
-        flex: 1,
+        flex: 1
     },
     resume: {
         marginHorizontal: 20,
@@ -61,11 +55,11 @@ const styles = StyleSheet.create({
     },
     textContainer: {
         flex: 6,
-        marginHorizontal: 30,
+        marginHorizontal: 30
     },
     face: {
         flex: 3,
         marginVertical: 20,
-        alignSelf: "center",
-    },
+        alignSelf: "center"
+    }
 });

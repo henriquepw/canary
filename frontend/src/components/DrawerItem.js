@@ -33,7 +33,7 @@ class DrawerItem extends Component {
                 returning = <Octicons {...this.iconProps} />;
                 break;
             case "FontAwesome":
-                returning = <FontAwesome {...this.iconProps}/>
+                returning = <FontAwesome {...this.iconProps} />;
         }
         return returning;
     }
