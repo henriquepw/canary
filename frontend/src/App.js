@@ -10,7 +10,7 @@ import Profile from "./screens/Profile";
 import SplashScreen from "./screens/SplashScreen";
 
 import CustomDrawerComponent from "./components/CustomDrawerContent";
-import CanaryRegister from "./screens/CanaryRegister";
+import CanaryRegister2 from "./screens/CanaryRegister2";
 import Canaries from "./screens/Canaries";
 import Maps from "./screens/Maps";
 
@@ -19,12 +19,12 @@ const AppDrawerNavigator = createDrawerNavigator(
         Autentication: { screen: Autentication },
         Home: { screen: Home },
         Profile: { screen: Profile },
-        CanaryRegister: { screen: CanaryRegister },
+        CanaryRegister2: { screen: CanaryRegister2 },
         SeeCanaries: { screen: Canaries },
         Maps: {screen: Maps }
     },
     {
-        initialRouteName: "Home",
+        initialRouteName: "CanaryRegister2",
         contentComponent: CustomDrawerComponent
     }
 );
