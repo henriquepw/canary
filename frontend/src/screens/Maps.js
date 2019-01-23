@@ -35,6 +35,14 @@ export default class Map extends Component {
         const { region } = this.state;
         return (
             <View style={{ flex: 1 }}>
+                <Header
+                    iconLeft="menu"
+                    iconRight="social-twitter"
+                    onPressLeft={this.props.navigation.openDrawer}
+                    onPressRight={() =>
+                        this.props.navigation.navigate("SeeCanaries")
+                    }
+                />
                 <MapView
                     style={{ flex: 1 }}
                     region={region}

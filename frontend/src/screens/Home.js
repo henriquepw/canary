@@ -22,7 +22,7 @@ export default class Home extends Component {
                     iconRight="social-twitter"
                     onPressLeft={this.props.navigation.openDrawer}
                     onPressRight={() =>
-                        this.props.navigation.navigate("CanaryRegister")
+                        this.props.navigation.navigate("SeeCanaries")
                     }
                 />
                 {first ? <Welcome /> : <Resume />}

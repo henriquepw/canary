@@ -65,11 +65,11 @@ export default class CanaryRegister extends Component {
         return (
             <View style={styles.container}>
                 <Header
-                    iconLeft="arrow-left"
+                    iconLeft="menu"
                     iconRight="social-twitter"
-                    onPressLeft={() => this.props.navigation.navigate("Home")}
+                    onPressLeft={this.props.navigation.openDrawer}
                     onPressRight={() =>
-                        this.props.navigation.navigate("CanaryRegister")
+                        this.props.navigation.navigate("SeeCanaries")
                     }
                 />
                 <ScrollView>
@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
     innerBody: {
         marginTop: 25,
         borderWidth: 1,
-        borderRadius: 5
+        color: colors.primaryDarkColor
     },
     line: {
         marginTop: 30,
@@ -191,8 +191,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.primaryColor,
         width: 100,
         height: 36,
-        justifyContent: "center",
-        borderRadius: 4
+        justifyContent: "center"
     },
     buttonText: {
         color: "#fff"
@@ -202,7 +201,6 @@ const styles = StyleSheet.create({
         width: 150,
         height: 40,
         justifyContent: "center",
-        borderRadius: 4
     },
     footer: {
         alignItems: "flex-end",

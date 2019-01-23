@@ -100,11 +100,11 @@ export default class Profile extends Component {
         return (
             <View style={styles.container}>
                 <Header
-                    iconLeft="arrow-left"
+                    iconLeft="menu"
                     iconRight="social-twitter"
-                    onPressLeft={() => this.props.navigation.navigate("Home")}
+                    onPressLeft={this.props.navigation.openDrawer}
                     onPressRight={() =>
-                        this.props.navigation.navigate("CanaryRegister")
+                        this.props.navigation.navigate("SeeCanaries")
                     }
                 />
 

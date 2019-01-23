@@ -105,11 +105,7 @@ class Canaries extends Component {
             <View style={styles.container}>
                 <Header
                     iconLeft="menu"
-                    iconRight="social-twitter"
                     onPressLeft={this.props.navigation.openDrawer}
-                    onPressRight={() =>
-                        this.props.navigation.navigate("CanaryRegister")
-                    }
                 />
                 <View style={styles.picker}>
                     <Picker {...this.pickerProps} />
