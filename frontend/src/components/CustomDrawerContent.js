@@ -53,12 +53,14 @@ const CustomDrawerComponent = props => {
                         remover={() => alert("remover")}
                     />
 
+                    {/*
                     <DrawerItem
                         name="Mapa"
                         iconFamily="MaterialCommunityIcons"
                         iconName="map-marker-outline"
                     />
-
+                    */}
+                    
                     <DrawerItem
                         name="Perfil"
                         iconFamily="AntDesign"
@@ -74,6 +76,7 @@ const CustomDrawerComponent = props => {
                         name="Sobre"
                         iconFamily="SimpleIcon"
                         iconName="exclamation"
+                        onPress={() => props.navigation.navigate("About")}
                     />
 
                     <DrawerItem
