@@ -1,10 +1,31 @@
 module.exports = app => {
     const insert = (req, res) => {
+        console.log("insert");
+
         canary = { ...req.body };
+
+        const register = id => {
+            console.log("register");
+
+            const user_canary = {
+                user_id: canary.owner_id,
+                canary_id: id[0]
+            };
+
+            console.log(user_canary);
+
+            app.db("tb_user_canary")
+                .insert(user_canary)
+                .then(_ =>
+                    res.status(204).send("Canary registrado com sucesso")
+                )
+                .catch(err => res.status(500).send(err));
+        };
 
         app.db("tb_canary")
             .insert(canary)
-            .then(_ => res.status(204).send("Cadastrado com sucesso"))
+            .returning("id")
+            .then(id => register(id))
             .catch(err => res.status(500).send(err));
     };
 
@@ -21,7 +42,7 @@ module.exports = app => {
     const remove = (req, res) => {
         app.db("tb_canary")
             .delete()
-            .whare({ id: req.params.id })
+            .where({ id: req.params.id })
             .then(_ => res.status(204).send("Deletado com sucesso"))
             .catch(err => res.status(500).send(err));
     };
@@ -36,16 +57,26 @@ module.exports = app => {
     const getById = (req, res) => {
         app.db("tb_canary")
             .select()
-            .whare({ id: req.params.id })
+            .where({ id: req.params.id })
             .then(canaries => res.json(canaries))
             .catch(err => res.status(500).send(err));
     };
+
+    const getByOwnerId = (req, res) => {
+        app.db("tb_canary")
+            .select()
+            .where({ owner_id: req.params.id })
+            .then(canaries => res.json(canaries))
+            .catch(err => res.status(500).send(err));
+    };
+
 
     return {
         insert,
         update,
         remove,
         get,
-        getById
+        getById,
+        getByOwnerId
     };
 };
