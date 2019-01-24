@@ -12,11 +12,12 @@ export default class CanaryRegister extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            codigo: "",
-            nome: "",
-            rua: "",
-            bairro: "",
-            numero: ""
+            name: "",
+            street: "",
+            neighborhood: "",
+            num: "",
+            city: "",
+            uf: ""
         };
 
         this.getData = this.getData.bind(this);
@@ -37,26 +38,31 @@ export default class CanaryRegister extends Component {
                             json.results[0].address_components
                         );
 
-                        var numero =
+                        var num =
                             json.results[0].address_components[0].long_name;
-                        var rua =
+                        var street =
                             json.results[0].address_components[1].long_name;
-                        var bairro =
+                        var neighborhood =
                             json.results[0].address_components[2].long_name;
+                        var city =
+                            json.results[0].address_components[3].long_name;
+                        var uf =
+                            json.results[0].address_components[4].short_name;
 
-                        //alert(numero);
                         alert(adress);
 
-                        s.numero = numero;
-                        s.rua = rua;
-                        s.bairro = bairro;
+                        s.num = num;
+                        s.street = street;
+                        s.neighborhood = neighborhood;
+                        s.city = city;
+                        s.uf = uf;
 
                         this.setState(s);
                     })
                     .catch(error => console.warn(error));
             },
             () => {
-                alert("Deu erro");
+                alert("Não foi possivel encontrar sua localização, tente novamente.");
             }
         );
     }
@@ -89,13 +95,27 @@ export default class CanaryRegister extends Component {
                         <Text style={[styles.text, { flex: 1 }]}>Endereço</Text>
                     </View>
 
-                    <Input
-                        textInput={{
-                            style: styles.textInput,
-                            placeholder: "Cidade",
-                            onChangeText: city => this.setState({ city })
-                        }}
-                    />
+                    <View style={styles.street}>
+                        <Input
+                            styleInput={{ flex: 7 }}
+                            textInput={{
+                                style: styles.textInput,
+                                placeholder: "Cidade",
+                                value: this.state.city,
+                                onChangeText: city => this.setState({ city })
+                            }}
+                        />
+                        <Input
+                            styleInput={{ flex: 3 }}
+                            textInput={{
+                                style: styles.textInput,
+                                placeholder: "UF",
+                                value: this.state.uf,
+                                onChangeText: uf => this.setState({ uf })
+                            }}
+                        />
+
+                    </View>
 
                     <View style={styles.street}>
                         <Input
@@ -103,9 +123,11 @@ export default class CanaryRegister extends Component {
                             textInput={{
                                 style: styles.textInput,
                                 placeholder: "Rua",
+                                value: this.state.street,
                                 onChangeText: street =>
                                     this.setState({ street })
                             }}
+
                         />
 
                         <Input
@@ -113,6 +135,7 @@ export default class CanaryRegister extends Component {
                             textInput={{
                                 style: styles.textInput,
                                 placeholder: "Nº",
+                                value: this.state.num,
                                 onChangeText: num => this.setState({ num })
                             }}
                         />
@@ -122,10 +145,17 @@ export default class CanaryRegister extends Component {
                         textInput={{
                             style: styles.textInput,
                             placeholder: "Bairro",
+                            value: this.state.neighborhood,
                             onChangeText: neighborhood =>
                                 this.setState({ neighborhood })
                         }}
                     />
+                    <View style={styles.buttonContainer}>
+                        <Button style={styles.button}
+                            onPress={this.getData}>
+                            <Text style={styles.buttonText}>Localizar Canário</Text>
+                        </Button>
+                    </View>
                 </ScrollView>
             </View>
         );
@@ -163,5 +193,21 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: "row",
         alignItems: "center"
+    },
+    button: {
+        backgroundColor: colors.primaryColor,
+        width: 140,
+        height: 36,
+        justifyContent: "center",
+        marginTop: 40,
+        borderRadius: 4
+    },
+    buttonText: {
+        color: "#fff",
+        fontWeight: 'bold'
+    },
+    buttonContainer: {
+        alignItems: 'center',
+        justifyContent: 'center'
     }
 });
