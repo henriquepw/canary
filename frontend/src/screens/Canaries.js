@@ -108,7 +108,7 @@ class Canaries extends Component {
                     onPressLeft={this.props.navigation.openDrawer}
                 />
                 <View style={styles.picker}>
-                    <Picker {...this.pickerProps} />
+                    <Picker {...this.pickerProps} style={{underline:{borderTopWidth: 0}}} />
                 </View>
                 <Divider style={styles.divider} />
                 <Status {...this.state.status} />
