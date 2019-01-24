@@ -12,7 +12,8 @@ export default class About extends Component {
                 <Header
                     name="Sobre"
                     iconLeft="menu"
-                    iconRight="social-twitter"
+                    iconRight="yuque"
+                    iconRightFamily="AntDesign"
                     onPressLeft={this.props.navigation.openDrawer}
                     onPressRight={() =>
                         this.props.navigation.navigate("SeeCanaries")

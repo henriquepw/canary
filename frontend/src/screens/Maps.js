@@ -37,7 +37,8 @@ export default class Map extends Component {
             <View style={{ flex: 1 }}>
                 <Header
                     iconLeft="menu"
-                    iconRight="social-twitter"
+                    iconRight="yuque"
+                    iconRightFamily="AntDesign"
                     onPressLeft={this.props.navigation.openDrawer}
                     onPressRight={() =>
                         this.props.navigation.navigate("SeeCanaries")

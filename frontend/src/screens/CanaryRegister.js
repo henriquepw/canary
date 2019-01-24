@@ -66,7 +66,8 @@ export default class CanaryRegister extends Component {
             <View style={styles.container}>
                 <Header
                     iconLeft="menu"
-                    iconRight="social-twitter"
+                    iconRight="yuque"
+                    iconRightFamily="AntDesign"
                     onPressLeft={this.props.navigation.openDrawer}
                     onPressRight={() =>
                         this.props.navigation.navigate("SeeCanaries")
