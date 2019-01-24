@@ -50,7 +50,7 @@ const CustomDrawerComponent = props => {
                         adicionar={() =>
                             props.navigation.navigate("CanaryRegister2")
                         }
-                        remover={() => alert("remover")}
+                        remover={() => props.navigation.navigate("RemoveCanary")}
                     />
 
                     {/*
