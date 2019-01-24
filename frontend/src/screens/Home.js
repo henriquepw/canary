@@ -6,11 +6,11 @@ import Header from "../components/Header";
 import Welcome from "../components/Welcome";
 import Resume from "../components/Resume";
 
-import { colors, server } from "../common";
+import { colors, server, showError } from "../common";
 
 export default class Home extends Component {
     state = {
-        first: false,
+        first: true,
         userData: {}
     };
 
@@ -21,14 +21,18 @@ export default class Home extends Component {
         this.setState({ userData });
     };
 
-    checkCanaries = () => {
-        this.getUserData();
+    checkCanaries = async () => {
+        await this.getUserData();
 
-        axios
-            .get(`${server}/canaries/owner/${this.state.userData.id}`)
-            .then(res =>
-                this.setState({ first: res.data.length ? false : true })
-            );
+        try {
+            axios
+                .get(`${server}/canaries/owner/${this.state.userData.id}`)
+                .then(res =>
+                    this.setState({ first: res.data.length ? false : true })
+                );
+        } catch (err) {
+            showError(err);
+        }
     };
 
     componentWillMount() {
@@ -48,7 +52,11 @@ export default class Home extends Component {
                         this.props.navigation.navigate("SeeCanaries")
                     }
                 />
-                {first ? <Welcome /> : <Resume />}
+                {first ? (
+                    <Welcome navigation={this.props.navigation} />
+                ) : (
+                    <Resume />
+                )}
             </View>
         );
     }
