@@ -36,3 +36,19 @@ function humidity(humidity){
         messages.push(humidity5);
     return messages ;
 }
+
+function temperature(temperature){
+    return ["temperature"];
+}
+
+function co(co){
+    return ["co"];
+}
+
+function co2(co2){
+    return ["co2"];
+}
+
+function nh3(nh3){
+    return ["nh3"];
+}
