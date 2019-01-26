@@ -34,4 +34,5 @@ function humidity(humidity){
         messages.push(humidity4);
     }else 
         messages.push(humidity5);
+    return messages ;
 }
