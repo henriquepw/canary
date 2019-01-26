@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { StyleSheet, View } from "react-native";
 import { Divider } from "react-native-elements";
-import { Dropdown } from "react-native-material-dropdown";
 
 import Header from "../components/Header.js";
 import Status from "../components/Status";
@@ -9,6 +8,8 @@ import CanaryMessage from "../components/CanaryMessage";
 import { colors } from "../common.js";
 import Picker from "react-native-picker-select";
 import { Pages } from "react-native-pages";
+
+import {humidity, temperature, co, co2, nh3} from "../messages";
 
 const text1 = {
     temperature: "temperature text 1",
@@ -36,7 +37,7 @@ const text3 = {
 
 const status1 = {
     temperature: 1,
-    humidity: 1,
+    humidity: 30,
     co: 1,
     co2: 1,
     nh3: 1
@@ -44,7 +45,7 @@ const status1 = {
 
 const status2 = {
     temperature: 2,
-    humidity: 2,
+    humidity: 70,
     co: 2,
     co2: 2,
     nh3: 2
@@ -52,7 +53,7 @@ const status2 = {
 
 const status3 = {
     temperature: 3,
-    humidity: 3,
+    humidity: 11,
     co: 3,
     co2: 3,
     nh3: 3
@@ -63,11 +64,11 @@ class Canaries extends Component {
         this.state = {
             selected: true,
             status: {
-                temperature: "",
-                humidity: "",
-                co: "",
-                co2: "",
-                nh3: ""
+                temperature: 0,
+                humidity: 0,
+                co: 0,
+                co2: 0,
+                nh3: 0
             },
             selectedCanary: "",
             data: [
@@ -96,6 +97,10 @@ class Canaries extends Component {
         };
     }
 
+    componentDidMount(){
+        this.setState({status: this.state.data[0].value.status});
+    }
+
     onValueChange = (value, index) => {
         this.setState({ text: value.text, status: value.status });
     };
@@ -113,11 +118,11 @@ class Canaries extends Component {
                 <Divider style={styles.divider} />
                 <Status {...this.state.status} />
                 <Pages containerStyle={{ paddingBottom: 25 }}>
-                    <CanaryMessage text={this.state.text.temperature} />
-                    <CanaryMessage text={this.state.text.humidity} />
-                    <CanaryMessage text={this.state.text.co} />
-                    <CanaryMessage text={this.state.text.co2} />
-                    <CanaryMessage text={this.state.text.nh3} />
+                    <CanaryMessage status={temperature(this.state.status.temperature)} />
+                    <CanaryMessage status={humidity(this.state.status.humidity)} />
+                    <CanaryMessage status={co(this.state.status.co)} />
+                    <CanaryMessage status={co2(this.state.status.co2)} />
+                    <CanaryMessage status={nh3(this.state.status.nh3)} />
                 </Pages>
             </View>
         );

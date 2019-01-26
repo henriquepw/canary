@@ -61,7 +61,7 @@ class RemoveCanary extends Component{
             </View>
 
             <View style={styles.category}>
-                    <Text style={[styles.text, { flex: 1 }]}>Endereço</Text>
+                    <Text style={[styles.title, { flex: 1 }]}>Endereço</Text>
             </View>
 
             <View style={{}}>
@@ -93,6 +93,13 @@ class RemoveCanary extends Component{
                         <Text style={styles.info}>{this.state.neighborhood}</Text>
                     </View>
                 </View>
+
+                <View style={styles.buttonContainer}>
+                        <Button style={styles.button}
+                            onPress={()=>alert("Remove")}>
+                            <Text style={styles.buttonText}>Remover Canário</Text>
+                        </Button>
+                    </View>
             </View>
                    
         </View>
@@ -128,6 +135,11 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontFamily: "Lato-Bold"
     },
+    title:{
+        color: colors.secondaryTextColor,
+        fontSize: 16,
+        fontFamily: "Lato-Bold"
+    },
     text: {
         color: colors.secondaryTextColor,
         fontSize: 13,
@@ -152,7 +164,22 @@ const styles = StyleSheet.create({
         fontFamily: "Lato-Bold",
         height: 30,
         marginTop: 2,
-    }
+    },
+    button: {
+        backgroundColor: colors.primaryColor,
+        width: 140,
+        height: 36,
+        justifyContent: "center",
+        marginTop: 40,
+    },
+    buttonText: {
+        color: "#fff",
+        fontWeight: 'bold'
+    },
+    buttonContainer: {
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
 
     
 });

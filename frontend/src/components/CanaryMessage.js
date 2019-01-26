@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 import { colors } from "../common";
@@ -27,18 +27,25 @@ class CanaryMessage extends Component {
         super(props);
     }
 
+    text(){
+        return this.props.status 
+        ? this.props.status.messages.map((text)=>{return <Text style={styles.text}>{text}</Text>}) 
+        : <Text/>
+        
+    }
+
     render() {
         return (
-            <View style={styles.container}>
-                {this.props.text ? (
-                    <FontAwesome {...smileProps} style={styles.face} />
+            <ScrollView style={styles.container} contentContainerStyle={{alignItems: "center"}}>
+                {this.props.status ? (
+                    <FontAwesome {...this.props.status.face} style={styles.face} />
                 ) : (
                     <Text />
                 )}
                 <View style={styles.textContainer}>
-                    <Text style={styles.text}>{this.props.text}</Text>
+                    {this.text()}
                 </View>
-            </View>
+            </ScrollView>
         );
     }
 }
@@ -51,7 +58,6 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         marginVertical: 12,
         marginHorizontal: 16,
-        alignItems: "center"
     },
     face: {
         flex: 3,
@@ -64,6 +70,8 @@ const styles = StyleSheet.create({
         justifyContent: "center"
     },
     text: {
-        fontSize: 16
+        fontSize: 16,
+        fontFamily: "Lato-Regular",
+        marginHorizontal: 30,
     }
 });
