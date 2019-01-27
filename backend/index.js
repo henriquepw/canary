@@ -25,7 +25,7 @@ const insertDaily = async () => {
         .then(_ => log("then"));
 };
 
-const job = new CronJob("*/20 * * * * *", insertDaily);
+const job = new CronJob("* * 12 * * *", insertDaily);
 
 //job.start();
 
