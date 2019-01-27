@@ -2,8 +2,7 @@ const app = require("express")();
 const consign = require("consign");
 const db = require("./config/db");
 
-const CronJob = require("cron").CronJob;
-
+const { CronJob } = require("cron");
 const { log } = console;
 
 const insertDaily = async () => {
@@ -40,6 +39,4 @@ consign()
     .then("./config/routes.js")
     .into(app);
 
-app.listen(PORT, () => {
-    log(`Canary server started on port ${PORT}`);
-});
+app.listen(PORT, () => log(`Canary server started on port ${PORT}`));
