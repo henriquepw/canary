@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { Divider } from "react-native-elements";
+import { Pages } from "react-native-pages";
+import Picker from "react-native-picker-select";
 
+import CanaryMessage from "../components/CanaryMessage";
 import Header from "../components/Header.js";
 import Status from "../components/Status";
-import CanaryMessage from "../components/CanaryMessage";
+
 import { colors } from "../common.js";
-import Picker from "react-native-picker-select";
-import { Pages } from "react-native-pages";
 
 import {
     getHumidity,
@@ -34,11 +35,11 @@ class Canaries extends Component {
                 nh3: null
             },
             selectedCanary: "",
-            data: [{label: "carregando", value: {}}],
-            data2: [{label: "carregando2", value: {}}],
+            data: [{ label: "carregando", value: {} }],
+            data2: [{ label: "carregando2", value: {} }],
             text: "Carregando",
             loadingStyle: styles.loading,
-            mounted: true,
+            mounted: true
         };
 
         this.pickerProps = {
@@ -49,33 +50,42 @@ class Canaries extends Component {
         };
     }
 
-    onLoadingSuccess(){
-        if(this.state.mounted){
-            this.setState({loaded: true});
-            this.setState({status: this.state.data[0].value.status});
+    onLoadingSuccess() {
+        if (this.state.mounted) {
+            this.setState({ loaded: true });
+            this.setState({ status: this.state.data[0].value.status });
         }
     }
 
-    onLoadingFail(){
-        if(this.state.mounted){
-            this.setState({text: "Falha ao Carregar", loadingStyle: styles.failLoading});
+    onLoadingFail() {
+        if (this.state.mounted) {
+            this.setState({
+                text: "Falha ao Carregar",
+                loadingStyle: styles.failLoading
+            });
         }
     }
 
-    componentWillMount(){
-        new Promise((resolve,reject)=>setTimeout(()=>{this.state.data.push(... getAllCanaries()); this.state.data.shift(); resolve()},3000))
-        .then(()=>{this.onLoadingSuccess()})
-        .catch(()=>this.onLoadingFail());
+    componentWillMount() {
+        new Promise((resolve, _) =>
+            setTimeout(() => {
+                this.state.data.push(...getAllCanaries());
+                this.state.data.shift();
+                resolve();
+            }, 3000)
+        )
+            .then(() => {
+                this.onLoadingSuccess();
+            })
+            .catch(() => this.onLoadingFail());
     }
 
-    componentDidMount(){
-        
-    }
+    componentDidMount() {}
 
-    componentWillUnmount(){
-        this.setState({mounted: false});
+    componentWillUnmount() {
+        this.setState({ mounted: false });
     }
-    onValueChange = (value, index) => {
+    onValueChange = (value, _) => {
         this.setState({ text: value.text, status: value.status });
     };
 
@@ -87,20 +97,50 @@ class Canaries extends Component {
                     onPressLeft={this.props.navigation.openDrawer}
                 />
                 <View style={styles.picker}>
-                    {this.state.loaded 
-                    ? <Picker {...this.pickerProps} style={{underline:{borderTopWidth: 0}}} /> 
-                    : <Text style={this.state.loadingStyle}>{this.state.text}</Text>}
-                    
-                    
+                    {this.state.loaded ? (
+                        <Picker
+                            {...this.pickerProps}
+                            style={{ underline: { borderTopWidth: 0 } }}
+                        />
+                    ) : (
+                        <Text style={this.state.loadingStyle}>
+                            {this.state.text}
+                        </Text>
+                    )}
                 </View>
                 <Divider style={styles.divider} />
                 <Status {...this.state.status} />
                 <Pages containerStyle={{ paddingBottom: 25 }}>
-                    <CanaryMessage status={(this.state.status.temperature != null) && temperature(this.state.status.temperature)} />
-                    <CanaryMessage status={(this.state.status.humidity != null) && humidity(this.state.status.humidity)} />
-                    <CanaryMessage status={(this.state.status.co != null) && co(this.state.status.co)} />
-                    <CanaryMessage status={(this.state.status.co2 != null) && co2(this.state.status.co2)} />
-                    <CanaryMessage status={(this.state.status.nh3 != null) && nh3(this.state.status.nh3)} />
+                    <CanaryMessage
+                        status={
+                            this.state.status.temperature != null &&
+                            getTemperature(this.state.status.temperature)
+                        }
+                    />
+                    <CanaryMessage
+                        status={
+                            this.state.status.humidity != null &&
+                            getHumidity(this.state.status.humidity)
+                        }
+                    />
+                    <CanaryMessage
+                        status={
+                            this.state.status.co != null &&
+                            getCO(this.state.status.co)
+                        }
+                    />
+                    <CanaryMessage
+                        status={
+                            this.state.status.co2 != null &&
+                            getCO2(this.state.status.co2)
+                        }
+                    />
+                    <CanaryMessage
+                        status={
+                            this.state.status.nh3 != null &&
+                            getNH3(this.state.status.nh3)
+                        }
+                    />
                 </Pages>
             </View>
         );
@@ -136,6 +176,6 @@ const styles = StyleSheet.create({
         textAlign: "center",
         fontSize: 16,
         fontFamily: "Lato-Regular",
-        color: "red",
+        color: "red"
     }
 });
