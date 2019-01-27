@@ -30,10 +30,11 @@ export default class CanaryRegister extends Component {
                 let latitude = data.coords.latitude;
                 let longitude = data.coords.longitude;
 
+
+
                 Geocoder.from(latitude, longitude)
                     .then(json => {
                         let s = this.state;
-
                         var adress = JSON.stringify(
                             json.results[0].address_components
                         );
@@ -46,8 +47,6 @@ export default class CanaryRegister extends Component {
                             json.results[0].address_components[2].long_name;
                         var city =
                             json.results[0].address_components[3].long_name;
-                        var uf =
-                            json.results[0].address_components[4].short_name;
 
                         alert(adress);
 
@@ -55,7 +54,6 @@ export default class CanaryRegister extends Component {
                         s.street = street;
                         s.neighborhood = neighborhood;
                         s.city = city;
-                        s.uf = uf;
 
                         this.setState(s);
                     })
@@ -65,7 +63,7 @@ export default class CanaryRegister extends Component {
                 alert("Não foi possivel encontrar sua localização, tente novamente.");
             }
         );
-    }
+    };
 
     render() {
         return (
@@ -96,27 +94,15 @@ export default class CanaryRegister extends Component {
                         <Text style={[styles.text, { flex: 1 }]}>Endereço</Text>
                     </View>
 
-                    <View style={styles.street}>
-                        <Input
-                            styleInput={{ flex: 7 }}
-                            textInput={{
-                                style: styles.textInput,
-                                placeholder: "Cidade",
-                                value: this.state.city,
-                                onChangeText: city => this.setState({ city })
-                            }}
-                        />
-                        <Input
-                            styleInput={{ flex: 3 }}
-                            textInput={{
-                                style: styles.textInput,
-                                placeholder: "UF",
-                                value: this.state.uf,
-                                onChangeText: uf => this.setState({ uf })
-                            }}
-                        />
-
-                    </View>
+                    <Input
+                        textInput={{
+                            style: styles.textInput,
+                            placeholder: "Cidade",
+                            value: this.state.city,
+                            onChangeText: city =>
+                                this.setState({ city })
+                        }}
+                    />
 
                     <View style={styles.street}>
                         <Input
