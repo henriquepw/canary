@@ -30,6 +30,7 @@ class Canaries extends Component {
             data2: [{label: "carregando2", value: {}}],
             text: "Carregando",
             loadingStyle: styles.loading,
+            mounted: true,
         };
 
         this.pickerProps = {
@@ -41,12 +42,16 @@ class Canaries extends Component {
     }
 
     onLoadingSuccess(){
-        this.setState({loaded: true});
-        this.setState({status: this.state.data[0].value.status});
+        if(this.state.mounted){
+            this.setState({loaded: true});
+            this.setState({status: this.state.data[0].value.status});
+        }
     }
 
     onLoadingFail(){
-        this.setState({text: "Falha ao Carregar", loadingStyle: styles.failLoading});
+        if(this.state.mounted){
+            this.setState({text: "Falha ao Carregar", loadingStyle: styles.failLoading});
+        }
     }
 
     componentWillMount(){
@@ -59,6 +64,9 @@ class Canaries extends Component {
         
     }
 
+    componentWillUnmount(){
+        this.setState({mounted: false});
+    }
     onValueChange = (value, index) => {
         this.setState({ text: value.text, status: value.status });
     };
