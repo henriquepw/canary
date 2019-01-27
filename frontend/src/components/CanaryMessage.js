@@ -1,40 +1,53 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
-iconProps = {
+import { colors } from "../common";
+
+smileProps = {
     name: "smile-o",
     size: 125,
-    color: "#649ae8"
+    color: colors.smile_o
 };
 
-class CanaryMessage extends Component{
-    constructor (props){
+mehProps = {
+    name: "meh-o",
+    size: 125,
+    color: colors.meh_o
+};
+
+frownProps = {
+    name: "frown-o",
+    size: 125,
+    color: colors.frown_o
+};
+
+class CanaryMessage extends Component {
+    constructor(props) {
         super(props);
     }
-    
-    
-    
-    iconProps = {
-        name: "trashcan",
-        color: "black",
-        size: 25,
-    };
 
-    
+    text(){
+        return this.props.status 
+        ? this.props.status.messages.map((text)=>{return <Text style={styles.text}>{text}</Text>}) 
+        : <Text/>
+        
+    }
 
-    render(){return(
-        <View style={styles.container}>
-            {(this.props.text) ? <FontAwesome {... iconProps} style={styles.face}/> : <Text></Text>}
-            <View style={styles.textContainer}>
-                <Text style={styles.text}>{this.props.text}</Text>
-                <Text style={styles.text}>{this.props.text}</Text>
-                <Text style={styles.text}>{this.props.text}</Text>
-                <Text style={styles.text}>{this.props.text}</Text>
-                <Text style={styles.text}>{this.props.text}</Text>
-            </View>
-        </View>
-    );}
+    render() {
+        return (
+            <ScrollView style={styles.container} contentContainerStyle={{alignItems: "center"}}>
+                {this.props.status ? (
+                    <FontAwesome {...this.props.status.face} style={styles.face} />
+                ) : (
+                    <Text />
+                )}
+                <View style={styles.textContainer}>
+                    {this.text()}
+                </View>
+            </ScrollView>
+        );
+    }
 }
 
 export default CanaryMessage;
@@ -45,19 +58,20 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         marginVertical: 12,
         marginHorizontal: 16,
-        alignItems: "center",
-
     },
     face: {
         flex: 3,
         marginVertical: 10,
-        alignSelf: "center",
+        alignSelf: "center"
     },
     textContainer: {
         flex: 5,
+        alignItems: "center",
+        justifyContent: "center"
     },
     text: {
         fontSize: 16,
-    },
-
+        fontFamily: "Lato-Regular",
+        marginHorizontal: 30,
+    }
 });

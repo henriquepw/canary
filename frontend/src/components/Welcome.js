@@ -9,7 +9,10 @@ export default props => (
             Voce ainda não tem canários cadastrados, {"\n"} que tal cadastrar
             um?
         </Text>
-        <Button style={styles.button}>
+        <Button
+            style={styles.button}
+            onPress={() => props.navigation.navigate("CanaryRegister2")}
+        >
             <Text style={styles.text}>Cadastrar</Text>
         </Button>
     </View>

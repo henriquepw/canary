@@ -28,11 +28,17 @@ module.exports = app => {
         .post(app.api.canary.insert)
         .get(app.api.canary.get);
 
+    
+    app.route("/canaries/owner/:id")
+        //.all(app.config.passport.authenticate())
+        .get(app.api.canary.getByOwnerId)
+
     app.route("/canaries/:id")
         //.all(app.config.passport.authenticate())
         .put(app.api.canary.update)
         .get(app.api.canary.getById)
         .delete(app.api.canary.remove);
+
 
     /*****************
      * Daily reading *

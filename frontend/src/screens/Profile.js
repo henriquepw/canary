@@ -5,8 +5,7 @@ import {
     StyleSheet,
     TouchableOpacity,
     TextInput,
-    AsyncStorage,
-    Alert
+    AsyncStorage
 } from "react-native";
 
 import Header from "../components/Header";
@@ -82,9 +81,9 @@ export default class Profile extends Component {
 
                 try {
                     await axios.put(`${server}/users/${id}`, user);
-                    
+
                     AsyncStorage.setItem("userData", JSON.stringify(userData));
-                    
+
                     showInfo("Dados atualizados com sucesso");
                 } catch (err) {
                     showError(err);
@@ -101,11 +100,12 @@ export default class Profile extends Component {
         return (
             <View style={styles.container}>
                 <Header
-                    iconLeft="arrow-left"
-                    iconRight="social-twitter"
-                    onPressLeft={() => this.props.navigation.navigate("Home")}
+                    iconLeft="menu"
+                    iconRight="yuque"
+                    iconRightFamily="AntDesign"
+                    onPressLeft={this.props.navigation.openDrawer}
                     onPressRight={() =>
-                        this.props.navigation.navigate("CanaryRegister")
+                        this.props.navigation.navigate("SeeCanaries")
                     }
                 />
 
@@ -159,7 +159,6 @@ export default class Profile extends Component {
                             <TextInput
                                 style={styles.textInput}
                                 placeholder="Nova senha"
-                                //placeholderTextColor="#fff"
                                 secureTextEntry={true}
                                 onChangeText={password =>
                                     this.setState({ password })
@@ -179,7 +178,6 @@ export default class Profile extends Component {
                             <TextInput
                                 style={styles.textInput}
                                 placeholder="Confirmar senha"
-                                //placeholderTextColor="#fff"
                                 secureTextEntry={true}
                                 onChangeText={confirmPassword =>
                                     this.setState({ confirmPassword })
@@ -191,23 +189,26 @@ export default class Profile extends Component {
                     </View>
                 )}
 
-                <View style={styles.category}>
-                    <Text style={styles.text}> Canario </Text>
-                    <SimpleLineIcons />
-                </View>
+                {/*
+                    <View style={styles.category}>
+                        <Text style={styles.text}> Canario </Text>
+                        <SimpleLineIcons />
+                    </View>
 
-                <DrawerItem
-                    name="Adicionar"
-                    iconFamily="SimpleIcon"
-                    iconName="plus"
-                />
+                    <DrawerItem
+                        name="Adicionar"
+                        iconFamily="SimpleIcon"
+                        iconName="plus"
+                    />
 
-                <DrawerItem
-                    containerStyle={{ marginTop: 16 }}
-                    name="Remover"
-                    iconFamily="SimpleIcon"
-                    iconName="close"
-                />
+                    <DrawerItem
+                        containerStyle={{ marginTop: 16 }}
+                        name="Remover"
+                        iconFamily="SimpleIcon"
+                        iconName="close"
+                    />
+                */}
+                
             </View>
         );
     }

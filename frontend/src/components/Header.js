@@ -25,7 +25,7 @@ export default props => (
             <Text style={styles.text}> {props.name || "Canary"} </Text>
 
             <DrawerItem
-                iconFamily="SimpleIcon"
+                iconFamily={props.iconRightFamily ? props.iconRightFamily : "SimpleIcon"}
                 iconName={props.iconRight}
                 textStyle={{ fontSize: 0 }}
                 iconStyle={styles.icon}

@@ -84,7 +84,7 @@ export default class Authentication extends Component {
         );
     }
 
-    componentWillUnmount(){}
+    componentWillUnmount() {}
 
     _keyboardDidShow = () => {
         this.setState({

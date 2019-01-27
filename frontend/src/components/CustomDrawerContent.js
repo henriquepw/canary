@@ -30,71 +30,76 @@ const CustomDrawerComponent = props => {
             forceInset={{ top: "always", horizontal: "never" }}
         >
             <View style={styles.innerContainer}>
-            <ScrollView styles={{ }}>
-                <Image
-                    source={require("../../assets/imgs/logo.png")}
-                    style={styles.logo}
-                />
-                <Text style={[styles.border, styles.margin]} />
+                <ScrollView styles={{ flex: 1 }}>
+                    <Image
+                        source={require("../../assets/imgs/logo.png")}
+                        style={styles.logo}
+                    />
 
-                <DrawerItem
-                    name="Home"
-                    iconFamily="SimpleIcon"
-                    iconName="home"
-                    onPress={() => props.navigation.navigate("Home")}
-                />
+                    <View style={styles.divider} />
 
-                <CanaryOptions 
-                ver={() => props.navigation.navigate("SeeCanaries")} 
-                adicionar={() => props.navigation.navigate("CanaryRegister")}
-                remover={() => alert("remover")}
-                />
-                
+                    <DrawerItem
+                        name="Home"
+                        iconFamily="SimpleIcon"
+                        iconName="home"
+                        onPress={() => props.navigation.navigate("Home")}
+                    />
 
-                <DrawerItem
-                    name="Mapa"
-                    iconFamily="MaterialCommunityIcons"
-                    iconName="map-marker-outline"
-                />
+                    <CanaryOptions
+                        ver={() => props.navigation.navigate("SeeCanaries")}
+                        adicionar={() =>
+                            props.navigation.navigate("CanaryRegister2")
+                        }
+                        remover={() => props.navigation.navigate("RemoveCanary")}
+                    />
 
-                <DrawerItem
-                    name="Perfil"
-                    iconFamily="AntDesign"
-                    iconName="user"
-                    onPress={() => props.navigation.navigate("Profile")}
-                />
-            </ScrollView>
+                    {/*
+                    <DrawerItem
+                        name="Mapa"
+                        iconFamily="MaterialCommunityIcons"
+                        iconName="map-marker-outline"
+                    />
+                    */}
+                    
+                    <DrawerItem
+                        name="Perfil"
+                        iconFamily="AntDesign"
+                        iconName="user"
+                        onPress={() => props.navigation.navigate("Profile")}
+                    />
+                </ScrollView>
 
-            <View styles={{ marginBottom: 5 }}>
-                <Text style={styles.sistema}>Sistema</Text>
+                <View styles={{ marginBottom: 5 }}>
+                    <Text style={styles.system}>Sistema</Text>
 
-                <DrawerItem
-                    name="Sobre"
-                    iconFamily="SimpleIcon"
-                    iconName="exclamation"
-                    iconStyle={{ marginLeft: 27 }}
-                />
+                    <DrawerItem
+                        name="Sobre"
+                        iconFamily="SimpleIcon"
+                        iconName="exclamation"
+                        onPress={() => props.navigation.navigate("About")}
+                    />
 
-                <DrawerItem
-                    name="Excluir Conta"
-                    iconFamily="FontAwesome"
-                    iconName="trash-o"
-                    iconColor={"#f1c484"}
-                    iconSize={23}
-                    iconStyle={{marginLeft: 28}}
-                    textStyle={[styles.item, styles.delete]}
-                />
+                    <DrawerItem
+                        name="Excluir Conta"
+                        iconFamily="FontAwesome"
+                        iconName="trash-o"
+                        iconColor={"#f1c484"}
+                        iconSize={23}
+                        iconStyle={{ marginLeft: 18, marginRight: 14 }}
+                        textStyle={[styles.item, styles.delete]}
+                    />
 
-                <Text style={styles.border} />
+                    <View style={styles.divider} />
 
-                <DrawerItem
-                    name="Sair"
-                    iconFamily="SimpleIcon"
-                    iconName="logout"
-                    iconStyle={{ marginLeft: 25 }}
-                    onPress={logout}
-                />
-            </View>
+                    <View style={{ marginBottom: 8 }}>
+                        <DrawerItem
+                            name="Sair"
+                            iconFamily="SimpleIcon"
+                            iconName="logout"
+                            onPress={logout}
+                        />
+                    </View>
+                </View>
             </View>
         </View>
     );
@@ -107,17 +112,18 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "space-between",
         backgroundColor: colors.primaryColor,
-        color: "#fff",
+        color: "#fff"
     },
-    innerContainer:{
+    innerContainer: {
         flex: 1,
         justifyContent: "space-between",
-        marginBottom: 5,
+        marginBottom: 5
     },
     logo: {
         width: 150,
         height: 80,
-        marginTop: 15,
+        marginTop: 16,
+        marginBottom: 6,
         marginHorizontal: 65,
         borderBottomWidth: 50,
         borderColor: "#fff"
@@ -127,18 +133,21 @@ const styles = StyleSheet.create({
         marginLeft: 10,
         fontSize: 16
     },
-    border: {
-        borderBottomWidth: 2,
+    divider: {
         borderColor: "rgba(255, 255, 255, 0.5)",
-        paddingVertical: 0,
-        marginVertical: -5
+        height: 0,
+        borderWidth: 1,
+        marginTop: 10,
+        marginBottom: 6
     },
     margin: {
         marginHorizontal: 15
     },
-    sistema: {
+    system: {
         backgroundColor: "rgba(255, 255, 255, 0.5)",
+        color: colors.secondaryTextColor,
         paddingLeft: 10,
+        marginBottom: 6,
         fontSize: 16,
         fontWeight: "bold",
         paddingVertical: 7

@@ -46,11 +46,14 @@ const colors = {
     primaryColor: "#7e57c2",
     primaryLightColor: "#b085f5",
     primaryDarkColor: "#4d2c91",
-    secondaryColor: "#649AE8",
-    secondaryLightColor: "#c3fdff",
-    secondaryDarkColor: "#5d99c6",
+    secondaryColor: "#fff176",
+    secondaryLightColor: "#ffffa8",
+    secondaryDarkColor: "#cabf45",
     primaryTextColor: "#ffffff",
-    secondaryTextColor: "#000000"
+    secondaryTextColor: "#000000",
+    smile_o: "#649AE8",
+    meh_o: "#E8CE64",
+    frown_o: "#E86464"
 };
 
 export {

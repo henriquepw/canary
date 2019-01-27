@@ -71,7 +71,7 @@ module.exports = app => {
 
     // /user/:user_id/register/:canary_id
     const registerCanary = (req, res) => {
-        user_canary = {
+        const user_canary = {
             user_id: req.params.user_id,
             canary_id: req.params.canary_id
         };

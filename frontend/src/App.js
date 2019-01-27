@@ -4,22 +4,27 @@ import {
     createAppContainer
 } from "react-navigation";
 
+import About from "./screens/About";
 import Autentication from "./screens/Authentication";
 import Home from "./screens/Home";
 import Profile from "./screens/Profile";
 import SplashScreen from "./screens/SplashScreen";
+import RemoveCanary from "./screens/RemoveCanary";
 
 import CustomDrawerComponent from "./components/CustomDrawerContent";
-import CanaryRegister from "./screens/CanaryRegister";
+import CanaryRegister2 from "./screens/CanaryRegister2";
 import Canaries from "./screens/Canaries";
+import Maps from "./screens/Maps";
 
 const AppDrawerNavigator = createDrawerNavigator(
     {
-        Autentication: { screen: Autentication },
+        About: { screen: About },
         Home: { screen: Home },
         Profile: { screen: Profile },
-        CanaryRegister: { screen: CanaryRegister },
+        CanaryRegister2: { screen: CanaryRegister2 },
         SeeCanaries: { screen: Canaries },
+        Maps: { screen: Maps },
+        RemoveCanary: { screen: RemoveCanary },
     },
     {
         initialRouteName: "Home",
