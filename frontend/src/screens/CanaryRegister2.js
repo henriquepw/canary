@@ -6,23 +6,42 @@ import Geocoder from "react-native-geocoding";
 
 import Input from "../components/Input";
 import Header from "../components/Header";
-import { colors, geoToken } from "../common";
+import { colors, geoToken, server } from "../common";
 
 export default class CanaryRegister extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
             name: "",
             street: "",
             neighborhood: "",
             num: "",
             city: "",
-            uf: ""
+            latitude: "",
+            longitude: ""
         };
 
         this.getData = this.getData.bind(this);
-    }
+        this.sendData = this.sendData.bind(this);
+    };
+
+    sendData = async () => {
+        let name = this.state.name;
+        let latitude = this.state.latitude;
+        let longitude = this.state.longitude;
+
+        try {
+            await axios.post(`${server}/user/${id}/register/${canaryId}`, {
+                name,
+                latitude,
+                longitude
+            });
+
+            alert("Canário cadastrado com sucesso!");
+        } catch (err) {
+            alert("Não foi possível cadastrar o canário, tente novamente!");
+        }
+    };
 
     getData() {
         Geocoder.init(geoToken);
@@ -36,14 +55,12 @@ export default class CanaryRegister extends Component {
                         const res = json.results[0];
                         const state = this.state;
 
-                        const adress = JSON.stringify(res.address_components);
-
                         state.num = res.address_components[0].long_name;
                         state.street = res.address_components[1].long_name;
                         state.neighborhood = res.address_components[2].long_name;
                         state.city = res.address_components[3].long_name;
-
-                        alert(adress);
+                        state.latitude = latitude;
+                        state.longitude = longitude;
 
                         this.setState(state);
                     })
@@ -55,7 +72,7 @@ export default class CanaryRegister extends Component {
                 );
             }
         );
-    }
+    };
 
     render() {
         return (
@@ -132,6 +149,12 @@ export default class CanaryRegister extends Component {
                             <Text style={styles.buttonText}>
                                 Localizar Canário
                             </Text>
+                        </Button>
+                    </View>
+                    <View style={styles.buttonContainer}>
+                        <Button style={styles.button}
+                            onPress={this.sendData}>
+                            <Text style={styles.buttonText}>Cadastrar</Text>
                         </Button>
                     </View>
                 </ScrollView>
