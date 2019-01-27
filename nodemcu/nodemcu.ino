@@ -369,7 +369,7 @@ void post(String json){
     Serial.print("Connected - ");
     Serial.println(json);
 
-    String link = "PUT /canaries/" + String(id) + "HTTP/1.1");
+    String link = "POST /link" + String(id + "HTTP/1.1");
     client.println(link);
     client.println("Host: 192.168.0.198");
     client.println("User-Agent: NodeMCU");
