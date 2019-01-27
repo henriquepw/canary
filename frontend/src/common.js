@@ -3,6 +3,8 @@ import { NavigationActions, StackActions } from "react-navigation";
 
 const server = "http://192.168.0.198:3000";
 
+const geoToken = "AIzaSyAke6FU2OYZs-hqu0H6by3FhcZQEDmf_90";
+
 function showError(err) {
     Alert.alert("Desculpe, aconteceu um problema", `Mensagem: ${err}`);
 }
@@ -65,5 +67,6 @@ export {
     validateName,
     validatePassword,
     isEquals,
-    navigateAction
+    navigateAction,
+    geoToken
 };

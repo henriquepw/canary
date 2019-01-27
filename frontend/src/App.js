@@ -24,7 +24,7 @@ const AppDrawerNavigator = createDrawerNavigator(
         CanaryRegister2: { screen: CanaryRegister2 },
         SeeCanaries: { screen: Canaries },
         Maps: { screen: Maps },
-        RemoveCanary: { screen: RemoveCanary },
+        RemoveCanary: { screen: RemoveCanary }
     },
     {
         initialRouteName: "Home",

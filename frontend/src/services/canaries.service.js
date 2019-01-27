@@ -61,29 +61,14 @@ const canaries = [
     }
 ];
 
-
-
-function getAllCanaries(){
+function getAllCanaries() {
     return canaries;
 }
 
-function getCanary(canary){
+function getCanary(canary) {}
 
-}
+function registerCanary(canary) {}
 
-function registerCanary(canary){
+function deleteCanary(canary) {}
 
-}
-
-function deleteCanary(canary){
-
-}
-
-export {
-    getAllCanaries,
-    getCanary,
-    registerCanary,
-    deleteCanary,};
-
-
-
+export { getAllCanaries, getCanary, registerCanary, deleteCanary };

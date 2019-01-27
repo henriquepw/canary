@@ -8,8 +8,6 @@ import Octicons from "react-native-vector-icons/Octicons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 class DrawerItem extends Component {
-    onPress() {}
-
     iconProps = {
         name: this.props.iconName,
         color: this.iconColor(),
@@ -22,16 +20,12 @@ class DrawerItem extends Component {
         switch (this.props.iconFamily) {
             case "SimpleIcon":
                 returning = <SimpleIcon {...this.iconProps} />;
-                break;
             case "AntDesign":
                 returning = <AntDesign {...this.iconProps} />;
-                break;
             case "MaterialCommunityIcons":
                 returning = <MaterialCommunityIcons {...this.iconProps} />;
-                break;
             case "Octicons":
                 returning = <Octicons {...this.iconProps} />;
-                break;
             case "FontAwesome":
                 returning = <FontAwesome {...this.iconProps} />;
         }

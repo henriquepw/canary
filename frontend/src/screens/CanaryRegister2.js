@@ -6,11 +6,12 @@ import Geocoder from "react-native-geocoding";
 
 import Input from "../components/Input";
 import Header from "../components/Header";
-import { colors } from "../common";
+import { colors, geoToken } from "../common";
 
 export default class CanaryRegister extends Component {
     constructor(props) {
         super(props);
+
         this.state = {
             name: "",
             street: "",
@@ -24,46 +25,37 @@ export default class CanaryRegister extends Component {
     }
 
     getData() {
-        Geocoder.init("AIzaSyAke6FU2OYZs-hqu0H6by3FhcZQEDmf_90");
+        Geocoder.init(geoToken);
         navigator.geolocation.getCurrentPosition(
             data => {
-                let latitude = data.coords.latitude;
-                let longitude = data.coords.longitude;
-
-
+                const latitude = data.coords.latitude;
+                const longitude = data.coords.longitude;
 
                 Geocoder.from(latitude, longitude)
                     .then(json => {
-                        let s = this.state;
-                        var adress = JSON.stringify(
-                            json.results[0].address_components
-                        );
+                        const res = json.results[0];
+                        const state = this.state;
 
-                        var num =
-                            json.results[0].address_components[0].long_name;
-                        var street =
-                            json.results[0].address_components[1].long_name;
-                        var neighborhood =
-                            json.results[0].address_components[2].long_name;
-                        var city =
-                            json.results[0].address_components[3].long_name;
+                        const adress = JSON.stringify(res.address_components);
+
+                        state.num = res.address_components[0].long_name;
+                        state.street = res.address_components[1].long_name;
+                        state.neighborhood = res.address_components[2].long_name;
+                        state.city = res.address_components[3].long_name;
 
                         alert(adress);
 
-                        s.num = num;
-                        s.street = street;
-                        s.neighborhood = neighborhood;
-                        s.city = city;
-
-                        this.setState(s);
+                        this.setState(state);
                     })
                     .catch(error => console.warn(error));
             },
             () => {
-                alert("Não foi possivel encontrar sua localização, tente novamente.");
+                alert(
+                    "Não foi possivel encontrar sua localização, tente novamente."
+                );
             }
         );
-    };
+    }
 
     render() {
         return (
@@ -99,8 +91,7 @@ export default class CanaryRegister extends Component {
                             style: styles.textInput,
                             placeholder: "Cidade",
                             value: this.state.city,
-                            onChangeText: city =>
-                                this.setState({ city })
+                            onChangeText: city => this.setState({ city })
                         }}
                     />
 
@@ -114,7 +105,6 @@ export default class CanaryRegister extends Component {
                                 onChangeText: street =>
                                     this.setState({ street })
                             }}
-
                         />
 
                         <Input
@@ -138,9 +128,10 @@ export default class CanaryRegister extends Component {
                         }}
                     />
                     <View style={styles.buttonContainer}>
-                        <Button style={styles.button}
-                            onPress={this.getData}>
-                            <Text style={styles.buttonText}>Localizar Canário</Text>
+                        <Button style={styles.button} onPress={this.getData}>
+                            <Text style={styles.buttonText}>
+                                Localizar Canário
+                            </Text>
                         </Button>
                     </View>
                 </ScrollView>
@@ -186,15 +177,14 @@ const styles = StyleSheet.create({
         width: 140,
         height: 36,
         justifyContent: "center",
-        marginTop: 40,
-        borderRadius: 4
+        marginTop: 40
     },
     buttonText: {
         color: "#fff",
-        fontWeight: 'bold'
+        fontWeight: "bold"
     },
     buttonContainer: {
-        alignItems: 'center',
-        justifyContent: 'center'
+        alignItems: "center",
+        justifyContent: "center"
     }
 });

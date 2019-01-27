@@ -9,13 +9,21 @@ import { colors } from "../common.js";
 import Picker from "react-native-picker-select";
 import { Pages } from "react-native-pages";
 
-import { humidity, temperature, co, co2, nh3 } from "../messages";
-import { getAllCanaries } from "../services/canaries.service"
+import {
+    getHumidity,
+    getTemperature,
+    getCO,
+    getCO2,
+    getNH3
+} from "../messages";
+
+import { getAllCanaries } from "../services/canaries.service";
 
 loaded = false;
 class Canaries extends Component {
     constructor(props) {
         super(props);
+
         this.state = {
             loaded: false,
             status: {
@@ -26,8 +34,8 @@ class Canaries extends Component {
                 nh3: 0
             },
             selectedCanary: "",
-            data: [{label: "carregando", value: {}}],
-            data2: [{label: "carregando2", value: {}}],
+            data: [{ label: "carregando", value: {} }],
+            data2: [{ label: "carregando2", value: {} }],
             text: ""
         };
 
@@ -42,26 +50,30 @@ class Canaries extends Component {
             items: this.state.data2,
             placeholder: {},
             style: styles.picker
-        }
-
+        };
     }
 
-    componentWillMount(){
-       /* new Promise((resolve, reject)=>{this.state.data.push(... getAllCanaries()); this.state.data.shift(); resolve()})
+    componentWillMount() {
+        /* new Promise((resolve, reject)=>{this.state.data.push(... getAllCanaries()); this.state.data.shift(); resolve()})
         .then(()=>loaded = true)
         .catch(()=>alert("fail"));*/
-        new Promise((resolve,reject)=>setTimeout(()=>{this.state.data.push(... getAllCanaries()); this.state.data.shift(); resolve()},3000))
-        .then(()=>{this.setState({loaded: true});})
-        .catch(()=>alert("fail"));
+        new Promise((resolve, reject) =>
+            setTimeout(() => {
+                this.state.data.push(...getAllCanaries());
+                this.state.data.shift();
+                resolve();
+            }, 3000)
+        )
+            .then(() => {
+                this.setState({ loaded: true });
+            })
+            .catch(() => alert("fail"));
     }
 
-    componentDidMount(){
-        
-        
+    componentDidMount() {
         //this.state.data.shift();
         //this.setState({selectedCanary: "jorge"});
         //this.setState({ selected: false });
-
         //this.setState({status: this.state.data[0].value.status});
     }
 
@@ -77,18 +89,27 @@ class Canaries extends Component {
                     onPressLeft={this.props.navigation.openDrawer}
                 />
                 <View style={styles.picker}>
-                    {this.state.loaded ? <Picker {...this.pickerProps} style={{underline:{borderTopWidth: 0}}} /> : <Text style={styles.loading}>Carregando</Text>}
-                    
-                    
+                    {this.state.loaded ? (
+                        <Picker
+                            {...this.pickerProps}
+                            style={{ underline: { borderTopWidth: 0 } }}
+                        />
+                    ) : (
+                        <Text style={styles.loading}>Carregando</Text>
+                    )}
                 </View>
                 <Divider style={styles.divider} />
                 <Status {...this.state.status} />
                 <Pages containerStyle={{ paddingBottom: 25 }}>
-                    <CanaryMessage status={temperature(this.state.status.temperature)} />
-                    <CanaryMessage status={humidity(this.state.status.humidity)} />
-                    <CanaryMessage status={co(this.state.status.co)} />
-                    <CanaryMessage status={co2(this.state.status.co2)} />
-                    <CanaryMessage status={nh3(this.state.status.nh3)} />
+                    <CanaryMessage
+                        status={getTemperature(this.state.status.temperature)}
+                    />
+                    <CanaryMessage
+                        status={getHumidity(this.state.status.humidity)}
+                    />
+                    <CanaryMessage status={getCO(this.state.status.co)} />
+                    <CanaryMessage status={getCO2(this.state.status.co2)} />
+                    <CanaryMessage status={getNH3(this.state.status.nh3)} />
                 </Pages>
             </View>
         );

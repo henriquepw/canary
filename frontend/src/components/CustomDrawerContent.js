@@ -11,7 +11,7 @@ import {
 
 import axios from "axios";
 
-import { colors, navigateAction } from "../common";
+import { colors, navigateAction, server } from "../common";
 import DrawerItem from "../components/DrawerItem";
 import CanaryOptions from "../components/CanaryOptions.js";
 
@@ -22,6 +22,19 @@ const CustomDrawerComponent = props => {
         AsyncStorage.removeItem("userData");
 
         navigateAction("Autentication", props.navigation);
+    };
+
+    const deleteAcount = async () => {
+        const json = await AsyncStorage.getItem("userData");
+        const userData = JSON.parse(json) || {};
+
+        axios
+            .delete(`${server}/canaries/${userData.id}`)
+            .then(res => {
+                AsyncStorage.removeItem("userData");
+                navigateAction("Autentication", props.navigation);
+            })
+            .catch(err => {});
     };
 
     return (
@@ -50,7 +63,9 @@ const CustomDrawerComponent = props => {
                         adicionar={() =>
                             props.navigation.navigate("CanaryRegister2")
                         }
-                        remover={() => props.navigation.navigate("RemoveCanary")}
+                        remover={() =>
+                            props.navigation.navigate("RemoveCanary")
+                        }
                     />
 
                     {/*
@@ -60,7 +75,7 @@ const CustomDrawerComponent = props => {
                         iconName="map-marker-outline"
                     />
                     */}
-                    
+
                     <DrawerItem
                         name="Perfil"
                         iconFamily="AntDesign"
