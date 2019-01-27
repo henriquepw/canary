@@ -29,7 +29,7 @@ class CanaryMessage extends Component {
 
     text(){
         return this.props.status 
-        ? this.props.status.messages.map((text)=>{return <Text style={styles.text}>{text}</Text>}) 
+        ? this.props.status.messages.map((text, i)=>{return <Text style={styles.text} key={i}>{text}</Text>}) 
         : <Text/>
         
     }
