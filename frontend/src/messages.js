@@ -78,21 +78,24 @@ const temperature3 = ["Nossa habilidade manual começa perder eficiência;\n\n",
     "Mantenha-se agasalhado em ambientes externos;\n\n",
     "Evite praticar exercicios físicos visto que a exposição ao ar frio pode causar alergias, sinusite e aumentar a incidência de doenças respiratórias.\n\n"];
 
-const temperature4 = ["Temperatura ideal para o ser humano.\n\n"];
+const temperature4 = ["O ar começa a ficar frio para o ser humano;\n\n",
+                        "Se agasalhar ao sair de casa, principalmente a noite.\n\n"];
 
-const temperature5 = ["Possível fadiga em casos de exposição prolongada e atividade física.\n\n"];
+const temperature5 = ["Temperatura ideal para o ser humano.\n\n"];
 
-const temperature6 = ["Pode causar câimbras, esgotamento e insolação para exposições prolongadas e atividade física;\n\n",
+const temperature6 = ["Possível fadiga em casos de exposição prolongada e atividade física.\n\n"];
+
+const temperature7 = ["Pode causar câimbras, esgotamento e insolação para exposições prolongadas e atividade física;\n\n",
     "Evite praticar atividades físicas em locais abertos por longos períodos de tempo;\n\n",
     "Procure constantemente ingerir líquidos para manter-se hidratado.\n\n"];
 
-const temperature7 = ["Câimbras, insolação, e esgotamento prováveis;\n\n",
+const temperature8 = ["Câimbras, insolação, e esgotamento prováveis;\n\n",
     "Possibilidade de dano cerebral (AVC) para exposições prolongadas principalmente em idosos e crianças;\n\n",
     "Evite praticar qualquer tipo de atividade física;\n\n",
     "Mantenha-se em ambientes cobertos e arejados;\n\n",
     "A ingestão de líquidos é indispensável.\n\n"];
 
-const temperature8 = ["Insolação e Acidente Vascular Cerebral (AVC) iminente;\n\n",
+const temperature9 = ["Insolação e Acidente Vascular Cerebral (AVC) iminente;\n\n",
     "Evite sair de casa e não pratique nenhum tipo de atividade física;\n\n",
     "Procure manter-se sempre hidratado.\n\n"];
 
@@ -114,21 +117,23 @@ function humidity(humidity) {
 function temperature(temperature) {
     let messages = [];
     if (temperature < -10) {
-        messages = { face: facePropsMeh, messages: temperature1 };
+        messages = { face: facePropsFrown, messages: temperature1 };
     } else if (temperature < 0) {
-        messages = { face: facePropsMeh, messages: temperature2 };
+        messages = { face: facePropsFrown, messages: temperature2 };
     } else if (temperature < 12) {
         messages = { face: facePropsMeh, messages: temperature3 };
+    } else if (temperature < 21) {
+        messages = { face: facePropsMeh, messages: temperature4 }
     } else if (temperature < 27) {
-        messages = { face: facePropsMeh, messages: temperature4 };
+        messages = { face: facePropsSmile, messages: temperature5 };
     } else if (temperature < 33) {
-        messages = { face: facePropsMeh, messages: temperature5 };
-    } else if (temperature < 42) {
         messages = { face: facePropsMeh, messages: temperature6 };
-    } else if (temperature < 55) {
+    } else if (temperature < 42) {
         messages = { face: facePropsMeh, messages: temperature7 };
+    } else if (temperature < 55) {
+        messages = { face: facePropsFrown, messages: temperature8 };
     } else {
-        messages = { face: facePropsMeh, messages: temperature8 };
+        messages = { face: facePropsFrown, messages: temperature9 };
     }
     return messages;
 }
@@ -138,7 +143,7 @@ function co(co) {
     if (co == true) {
         messages = { face: facePropsFrown, messages: carb1 };
     } else {
-        messages = { face: facePropsFrown, messages: carb2 };
+        messages = { face: facePropsSmile, messages: carb2 };
     }
     return messages;
 }
@@ -148,9 +153,9 @@ function co2(co2) {
     if (co2 == true) {
         messages = { face: facePropsFrown, messages: diCar };
     } else {
-        messages = { face: facePropsFrown, messages: diCar2 };
+        messages = { face: facePropsSmile, messages: diCar2 };
     }
-    return { face: facePropsSmile, messages: ["co2"] };
+    return messages;
 }
 
 function nh3(nh3) {
@@ -158,7 +163,7 @@ function nh3(nh3) {
     if (nh3 == true) {
         messages = { face: facePropsFrown, messages: amonia };
     } else {
-        messages = { face: facePropsFrown, messages: amonia2 }
+        messages = { face: facePropsSmile, messages: amonia2 }
     }
     return messages;
 }
