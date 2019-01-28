@@ -1,4 +1,4 @@
-DROP TABLE persona_canary;
-DROP TABLE daily_reading;
-DROP TABLE canary;
-DROP TABLE persona;
+DROP TABLE tb_user_canary;
+DROP TABLE tb_daily_reading;
+DROP TABLE tb_canary;
+DROP TABLE tb_user;

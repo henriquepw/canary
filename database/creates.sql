@@ -18,7 +18,7 @@ CREATE TABLE tb_canary (
     temperature REAL,
     humity REAL,
     owner_id INTEGER,
-    FOREIGN KEY(owner_id) REFERENCES tb_user(id),
+    FOREIGN KEY(owner_id) REFERENCES tb_user(id) ON DELETE CASCADE,
     PRIMARY KEY(id)
 );
 
@@ -26,8 +26,8 @@ CREATE TABLE tb_user_canary (
     user_id INTEGER,
     canary_id INTEGER,
     PRIMARY KEY(user_id, canary_id),
-    FOREIGN KEY(user_id) REFERENCES tb_user(id),
-    FOREIGN KEY(canary_id) REFERENCES tb_canary(id)
+    FOREIGN KEY(user_id) REFERENCES tb_user(id) ON DELETE CASCADE,
+    FOREIGN KEY(canary_id) REFERENCES tb_canary(id) ON DELETE CASCADE
 );
 
 CREATE TABLE tb_daily_reading (
@@ -42,5 +42,5 @@ CREATE TABLE tb_daily_reading (
     readings INTEGER,
     PRIMARY KEY(id),
     UNIQUE(canary_id, created_at),
-    FOREIGN KEY(canary_id) REFERENCES tb_canary(id)
+    FOREIGN KEY(canary_id) REFERENCES tb_canary(id) ON DELETE CASCADE
 );
