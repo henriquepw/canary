@@ -45,6 +45,8 @@ module.exports = app => {
     };
 
     const remove = (req, res) => {
+        console.log("remove");
+        
         app.db("tb_user")
             .delete()
             .where({ id: req.params.id })

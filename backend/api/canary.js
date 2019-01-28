@@ -62,6 +62,19 @@ module.exports = app => {
             .catch(err => res.status(500).send(err));
     };
 
+    const getByUserId = (req, res) => {
+        app.db("tb_canary")
+            .select()
+            .whereRaw(
+                `id in (
+                    SELECT canary_id 
+                    FROM tb_user_canary
+                    WHERE user_id = ${req.params.id}) `
+            )
+            .then(canaries => res.json(canaries))
+            .catch(err => res.status(500).send(err));
+    };
+
     const getByOwnerId = (req, res) => {
         app.db("tb_canary")
             .select()
@@ -70,13 +83,13 @@ module.exports = app => {
             .catch(err => res.status(500).send(err));
     };
 
-
     return {
         insert,
         update,
         remove,
         get,
         getById,
+        getByUserId,
         getByOwnerId
     };
 };

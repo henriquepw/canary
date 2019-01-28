@@ -6,7 +6,9 @@ import Header from "../components/Header";
 import Welcome from "../components/Welcome";
 import Resume from "../components/Resume";
 
-import { colors, server, showError } from "../common";
+import CanarieService from "../services/CanarieService";
+
+import { colors, server, showError, showInfo } from "../common";
 
 export default class Home extends Component {
     state = {
@@ -35,8 +37,8 @@ export default class Home extends Component {
         }
     };
 
-    componentWillMount() {
-        this.checkCanaries();
+    componentWillMount = async () => {
+        await this.checkCanaries();
     }
 
     render() {

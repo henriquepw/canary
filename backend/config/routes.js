@@ -18,8 +18,9 @@ module.exports = app => {
         .delete(app.api.user.remove);
 
     app.route("/user/:user_id/register/:canary_id")
+        //.all(app.config.passport.authenticate())
         .post(app.api.user.registerCanary);
-        
+
     /**********
      * Canary *
      **********/
@@ -28,17 +29,19 @@ module.exports = app => {
         .post(app.api.canary.insert)
         .get(app.api.canary.get);
 
-    
+    app.route("/canaries/user/:id")
+        //.all(app.config.passport.authenticate())
+        .get(app.api.canary.getByUserId);
+
     app.route("/canaries/owner/:id")
         //.all(app.config.passport.authenticate())
-        .get(app.api.canary.getByOwnerId)
+        .get(app.api.canary.getByOwnerId);
 
     app.route("/canaries/:id")
         //.all(app.config.passport.authenticate())
         .put(app.api.canary.update)
         .get(app.api.canary.getById)
         .delete(app.api.canary.remove);
-
 
     /*****************
      * Daily reading *

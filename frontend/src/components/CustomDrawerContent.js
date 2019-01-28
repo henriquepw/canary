@@ -11,7 +11,7 @@ import {
 
 import axios from "axios";
 
-import { colors, navigateAction, server } from "../common";
+import { colors, navigateAction, server, showError } from "../common";
 import DrawerItem from "../components/DrawerItem";
 import CanaryOptions from "../components/CanaryOptions.js";
 
@@ -29,12 +29,14 @@ const CustomDrawerComponent = props => {
         const userData = JSON.parse(json) || {};
 
         axios
-            .delete(`${server}/canaries/${userData.id}`)
-            .then(res => {
+            .delete(`${server}/users/${userData.id}`)
+            .then(_ => {
                 AsyncStorage.removeItem("userData");
                 navigateAction("Autentication", props.navigation);
             })
-            .catch(err => {});
+            .catch(err => {
+                showError(err);
+            });
     };
 
     return (
@@ -102,6 +104,7 @@ const CustomDrawerComponent = props => {
                         iconSize={23}
                         iconStyle={{ marginLeft: 18, marginRight: 14 }}
                         textStyle={[styles.item, styles.delete]}
+                        onPress={deleteAcount}
                     />
 
                     <View style={styles.divider} />
