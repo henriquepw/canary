@@ -36,7 +36,6 @@ class Canaries extends Component {
             },
             selectedCanary: "",
             data: [{ label: "carregando", value: {} }],
-            data2: [{ label: "carregando2", value: {} }],
             text: "Carregando",
             loadingStyle: styles.loading,
             mounted: true
