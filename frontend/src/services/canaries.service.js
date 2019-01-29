@@ -1,3 +1,7 @@
+import axios from "axios";
+import { server, showError } from "../common";
+import { AsyncStorage } from "react-native"
+
 const text1 = {
     temperature: "temperature text 1",
     humidity: "humidity text 1",
@@ -62,7 +66,13 @@ const canaries = [
 ];
 
 function getAllCanaries() {
-    return canaries;
+    return axios.get(`${server}/canaries`);
+}
+
+function getCanariesByUser(){
+    return AsyncStorage.getItem("userData")
+    .then(json => JSON.parse(json) || {})
+    .then(userData => axios.get(`${server}/canaries/user/${userData.id}`));
 }
 
 function getCanary(canary) {}
@@ -71,4 +81,4 @@ function registerCanary(canary) {}
 
 function deleteCanary(canary) {}
 
-export { getAllCanaries, getCanary, registerCanary, deleteCanary };
+export { getAllCanaries, getCanary, registerCanary, deleteCanary, getCanariesByUser };

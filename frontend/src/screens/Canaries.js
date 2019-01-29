@@ -18,7 +18,7 @@ import {
     getNH3
 } from "../messages";
 
-import { getAllCanaries } from "../services/canaries.service";
+import { getCanariesByUser } from "../services/canaries.service";
 
 loaded = false;
 class Canaries extends Component {
@@ -50,14 +50,14 @@ class Canaries extends Component {
         };
     }
 
-    onLoadingSuccess() {
+    onLoadingSuccess = () => {
         if (this.state.mounted) {
             this.setState({ loaded: true });
             this.setState({ status: this.state.data[0].value.status });
         }
     }
 
-    onLoadingFail() {
+    onLoadingFail = () => {
         if (this.state.mounted) {
             this.setState({
                 text: "Falha ao Carregar",
@@ -66,18 +66,32 @@ class Canaries extends Component {
         }
     }
 
+    setData = (data) => {
+        canaries = data.map((canary) => {
+            return {
+                label: "" + canary.id,
+                value: {
+                    id: canary.id,
+                    status:{
+                        temperature: canary.temperature,
+                        humidity: canary.humity,
+                        co: canary.co,
+                        co2: canary.co2,
+                        nh3: canary.nh3
+                    }
+                }
+            }
+        });
+        this.state.data.push(...canaries);
+        this.state.data.shift();
+    }
+
     componentWillMount() {
-        new Promise((resolve, _) =>
-            setTimeout(() => {
-                this.state.data.push(...getAllCanaries());
-                this.state.data.shift();
-                resolve();
-            }, 3000)
-        )
-            .then(() => {
-                this.onLoadingSuccess();
-            })
-            .catch(() => this.onLoadingFail());
+        getCanariesByUser()
+        .then(res => res.data)
+        .then(data => {this.setData(data)})
+        .then(() => {this.onLoadingSuccess()})
+        .catch(() => {this.onLoadingFail()});
     }
 
     componentDidMount() {}
