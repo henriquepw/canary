@@ -26,17 +26,14 @@ export default class CanaryRegister extends Component {
     };
 
     sendData = async () => {
-        let name = this.state.name;
-        let latitude = this.state.latitude;
-        let longitude = this.state.longitude;
-
+        canary = {
+            name: this.state.name,
+            latitude: this.state.latitude,
+            longitude: this.state.longitude
+        }
+        // alert(JSON.stringify(canary));
         try {
-            await axios.post(`${server}/user/${id}/register/${canaryId}`, {
-                name,
-                latitude,
-                longitude
-            });
-
+            await axios.post(`${server}/canaries/`, canary);
             alert("Canário cadastrado com sucesso!");
         } catch (err) {
             alert("Não foi possível cadastrar o canário, tente novamente!");
