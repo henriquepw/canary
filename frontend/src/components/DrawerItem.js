@@ -20,14 +20,19 @@ class DrawerItem extends Component {
         switch (this.props.iconFamily) {
             case "SimpleIcon":
                 returning = <SimpleIcon {...this.iconProps} />;
+                break;
             case "AntDesign":
                 returning = <AntDesign {...this.iconProps} />;
+                break;
             case "MaterialCommunityIcons":
                 returning = <MaterialCommunityIcons {...this.iconProps} />;
+                break;
             case "Octicons":
                 returning = <Octicons {...this.iconProps} />;
+                break;
             case "FontAwesome":
                 returning = <FontAwesome {...this.iconProps} />;
+                break;
         }
         return returning;
     }
