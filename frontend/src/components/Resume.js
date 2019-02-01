@@ -52,30 +52,35 @@ export default class Resume extends Component {
                                 this.state.status.temperature != null &&
                                 getTemperature(this.state.status.temperature)
                             }
+                            title="Temperatura"
                         />
                         <CanaryMessage
                             status={
                                 this.state.status.humidity != null &&
                                 getHumidity(this.state.status.humidity)
                             }
+                            title="Umidade"
                         />
                         <CanaryMessage
                             status={
                                 this.state.status.co != null &&
                                 getCO(this.state.status.co)
                             }
+                            title="CO"
                         />
                         <CanaryMessage
                             status={
                                 this.state.status.co2 != null &&
                                 getCO2(this.state.status.co2)
                             }
+                            title="CO2"
                         />
                         <CanaryMessage
                             status={
                                 this.state.status.nh3 != null &&
                                 getNH3(this.state.status.nh3)
                             }
+                            title="NH3"
                         />
                     </Pages>
             </View>
