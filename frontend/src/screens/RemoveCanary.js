@@ -265,7 +265,8 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         color: "#fff",
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        fontFamily: "Lato-Regular",
     },
     buttonContainer: {
         alignItems: 'center',

@@ -1,6 +1,16 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { Pages } from "react-native-pages";
+import CanaryMessage from "./CanaryMessage";
+
+import {
+    getHumidity,
+    getTemperature,
+    getCO,
+    getCO2,
+    getNH3
+} from "../messages";
 
 const iconProps = {
     name: "smile-o",
@@ -21,20 +31,58 @@ const iconProps3 = {
 };
 
 export default class Resume extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            status: {
+                temperature: 11,
+                humidity: 11,
+                co: 11,
+                co2: 22,
+                nh3: 22,
+            }
+        }
+    }
     render() {
         return (
             <View style={styles.container}>
-                <View style={styles.resume}>
-                    <FontAwesome {...iconProps} style={styles.face} />
-                    <View style={styles.textContainer}>
-                        <Text>Texto Texto Texto Texto Texto Texto</Text>
-                        <Text>Texto Texto Texto Texto Texto Texto</Text>
-                        <Text>Texto Texto Texto Texto Texto Texto</Text>
-                        <Text>Texto Texto Texto Texto Texto Texto</Text>
-                        <Text>Texto Texto Texto Texto Texto Texto</Text>
-                        <Text>Texto Texto Texto Texto Texto Texto</Text>
-                    </View>
-                </View>
+                    <Pages containerStyle={{ paddingBottom: 25 }}>
+                        <CanaryMessage
+                            status={
+                                this.state.status.temperature != null &&
+                                getTemperature(this.state.status.temperature)
+                            }
+                            title="Temperatura"
+                        />
+                        <CanaryMessage
+                            status={
+                                this.state.status.humidity != null &&
+                                getHumidity(this.state.status.humidity)
+                            }
+                            title="Umidade"
+                        />
+                        <CanaryMessage
+                            status={
+                                this.state.status.co != null &&
+                                getCO(this.state.status.co)
+                            }
+                            title="CO"
+                        />
+                        <CanaryMessage
+                            status={
+                                this.state.status.co2 != null &&
+                                getCO2(this.state.status.co2)
+                            }
+                            title="CO2"
+                        />
+                        <CanaryMessage
+                            status={
+                                this.state.status.nh3 != null &&
+                                getNH3(this.state.status.nh3)
+                            }
+                            title="NH3"
+                        />
+                    </Pages>
             </View>
         );
     }

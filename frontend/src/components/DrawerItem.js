@@ -79,7 +79,8 @@ const styles = StyleSheet.create({
     item: {
         color: "white",
         marginLeft: 10,
-        fontSize: 16
+        fontSize: 16,
+        fontFamily: "Lato-Regular",
     },
     icon: {
         marginHorizontal: 16

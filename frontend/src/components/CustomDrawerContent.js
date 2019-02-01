@@ -149,7 +149,8 @@ const styles = StyleSheet.create({
     item: {
         color: "#fff",
         marginLeft: 10,
-        fontSize: 16
+        fontSize: 16,
+        fontFamily: "Lato-Regular",
     },
     divider: {
         borderColor: "rgba(255, 255, 255, 0.5)",
@@ -168,7 +169,8 @@ const styles = StyleSheet.create({
         marginBottom: 6,
         fontSize: 16,
         fontWeight: "bold",
-        paddingVertical: 7
+        paddingVertical: 7,
+        fontFamily: "Lato-Regular",
     },
     delete: {
         color: "#f1c484"
