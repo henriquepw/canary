@@ -93,7 +93,8 @@ const styles = StyleSheet.create({
     text: {
         color: "white",
         fontSize: 16,
-        fontWeight: "bold"
+        fontWeight: "bold",
+        fontFamily: "Lato-Regular",
     },
     unity: {
         flex: 1,

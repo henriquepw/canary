@@ -36,16 +36,19 @@ class CanaryMessage extends Component {
 
     render() {
         return (
-            <ScrollView style={styles.container} contentContainerStyle={{alignItems: "center"}}>
-                {this.props.status ? (
-                    <FontAwesome {...this.props.status.face} style={styles.face} />
-                ) : (
-                    <Text />
-                )}
-                <View style={styles.textContainer}>
-                    {this.text()}
-                </View>
-            </ScrollView>
+            <View style={styles.container}>
+                {this.props.title ? <Text style={styles.title}>{this.props.title}</Text> : false}
+                <ScrollView style={{}} contentContainerStyle={{alignItems: "center"}}>
+                    {this.props.status ? (
+                        <FontAwesome {...this.props.status.face} style={styles.face} />
+                    ) : (
+                        <Text />
+                    )}
+                    <View style={styles.textContainer}>
+                        {this.text()}
+                    </View>
+                </ScrollView>
+            </View>
         );
     }
 }
@@ -73,5 +76,12 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontFamily: "Lato-Regular",
         marginHorizontal: 30,
+    },
+    title:{
+        fontSize: 16,
+        fontFamily: "Lato-Regular",
+        marginLeft: 10,
+        marginTop: 3,
+        fontWeight: "bold"
     }
 });

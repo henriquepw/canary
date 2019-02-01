@@ -6,42 +6,123 @@ import Button from "react-native-smart-button";
 
 import { colors } from "../common.js";
 import Header from "../components/Header"
-import Input from "../components/Input";
+
+import { getCanariesByUser, deleteCanary } from "../services/canaries.service";
 
 class RemoveCanary extends Component{
     constructor(props){
         super(props);
         this.state = {
-            street: "Rua",
-            neighborhood: "Bairro",
-            num: "Numero",
-            city: "Cidade",
-            uf: "UF",
-            data: [
-                {
-                    label: "Canario1",
-                    value: { text: text1, id: 1, status: status1 }
-                },
-                {
-                    label: "Canario2",
-                    value: { text: text2, id: 2, status: status2 }
-                },
-                {
-                    label: "Canario3",
-                    value: { text: text3, id: 3, status: status3 }
-                }
-            ],
+            loaded: false,
+            mounted: true,
+            address:{
+                street: "Rua",
+                neighborhood: "Bairro",
+                num: "Numero",
+                city: "Cidade",
+                uf: "UF",
+            },
+            canaryId: "",
+            canaryIndex: "",
+            text: "Carregando",
+            loadingStyle: styles.loading,
+            data: [{ label: "carregando", value: {} }],
+            keyValue: true,
         };
         this.pickerProps = {
             onValueChange: this.onValueChange,
             items: this.state.data,
             placeholder: {},
-            style: styles.picker
+            style: styles.picker,       
         };
     }
 
-    onValueChange(value, index){
+    setData = (data) => {
+        let canaries = data.map((canary) => {
+            return {
+                label: "" + canary.id,
+                value: {
+                    id: canary.id,
+                    address:{
+                        street: "Rua" + canary.id,
+                        neighborhood: "Bairro" + canary.id,
+                        num: "Numero" + canary.id,
+                        city: "Cidade" + canary.id,
+                        uf: "UF" + canary.id,
+                    }
+                },
+            }
+        });
+        
+        this.state.data = canaries;
+        this.pickerProps.items = canaries;
+        this.setState({keyValue: !this.state.keyValue});
+    }
 
+    noCanaries = () => {
+        this.setState({text: "Nenhum Canário a Exibir", loadingStyle: styles.loading,});
+        this.setState({loaded: false});
+        this.pickerProps.items = [{label: "Nenhum Canário a Exibir", value:{id: 0, address:{
+            street: "",
+            neighborhood: "",
+            num: "",
+            city: "",
+            uf: "",
+        }}}]  
+    }
+
+    onLoadingSuccess = () => {
+        if (this.state.mounted && this.state.data.length) {
+            this.setState({ loaded: true });
+            this.setState({ address: this.state.data[0].value.address });
+            this.setState({ canaryId: this.state.data[0].value.id});
+        }
+    }
+
+    onLoadingFail = () => {
+        if (this.state.mounted) {
+            this.setState({
+                text: "Falha ao Carregar",
+                loadingStyle: styles.failLoading
+            });
+        }
+    }
+
+    onValueChange = (value, index) => {
+        this.setState({ address: value.address });
+        this.setState({ canaryId: value.id });
+    };
+
+    getCanaries = () => {
+        return getCanariesByUser()
+        .then(res => res.data)
+        .then(data => {this.setData(data)})
+        .then(() => {this.onLoadingSuccess()})
+        .catch(() => {this.onLoadingFail()});
+    }
+
+    componentWillMount() {
+        this.getCanaries();
+    }
+
+    componentWillUnmount(){
+        this.setState({ mounted: false });
+        this.setState({ loaded: false });
+    }
+
+    reloadPicker = () => {
+        this.getCanaries()
+        .then(() => this.setState({keyValue: !this.state.keyValue}));  
+    }
+
+    onClickDelete = () => {
+        if(this.state.canaryId){
+            deleteCanary(this.state.canaryId)
+            .then(()=> this.reloadPicker())
+            .catch(()=>alert("Falha ao Deletar"));   
+        } else{
+            this.reloadPicker();
+        }
     }
 
     render(){return(
@@ -56,8 +137,18 @@ class RemoveCanary extends Component{
                         this.props.navigation.navigate("SeeCanaries")
                     }
             />
-            <View style={styles.picker}>
-                <Picker {...this.pickerProps} style={{underline:{borderTopWidth: 0}}} />
+            <View style={styles.picker} key={this.state.keyValue}>
+                {this.state.loaded ? (
+                        <Picker
+                            {...this.pickerProps}
+                            key={this.state.keyValue}
+                            style={{ underline: { borderTopWidth: 0 } }}
+                        />
+                    ) : (
+                        <Text style={this.state.loadingStyle}>
+                            {this.state.text}
+                        </Text>
+                    )}
             </View>
 
             <View style={styles.category}>
@@ -68,36 +159,36 @@ class RemoveCanary extends Component{
                 <View style={styles.street}>
                     <View style={[styles.infoContainer, {flex: 7}]}>
                         <Text style={styles.text}>Cidade</Text>
-                        <Text style={styles.info}>{this.state.city}</Text>
+                        <Text style={styles.info}>{this.state.address.city}</Text>
                     </View>
                     <View style={[styles.infoContainer, {flex: 3}]}>
                         <Text style={styles.text}>UF</Text>
-                        <Text style={styles.info}>{this.state.uf}</Text>
+                        <Text style={styles.info}>{this.state.address.uf}</Text>
                     </View>  
                 </View>
 
                 <View style={styles.street}>
                     <View style={[styles.infoContainer, {flex: 7}]}>
                         <Text style={styles.text}>Rua</Text>
-                        <Text style={styles.info}>{this.state.street}</Text>
+                        <Text style={styles.info}>{this.state.address.street}</Text>
                     </View>
                     <View style={[styles.infoContainer, {flex: 3}]}>
                         <Text style={styles.text}>Nº</Text>
-                        <Text style={styles.info}>{this.state.num}</Text>
+                        <Text style={styles.info}>{this.state.address.num}</Text>
                     </View>  
                 </View>
 
                 <View style={styles.street}>
                     <View style={[styles.infoContainer, {flex: 7}]}>
                         <Text style={styles.text}>Bairro</Text>
-                        <Text style={styles.info}>{this.state.neighborhood}</Text>
+                        <Text style={styles.info}>{this.state.address.neighborhood}</Text>
                     </View>
                 </View>
 
                 <View style={styles.buttonContainer}>
                         <Button style={styles.button}
-                            onPress={()=>alert("Remove")}>
-                            <Text style={styles.buttonText}>Remover Canário</Text>
+                            onPress={this.onClickDelete}>
+                            <Text style={styles.buttonText}>Deletar Canário</Text>
                         </Button>
                     </View>
             </View>
@@ -174,13 +265,26 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         color: "#fff",
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        fontFamily: "Lato-Regular",
     },
     buttonContainer: {
         alignItems: 'center',
         justifyContent: 'center'
     },
-
+    loading: {
+        paddingVertical: 16,
+        textAlign: "center",
+        fontSize: 16,
+        fontFamily: "Lato-Regular"
+    },
+    failLoading: {
+        paddingVertical: 16,
+        textAlign: "center",
+        fontSize: 16,
+        fontFamily: "Lato-Regular",
+        color: "red"
+    },
     
 });
 

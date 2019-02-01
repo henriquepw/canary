@@ -1,8 +1,10 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, ScrollView } from "react-native";
+import { StyleSheet, Text, View, ScrollView, AsyncStorage } from "react-native";
 
 import Button from "react-native-smart-button";
 import Geocoder from "react-native-geocoding";
+
+import axios from "axios";
 
 import Input from "../components/Input";
 import Header from "../components/Header";
@@ -18,29 +20,32 @@ export default class CanaryRegister extends Component {
             num: "",
             city: "",
             latitude: "",
-            longitude: ""
+            longitude: "",
+            userData: {}
         };
 
         this.getData = this.getData.bind(this);
         this.sendData = this.sendData.bind(this);
     };
 
-    sendData = async () => {
-        let name = this.state.name;
-        let latitude = this.state.latitude;
-        let longitude = this.state.longitude;
+    getUserData = async () => {
+        const json = await AsyncStorage.getItem("userData");
+        const userData = JSON.parse(json) || {};
 
-        try {
-            await axios.post(`${server}/user/${id}/register/${canaryId}`, {
-                name,
-                latitude,
-                longitude
-            });
+        this.setState({ userData });
+    };
+ 
+    sendData = () => {
+        getUserData();
+        let canary = {
+            lat: this.state.latitude,
+            lng: this.state.longitude,
+            owner_id: this.state.userData.id
+        };
 
-            alert("Canário cadastrado com sucesso!");
-        } catch (err) {
-            alert("Não foi possível cadastrar o canário, tente novamente!");
-        }
+        axios.post(`${server}/canaries/`, canary)
+            .then(() => alert("Canário cadastrado com sucesso!"))
+            .catch((err) => alert(err));
     };
 
     getData() {
