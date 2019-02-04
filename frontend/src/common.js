@@ -1,7 +1,7 @@
 import { Alert, Platform, ToastAndroid } from "react-native";
 import { NavigationActions, StackActions } from "react-navigation";
 
-const server = "http://192.168.0.198:3000";
+const server = "http://192.168.43.204:3000";
 
 const geoToken = "AIzaSyAke6FU2OYZs-hqu0H6by3FhcZQEDmf_90";
 

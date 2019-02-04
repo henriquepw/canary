@@ -78,7 +78,7 @@ ESP8266WebServer server (80);
 ESP8266HTTPUpdateServer upServer;
 
 WiFiClient client;
-IPAddress service(192,168,43,204);
+IPAddress service(192,168,0,142);
 
 String EEPROMReadString(int init){
   String value = "";
@@ -253,9 +253,7 @@ void setup(){
 
   server.begin();
 
-  if(condition==condition){
-    connectWiFi();
-  }
+  if(condition==condition) connectWiFi();
 }
 
 void connectWiFi(){
@@ -264,8 +262,8 @@ void connectWiFi(){
   // Conectando na rede wifi
   Serial.print("Conectando a rede wifi...");
   
-  const char *ssid = "Henrique";
-  const char *password = "charopinho";
+  const char *ssid = "Hostel Paulista";
+  const char *password = "hostel795!";
   
   WiFi.begin(ssid, password);
 
@@ -373,7 +371,7 @@ void post(String json){
     String link = "PUT /canaries/" + String(id) + " HTTP/1.1";
     Serial.println(link);
     client.println(link);
-    client.println("Host: 192.168.43.204");
+    client.println("Host: 192.168.0.142");
     client.println("User-Agent: NodeMCU");
     client.println("Content-Type: application/json");
     client.println("Connection: Close");

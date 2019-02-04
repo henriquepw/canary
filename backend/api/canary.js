@@ -30,13 +30,21 @@ module.exports = app => {
     };
 
     const update = (req, res) => {
+        console.log("Canary - Update");
         canary = { ...req.body };
+        console.log(canary);
 
         app.db("tb_canary")
             .update(canary)
             .where({ id: canary.id || req.params.id })
-            .then(_ => res.status(204).send("Atualizado com sucesso"))
-            .catch(err => res.status(500).send(err));
+            .then(_ => {
+                console.log("then");
+                res.status(204).send("Atualizado com sucesso");
+            })
+            .catch(err => {
+                console.log("catch");
+                res.status(500).send(err);
+            });
     };
 
     const remove = (req, res) => {

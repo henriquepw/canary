@@ -8,7 +8,7 @@ import axios from "axios";
 
 import Input from "../components/Input";
 import Header from "../components/Header";
-import { colors, geoToken, server } from "../common";
+import { colors, geoToken, server, showError } from "../common";
 
 export default class CanaryRegister extends Component {
     constructor(props) {
@@ -19,8 +19,8 @@ export default class CanaryRegister extends Component {
             neighborhood: "",
             num: "",
             city: "",
-            latitude: "",
-            longitude: "",
+            latitude: 1.23,
+            longitude: 1.23,
             userData: {}
         };
 
@@ -35,17 +35,21 @@ export default class CanaryRegister extends Component {
         this.setState({ userData });
     };
  
-    sendData = () => {
-        getUserData();
-        let canary = {
+    sendData = async () => {
+        await this.getUserData();
+
+        const canary = {
+            name: this.state.name,
             lat: this.state.latitude,
             lng: this.state.longitude,
             owner_id: this.state.userData.id
         };
 
+        showError(canary);
+
         axios.post(`${server}/canaries/`, canary)
             .then(() => alert("Canário cadastrado com sucesso!"))
-            .catch((err) => alert(err));
+            //.catch((err) => alert(err));
     };
 
     getData() {
