@@ -3,12 +3,13 @@ CREATE TABLE tb_user (
     name VARCHAR(128),
     email VARCHAR(128),
     password VARCHAR(128),
-    PRIMARY KEY(id),
-    UNIQUE(email)
+    UNIQUE(email),
+    PRIMARY KEY(id)
 );
 
 CREATE TABLE tb_canary (
     id SERIAL,
+    name VARCHAR(128),
     lat DOUBLE PRECISION,
     lng DOUBLE PRECISION,
     security_token INTEGER,
@@ -16,9 +17,10 @@ CREATE TABLE tb_canary (
     co2 REAL,
     co REAL,
     temperature REAL,
-    humity REAL,
+    humidity REAL,
     owner_id INTEGER,
-    FOREIGN KEY(owner_id) REFERENCES tb_user(id) ON DELETE CASCADE,
+    FOREIGN KEY(owner_id) 
+        REFERENCES tb_user(id) ON DELETE CASCADE,
     PRIMARY KEY(id)
 );
 
@@ -26,8 +28,10 @@ CREATE TABLE tb_user_canary (
     user_id INTEGER,
     canary_id INTEGER,
     PRIMARY KEY(user_id, canary_id),
-    FOREIGN KEY(user_id) REFERENCES tb_user(id) ON DELETE CASCADE,
-    FOREIGN KEY(canary_id) REFERENCES tb_canary(id) ON DELETE CASCADE
+    FOREIGN KEY(user_id) 
+        REFERENCES tb_user(id) ON DELETE CASCADE,
+    FOREIGN KEY(canary_id) 
+        REFERENCES tb_canary(id) ON DELETE CASCADE
 );
 
 CREATE TABLE tb_daily_reading (
@@ -40,7 +44,8 @@ CREATE TABLE tb_daily_reading (
     created_at DATE,
     canary_id INTEGER,
     readings INTEGER,
-    PRIMARY KEY(id),
     UNIQUE(canary_id, created_at),
-    FOREIGN KEY(canary_id) REFERENCES tb_canary(id) ON DELETE CASCADE
+    PRIMARY KEY(id),
+    FOREIGN KEY(canary_id) 
+        REFERENCES tb_canary(id) ON DELETE CASCADE
 );
