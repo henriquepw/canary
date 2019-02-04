@@ -16,9 +16,7 @@ const insertDaily = async () => {
         "id as canary_id"
     );
 
-    readings.forEach(element => {
-        log(element);
-    });
+    readings.forEach(element => log(element));
 
     db("tb_daily_reading")
         .insert(readings)
