@@ -40,7 +40,7 @@ class RemoveCanary extends Component{
     setData = (data) => {
         let canaries = data.map((canary) => {
             return {
-                label: "" + canary.id,
+                label: "" + canary.name,
                 value: {
                     id: canary.id,
                     address:{

@@ -58,7 +58,8 @@ class Canaries extends Component {
         
     }
 
-    onLoadingFail = () => {
+    onLoadingFail = (err) => {
+        alert(err);
         if (this.state.mounted) {
             this.setState({
                 text: "Falha ao Carregar",
@@ -70,7 +71,7 @@ class Canaries extends Component {
     setData = (data) => {
         let canaries = data.map((canary) => {
             return {
-                label: "" + canary.id,
+                label: "" + canary.name,
                 value: {
                     id: canary.id,
                     status:{
@@ -93,7 +94,7 @@ class Canaries extends Component {
         .then(res => res.data)
         .then(data => {this.setData(data)})
         .then(() => {this.onLoadingSuccess()})
-        .catch(() => {this.onLoadingFail()});
+        .catch((err) => {this.onLoadingFail(err)});
     }
 
     componentDidMount() {}

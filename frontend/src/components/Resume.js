@@ -4,6 +4,8 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { Pages } from "react-native-pages";
 import CanaryMessage from "./CanaryMessage";
 
+import { getCanariesByUser } from "../services/canaries.service";
+
 import {
     getHumidity,
     getTemperature,
@@ -43,6 +45,42 @@ export default class Resume extends Component {
             }
         }
     }
+
+    onLoadingSuccess = () => {
+        if (this.state.mounted) {
+            this.setState({ loaded: true });
+            this.setState({ status: this.state.data[0].value.status });
+        }
+        
+    }
+
+    onLoadingFail = () => {
+        alert("Erro ao carregar");
+        /*
+        if (this.state.mounted) {
+            this.setState({
+                text: "Falha ao Carregar",
+                loadingStyle: styles.failLoading
+            });
+        }*/
+    }
+
+    setData = (data) => {
+        this.setState({status: {temperature: data[0].temperature,
+            humidity: data[0].humidity,
+            co: data[0].co,
+            co2: data[0].co2,
+            nh3: data[0].nh3}})
+      
+    }
+
+    componentWillMount() {
+        getCanariesByUser()
+        .then(res => res.data)
+        .then(data => {this.setData(data)})
+        .catch(() => {this.onLoadingFail()});
+    }
+
     render() {
         return (
             <View style={styles.container}>
