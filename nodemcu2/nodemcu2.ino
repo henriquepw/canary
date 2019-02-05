@@ -40,10 +40,10 @@
 // Gases
 #define CO 1
 #define CO2 2
-#define NH4 0
+#define nh3 0
 
 float constants[3][2] = {
-    0.88422, 0.43706, // nh4
+    0.88422, 0.43706, // nh3
     0.77915, 0.28884, // co
     0.79349, 0.38306  // co2
 };
@@ -70,7 +70,7 @@ float icC = 0;
 
 float ppm_co = 0;
 float ppm_co2 = 0;
-float ppm_nh4 = 0;
+float ppm_nh3 = 0;
 
 String page = "";
 
@@ -205,8 +205,8 @@ void handleStatus(){
   buff += "<tr> <td> CO2 </td>";
   buff += "<td> " + String(ppm_co2) + " PPM </td>";
   buff += "</tr>";
-  buff += "<tr> <td> NH4 </td>";
-  buff += "<td> " + String(ppm_nh4) + " PPM </td>";
+  buff += "<tr> <td> nh3 </td>";
+  buff += "<td> " + String(ppm_nh3) + " PPM </td>";
 
   buff += "</tr> </table> </body> </html>";
 
@@ -356,7 +356,7 @@ String get_json(){
   json += "\"humidity\": " + String(humidity) + ", ";
   json += "\"co\": " + String(ppm_co) + ", ";
   json += "\"co2\": " + String(ppm_co2) + ", ";
-  json += "\"nh4\": " + String(ppm_nh4);
+  json += "\"nh3\": " + String(ppm_nh3);
 
   json += "}";
 
@@ -407,7 +407,7 @@ void readings(){
 
   ppm_co = get_gas(CO);
   ppm_co2 = get_gas(CO2);
-  ppm_nh4 = get_gas(NH4);
+  ppm_nh3 = get_gas(nh3);
 
   Serial.print("Umidade          : ");
   Serial.println(humidity);
@@ -427,8 +427,8 @@ void readings(){
   Serial.print(" PPM de CO2: ");
   Serial.println(ppm_co2);
 
-  Serial.print(" PPM de NH4: ");
-  Serial.println(ppm_nh4);
+  Serial.print(" PPM de nh3: ");
+  Serial.println(ppm_nh3);
 
   post(get_json());
   
