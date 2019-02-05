@@ -38,7 +38,8 @@ class Canaries extends Component {
             data: [{ label: "carregando", value: {} }],
             text: "Carregando",
             loadingStyle: styles.loading,
-            mounted: true
+            mounted: true,
+            keyValue: true,
         };
 
         this.pickerProps = {
@@ -54,6 +55,7 @@ class Canaries extends Component {
             this.setState({ loaded: true });
             this.setState({ status: this.state.data[0].value.status });
         }
+        
     }
 
     onLoadingFail = () => {
@@ -66,14 +68,14 @@ class Canaries extends Component {
     }
 
     setData = (data) => {
-        canaries = data.map((canary) => {
+        let canaries = data.map((canary) => {
             return {
                 label: "" + canary.id,
                 value: {
                     id: canary.id,
                     status:{
                         temperature: canary.temperature,
-                        humidity: canary.humity,
+                        humidity: canary.humidity,
                         co: canary.co,
                         co2: canary.co2,
                         nh3: canary.nh3
@@ -81,8 +83,9 @@ class Canaries extends Component {
                 }
             }
         });
-        this.state.data.push(...canaries);
-        this.state.data.shift();
+        this.state.data = canaries;
+        this.pickerProps.items = canaries;
+        this.setState({keyValue: !this.state.keyValue});
     }
 
     componentWillMount() {
@@ -109,7 +112,7 @@ class Canaries extends Component {
                     iconLeft="menu"
                     onPressLeft={this.props.navigation.openDrawer}
                 />
-                <View style={styles.picker}>
+                <View style={styles.picker} key={this.state.keyValue}>
                     {this.state.loaded ? (
                         <Picker
                             {...this.pickerProps}
