@@ -17,11 +17,11 @@ class RemoveCanary extends Component{
             loaded: false,
             mounted: true,
             address:{
-                street: "Rua",
-                neighborhood: "Bairro",
-                num: "Numero",
-                city: "Cidade",
-                uf: "UF",
+                street: "",
+                neighborhood: "",
+                num: "",
+                city: "",
+                uf: "",
             },
             canaryId: "",
             canaryIndex: "",
@@ -65,22 +65,21 @@ class RemoveCanary extends Component{
     }
 
     setAddress(lat, lng){
-        //alert(`${lat} ${lng}`);
         Geocoder.init(geoToken);
         Geocoder.from(lat, lng)
-            .then(json => {alert(JSON.stringify(json.results[0].address_components[0].long_name));return json.results[0].address_components})
+            .then(json => json.results[0].address_components)
             .then(data => {
                 const address = {
                     street: data[1].long_name,
                     neighborhood: data[2].long_name,
-                    num: (data[0].long_name == "Unnamed Road") ? "" : data[0].long_name,
+                    num: (data[0].long_name == "Unnamed Road") ? "" : `, ${data[0].long_name}`,
                     city: data[3].long_name,
                 }
-                let output = "";
+                /*let output = "";
                 for(let i= 0; i < data.length; i++){
                     output += `${JSON.stringify(data[i].long_name)} \n\n`;
                 }
-                alert(output);
+                alert(output);*/
                 this.setState({ address })
             })
             .catch(err => {
@@ -125,7 +124,7 @@ class RemoveCanary extends Component{
     onLoadingSuccess = () => {
         if (this.state.mounted && this.state.data.length) {
             this.setState({ loaded: true });
-            this.setState({ address: this.state.data[0].value.address });
+            //this.setState({ address: this.state.data[0].value.address });
             this.setState({ canaryId: this.state.data[0].value.id});
         }
     }
@@ -216,14 +215,10 @@ class RemoveCanary extends Component{
                 </View>
 
                 <View style={styles.street}>
-                    <View style={[styles.infoContainer, {flex: 7}]}>
-                        <Text style={styles.text}>Rua</Text>
-                        <Text style={styles.info}>{this.state.address.street}</Text>
+                    <View style={[styles.infoContainer, {flex: 1}]}>
+                        <Text style={styles.text}>Rua / Nº</Text>
+                        <Text style={styles.info}>{`${this.state.address.street}${this.state.address.num}`}</Text>
                     </View>
-                    <View style={[styles.infoContainer, {flex: 3}]}>
-                        <Text style={styles.text}>Nº</Text>
-                        <Text style={styles.info}>{this.state.address.num}</Text>
-                    </View>  
                 </View>
 
                 <View style={styles.street}>
@@ -301,7 +296,7 @@ const styles = StyleSheet.create({
         color: colors.primaryTextColor,
         fontSize: 16,
         fontFamily: "Lato-Bold",
-        height: 30,
+        minHeight: 30,
         marginTop: 2,
     },
     button: {
