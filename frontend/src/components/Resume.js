@@ -37,11 +37,11 @@ export default class Resume extends Component {
         super(props);
         this.state = {
             status: {
-                temperature: 11,
-                humidity: 11,
-                co: 11,
-                co2: 22,
-                nh3: 22,
+                temperature: null,
+                humidity: null,
+                co: null,
+                co2: null,
+                nh3: null,
             }
         }
     }

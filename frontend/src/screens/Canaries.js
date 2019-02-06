@@ -18,7 +18,15 @@ import {
     getNH3
 } from "../messages";
 
-import { getCanariesByUser } from "../services/canaries.service";
+import { getCanariesByUser, getCanary } from "../services/canaries.service";
+
+const nullStatus = {
+    temperature: null,
+    humidity: null,
+    co: null,
+    co2: null,
+    nh3: null
+};
 
 loaded = false;
 class Canaries extends Component {
@@ -40,6 +48,7 @@ class Canaries extends Component {
             loadingStyle: styles.loading,
             mounted: true,
             keyValue: true,
+            interval: "",
         };
 
         this.pickerProps = {
@@ -53,7 +62,8 @@ class Canaries extends Component {
     onLoadingSuccess = () => {
         if (this.state.mounted) {
             this.setState({ loaded: true });
-            this.setState({ status: this.state.data[0].value.status });
+            this.state.interval && clearInterval(this.state.interval);
+            this.setState({ interval: setInterval(() => this.updateInfo(this.state.data[0].value.id), 1000)});
         }
         
     }
@@ -68,19 +78,12 @@ class Canaries extends Component {
         }
     }
 
-    setData = (data) => {
+    setData = data => {
         let canaries = data.map((canary) => {
             return {
-                label: "" + canary.name,
+                label: `${canary.name}`,
                 value: {
                     id: canary.id,
-                    status:{
-                        temperature: canary.temperature,
-                        humidity: canary.humidity,
-                        co: canary.co,
-                        co2: canary.co2,
-                        nh3: canary.nh3
-                    }
                 }
             }
         });
@@ -91,10 +94,10 @@ class Canaries extends Component {
 
     componentWillMount() {
         getCanariesByUser()
-        .then(res => res.data)
-        .then(data => {this.setData(data)})
-        .then(() => {this.onLoadingSuccess()})
-        .catch((err) => {this.onLoadingFail(err)});
+            .then(res => res.data)
+            .then(data => {this.setData(data)})
+            .then(() => {this.onLoadingSuccess()})
+            .catch((err) => {this.onLoadingFail(err)});
     }
 
     componentDidMount() {}
@@ -102,8 +105,29 @@ class Canaries extends Component {
     componentWillUnmount() {
         this.setState({ mounted: false });
     }
-    onValueChange = (value, _) => {
-        this.setState({ text: value.text, status: value.status });
+
+    setStatus(data){
+        const status = {
+            temperature: data.temperature,
+            humidity: data.humidity,
+            co: data.co,
+            co2: data.co2,
+            nh3: data.nh3
+        };
+        
+        this.setState({ status });
+    }
+
+    updateInfo(id){
+        getCanary(id)
+            .then(res => res.data)
+            .then(data => this.setStatus(data[0]))
+            .catch((err) => alert(err));
+    }
+
+    onValueChange = value => {
+        this.state.interval && clearInterval(this.state.interval);
+        this.setState({ interval: setInterval(() => this.updateInfo(value.id), 1000)});
     };
 
     render() {

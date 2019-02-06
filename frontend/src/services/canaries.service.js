@@ -12,7 +12,9 @@ function getCanariesByUser(){
     .then(userData => axios.get(`${server}/canaries/user/${userData.id}`));
 }
 
-function getCanary(canary) {}
+function getCanary(canaryId) {
+    return axios.get(`${server}/canaries/${canaryId}`);
+}
 
 function registerCanary(canary) {}
 
