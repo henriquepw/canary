@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import { StyleSheet, View, Text } from "react-native";
 
-import Picker from "react-native-picker-select"
+import Picker from "react-native-picker-select";
 import Button from "react-native-smart-button";
+import Geocoder from "react-native-geocoding";
 
-import { colors } from "../common.js";
+import { colors, geoToken } from "../common.js";
 import Header from "../components/Header"
 
 import { getCanariesByUser, deleteCanary } from "../services/canaries.service";
@@ -49,7 +50,9 @@ class RemoveCanary extends Component{
                         num: "Numero" + canary.id,
                         city: "Cidade" + canary.id,
                         uf: "UF" + canary.id,
-                    }
+                    },
+                    lat: canary.lat,
+                    lng: canary.lng,
                 },
             }
         });
@@ -57,7 +60,55 @@ class RemoveCanary extends Component{
         this.state.data = canaries;
         this.pickerProps.items = canaries;
         this.setState({keyValue: !this.state.keyValue});
+        const firstCanary = this.state.data[0];
+        this.setAddress(firstCanary.value.lat, firstCanary.value.lng);
     }
+
+    setAddress(lat, lng){
+        //alert(`${lat} ${lng}`);
+        Geocoder.init(geoToken);
+        Geocoder.from(lat, lng)
+            .then(json => {alert(JSON.stringify(json.results[0].address_components[0].long_name));return json.results[0].address_components})
+            .then(data => {
+                const address = {
+                    street: data[1].long_name,
+                    neighborhood: data[2].long_name,
+                    num: (data[0].long_name == "Unnamed Road") ? "" : data[0].long_name,
+                    city: data[3].long_name,
+                }
+                let output = "";
+                for(let i= 0; i < data.length; i++){
+                    output += `${JSON.stringify(data[i].long_name)} \n\n`;
+                }
+                alert(output);
+                this.setState({ address })
+            })
+            .catch(err => {
+                this.setState({ address: {
+                    street: "Rua",
+                    neighborhood: "Bairro",
+                    num: "Numero",
+                    city: "Cidade",
+                    uf: "UF",
+                }});
+                let output = `message: ${err.message}\n\n`
+                +`line: ${err.line}\n\n`
+                + `column: ${err.column}\n\n`
+                + `sourceURL: ${err.sourceURL}\n\n`
+                + `stack: ${err.stack}\n\n\n\n`
+                + `origin: ${err.origin}\n\n`;
+                alert(output);
+            });
+
+    }
+
+    /**
+     * message
+     * line
+     * clumn
+     * sourceURL
+     * stack
+     */
 
     noCanaries = () => {
         this.setState({text: "Nenhum Canário a Exibir", loadingStyle: styles.loading,});
@@ -86,11 +137,12 @@ class RemoveCanary extends Component{
                 loadingStyle: styles.failLoading
             });
         }
-    }
+    };
 
-    onValueChange = (value, index) => {
-        this.setState({ address: value.address });
+    onValueChange = value => {
+        //this.setState({ address: value.address });
         this.setState({ canaryId: value.id });
+        this.setAddress(value.lat, value.lng);
     };
 
     getCanaries = () => {
@@ -99,7 +151,7 @@ class RemoveCanary extends Component{
         .then(data => {this.setData(data)})
         .then(() => {this.onLoadingSuccess()})
         .catch(() => {this.onLoadingFail()});
-    }
+    };
 
     componentWillMount() {
         this.getCanaries();
@@ -161,10 +213,6 @@ class RemoveCanary extends Component{
                         <Text style={styles.text}>Cidade</Text>
                         <Text style={styles.info}>{this.state.address.city}</Text>
                     </View>
-                    <View style={[styles.infoContainer, {flex: 3}]}>
-                        <Text style={styles.text}>UF</Text>
-                        <Text style={styles.info}>{this.state.address.uf}</Text>
-                    </View>  
                 </View>
 
                 <View style={styles.street}>
