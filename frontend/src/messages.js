@@ -53,33 +53,70 @@ const humidity5 = [
 ];
 
 const carb1 = [
-    "Evite a inalação desse gás, visto que ele pode causar dores de cabeça, confusão e náusea;\n\n",
-    "Após alguns minutos pode causar taquicardia, respiração acelerada, vertigens, sonolência e visão borrosa;\n\n",
-    "Em exposição intensa pode causar desmaio, convulsão e e até a morte;\n\n",
-    "A exposição continua a baixos niveis desse gás pode conduzir a depressão nervosa, confusão e perda de memória.\n\n"
+    "Não foram encontradas quantidades significativas de monóxido de carbono no ar;\n\n"
 ];
 
-const carb2 = ["O canário não detectou monóxido de carbono no ambiente.\n\n"];
-
-const amonia = [
-    "O amoníaco é um gás perigoso e extremamente prejudicial a saúde, de maneira alguma permaneça em ambientes onde esse gás está presente;\n\n",
-    "A inalação desse gás pode causar aumento da pressão sanguínea, irritação da pele, e vias respiratórias, tosse, e dor pulmonar além de queimaduras da mucosa nasal, faringe e laringe;\n\n",
-    "Ao ser ingerido causa dificuldades respiratórias, queimadura da mucosa nasal, faringe e laringe, edema pulmonar;\n\n",
-    "Em contato direto com a pele, esse gás ocasiona dor, vesiculação e em quantidades mais altas necrose dos tecidos e queimaduras profundas;\n\n",
-    "Em contato com os olhos causa irritação ocular, com concentrações maiores desse gás pode causar onjuntivite, erosão da córnea, e cegueira temporária ou permanente;\n\n",
-    "Sua ingestão causa náuseas, vómitos e inchaço nos lábios, boca e laringe.\n\n"
+const carb2 = [
+    "A inalação dessa quantidade de gás, pode causar dores de cabeça, confusão e náusea;\n\n",
+    "Os sintomas pioram a conforme o tempo exposto ao gás; \n\n"
 ];
 
-const amonia2 = ["O canário não detectou amoníaco no ambiente.\n\n"];
-
-const diCar = [
-    "A inalação continua desse gás causa o aparecimento de doenças respiratórias e cardiovasculares principalmente em idosos e crianças;\n\n",
-    "Alguns dos sintomas são maior incidência de asma e bronquite, aumento das crises de asma e desconforto torácico, limitação funcional;\n\n",
-    "Além dos efeitos no ser humano, a alta concentração desse gás na atmosfera causa desequilibrio ambiental;\n\n",
-    "Algumas das consequências desse gás no ambiente são o aumento da temperatura, degradação de ecossistemas e paisagens, derretimento das calotas polares, etc.\n\n"
+const carb3 = [
+    "A inalação desse gás pode causar taquicardia, respiração acelerada, vertigens, visão borrosa e sonolência;\n\n"
 ];
 
-const diCar2 = ["O canário não detectou dióxido de carbono no ambiente.\n\n"];
+const carb4 = [
+    "Cuidado nessa quantidade a inalação do gás pode causar desmaio e convulsão prolongado a exposição ao gás;\n\n",
+    "Eventualmente causa intoxicação grave no sistema nervoso central e no coração, possivelmente fatal;\n\n"
+];
+
+const amonia1 = [
+    "Quantidade de amônia tolerável ao ser humano;\n\n"
+];
+
+const amonia2 = [
+    "Causa irritação nos olhos e nas mucosas;\n\n"
+];
+
+const amonia3 = [
+    "Causa queimação nas vias respiratórias, taquicardia e convulsões;\n\n"
+];
+
+const amonia4 = [
+    "Pode causar lesões graves na córnea e na retina, levando a cegueira temporaria ou permanente de acordo com o tempo de exposição;\n\n",
+    "Quando inalado, causa corrosão das vias respiratórias e lesões graves no pulmão, podendo levar a morte;\n\n"
+];
+
+const amonia5 = [
+    "Essa concentração de amônia no ambiente é fatal caso inalada;\n\n"
+];
+
+const diCar1 = [
+    "Concentrações de dióxido de carbono normais em ambientes externos;\n\n",
+    "Não trás males a saúde humana;\n\n"
+];
+
+const diCar2 = [
+    "Concentrações de dióxido de carbono normais em ambientes fechados mas com boa ventilação;\n\n",
+    "Não trás males a saúde humana;\n\n"
+];
+
+const diCar3 = [
+    "A inalação continua desse gás pode causar sonolência;\n\n",
+    "É possível sentir o ambiente mais abafado;\n\n"
+];
+
+const diCar4 = [
+    "Essa concentração de dióxido de carbono no ambiente pode causar o aparecimento de dores de cabeça, sonolência, baixa concentração, aumento da frequência cardíaca e náuseas;\n\n"
+];
+
+const diCar5 = [
+    "Essa concentração de dióxido de carbono no ambiente pode causar desconforto torácico, limitação funcional e falta de ar"
+];
+
+const diCar6 = [
+    "Concentração altamente prejudicial ao ser humano relacionada à privação de oxigênio."
+];
 
 const temperature1 = [
     "Saia de casa apenas em casos de extrema necessidade;\n\n",
@@ -100,35 +137,20 @@ const temperature3 = [
     "Evite praticar exercicios físicos visto que a exposição ao ar frio pode causar alergias, sinusite e aumentar a incidência de doenças respiratórias.\n\n"
 ];
 
-const temperature4 = [
-    "O ar começa a ficar frio para o ser humano;\n\n",
-    "Se agasalhar ao sair de casa, principalmente a noite.\n\n"
+const temperature4 = ["Temperatura ideal para o ser humano.\n\n",
+    "A exposição prolongada a temperaturas mais baixas pode lhe causar dores nasais, espirros e tosse"
 ];
 
-const temperature5 = ["Temperatura ideal para o ser humano.\n\n"];
-
-const temperature6 = [
+const temperature5 = [
     "Possível fadiga em casos de exposição prolongada e atividade física.\n\n"
 ];
 
-const temperature7 = [
-    "Pode causar câimbras, esgotamento e insolação para exposições prolongadas e atividade física;\n\n",
-    "Evite praticar atividades físicas em locais abertos por longos períodos de tempo;\n\n",
-    "Procure constantemente ingerir líquidos para manter-se hidratado.\n\n"
-];
-
-const temperature8 = [
+const temperature6 = [
     "Câimbras, insolação, e esgotamento prováveis;\n\n",
     "Possibilidade de dano cerebral (AVC) para exposições prolongadas principalmente em idosos e crianças;\n\n",
     "Evite praticar qualquer tipo de atividade física;\n\n",
     "Mantenha-se em ambientes cobertos e arejados;\n\n",
     "A ingestão de líquidos é indispensável.\n\n"
-];
-
-const temperature9 = [
-    "Insolação e Acidente Vascular Cerebral (AVC) iminente;\n\n",
-    "Evite sair de casa e não pratique nenhum tipo de atividade física;\n\n",
-    "Procure manter-se sempre hidratado.\n\n"
 ];
 
 function getHumidity(humidity) {
@@ -158,7 +180,7 @@ function getHumidity(humidity) {
             { face: facePropsSmile, messages: humidity4 }
         : { face: facePropsMeh, messages: humidity5 };
     */
-   
+
     return messages;
 }
 
@@ -171,18 +193,12 @@ function getTemperature(temperature) {
         messages = { face: facePropsFrown, messages: temperature2 };
     } else if (temperature < 12) {
         messages = { face: facePropsMeh, messages: temperature3 };
-    } else if (temperature < 21) {
-        messages = { face: facePropsMeh, messages: temperature4 };
-    } else if (temperature < 27) {
-        messages = { face: facePropsSmile, messages: temperature5 };
+    } else if (temperature < 26) {
+        messages = { face: facePropsSmile, messages: temperature4 };
     } else if (temperature < 33) {
-        messages = { face: facePropsMeh, messages: temperature6 };
+        messages = { face: facePropsMeh, messages: temperature5 };
     } else if (temperature < 42) {
-        messages = { face: facePropsMeh, messages: temperature7 };
-    } else if (temperature < 55) {
-        messages = { face: facePropsFrown, messages: temperature8 };
-    } else {
-        messages = { face: facePropsFrown, messages: temperature9 };
+        messages = { face: facePropsMeh, messages: temperature6 };
     }
 
     /*
@@ -212,10 +228,14 @@ function getTemperature(temperature) {
 function getCO(co) {
     let messages = [];
 
-    if (co == true) {
-        messages = { face: facePropsFrown, messages: carb1 };
+    if (co < 100) {
+        messages = { face: facePropsSmile, messages: carb1 };
+    } else if (co < 1000) {
+        messages = { face: facePropsMeh, messages: carb2 };
+    } else if (co < 2000) {
+        messages = { face: facePropsFrown, messages: carb3 };
     } else {
-        messages = { face: facePropsSmile, messages: carb2 };
+        messages = { face: facePropsFrown, messages: carb4 };
     }
 
     /*
@@ -230,10 +250,18 @@ function getCO(co) {
 function getCO2(co2) {
     let messages = [];
 
-    if (co2 == true) {
-        messages = { face: facePropsFrown, messages: diCar };
-    } else {
+    if (co2 < 400) {
+        messages = { face: facePropsSmile, messages: diCar1 };
+    } else if (co2 < 1000) {
         messages = { face: facePropsSmile, messages: diCar2 };
+    } else if (co2 < 2000) {
+        messages = { face: facePropsMeh, messages: diCar3 };
+    } else if (co2 < 5000) {
+        messages = { face: facePropsFrown, messages: diCar4 };
+    } else if (co2 < 40000) {
+        messages = { face: facePropsFrown, messages: diCar5 };
+    } else {
+        messages = { face: facePropsFrown, messages: diCar6 };
     }
 
     /*
@@ -248,10 +276,16 @@ function getCO2(co2) {
 function getNH3(nh3) {
     let messages = [];
 
-    if (nh3 == true) {
-        messages = { face: facePropsFrown, messages: amonia };
+    if (nh3 < 35) {
+        messages = { face: facePropsSmile, messages: amonia1 };
+    } else if (nh3 < 200) {
+        messages = { face: facePropsMeh, messages: amonia2 };
+    } else if (nh3 < 1500) {
+        messages = { face: facePropsFrown, messages: amonia3 };
+    } else if (nh3 < 2500) {
+        messages = { face: facePropsFrown, messages: amonia4 };
     } else {
-        messages = { face: facePropsSmile, messages: amonia2 };
+        messages = { face: facePropsFrown, messages: amonia5 };
     }
 
     /*
