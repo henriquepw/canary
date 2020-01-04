@@ -17,7 +17,7 @@
   </a>
 </p>
 
-# :clipboard: Description 
+## :clipboard: Description
 Canary is a system for monitoring air quality information through the device that can capture aspects such as air temperature, air humidity and concentration of some gases (currently CO, CO2 and NH3) in the ambient.
 
 this project was created to compete on the [7th Campus Mobile](https://www.institutonetclaroembratel.org.br/nossas-novidades/programa-campus-mobile-anuncia-os-finalistas-da-7a-edicao/) and we achieved to be one of the finalists in the smart cities category as "*Projeto Desenvolvendo um dispositivo de monitoramento da qualidade do ar conectado a smartphones"*.
@@ -34,8 +34,8 @@ Use Yarn ou NPM for install all dependencies for the server and the mobile app. 
 ```
   yarn
   yarn start
-``` 
-or 
+```
+or
 ```
   npm install
   npm start
@@ -52,7 +52,7 @@ For the hardware, you need to have a `NodeMCU` for instalation inside it. Consid
    - DHT
 4. Update the hardware with the code.
 
-## 🧐 What's inside? 
+## 🧐 What's inside?
 
 ### Technologies
   - [Arduino](https://www.arduino.cc/): for programing the embedded system
