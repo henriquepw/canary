@@ -11,212 +11,204 @@ import Header from "../components/Header";
 import { colors, geoToken, server, showError } from "../common";
 
 export default class CanaryRegister extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            name: "",
-            street: "",
-            neighborhood: "",
-            num: "",
-            city: "",
-            latitude: 1.23,
-            longitude: 1.23,
-            userData: {}
-        };
-
-        this.getData = this.getData.bind(this);
-        this.sendData = this.sendData.bind(this);
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: "",
+      street: "",
+      neighborhood: "",
+      num: "",
+      city: "",
+      latitude: 1.23,
+      longitude: 1.23,
+      userData: {}
     };
 
-    getUserData = async () => {
-        const json = await AsyncStorage.getItem("userData");
-        const userData = JSON.parse(json) || {};
+    this.getData = this.getData.bind(this);
+    this.sendData = this.sendData.bind(this);
+  }
 
-        this.setState({ userData });
-    };
- 
-    sendData = async () => {
-        await this.getUserData();
+  getUserData = async () => {
+    const json = await AsyncStorage.getItem("userData");
+    const userData = JSON.parse(json) || {};
 
-        const canary = {
-            name: this.state.name,
-            lat: this.state.latitude,
-            lng: this.state.longitude,
-            owner_id: this.state.userData.id
-        };
+    this.setState({ userData });
+  };
 
-        showError(canary);
+  sendData = async () => {
+    await this.getUserData();
 
-        axios.post(`${server}/canaries/`, canary)
-            .then(() => alert("Canário cadastrado com sucesso!"))
-            //.catch((err) => alert(err));
+    const canary = {
+      name: this.state.name,
+      lat: this.state.latitude,
+      lng: this.state.longitude,
+      owner_id: this.state.userData.id
     };
 
-    getData() {
-        Geocoder.init(geoToken);
-        navigator.geolocation.getCurrentPosition(
-            data => {
-                const latitude = data.coords.latitude;
-                const longitude = data.coords.longitude;
+    showError(canary);
 
-                Geocoder.from(latitude, longitude)
-                    .then(json => {
-                        const res = json.results[0];
-                        const state = this.state;
+    axios
+      .post(`${server}/canaries/`, canary)
+      .then(() => alert("Canário cadastrado com sucesso!"));
+    //.catch((err) => alert(err));
+  };
 
-                        state.num = res.address_components[0].long_name;
-                        state.street = res.address_components[1].long_name;
-                        state.neighborhood = res.address_components[2].long_name;
-                        state.city = res.address_components[3].long_name;
-                        state.latitude = latitude;
-                        state.longitude = longitude;
+  getData() {
+    Geocoder.init(geoToken);
+    navigator.geolocation.getCurrentPosition(
+      data => {
+        const latitude = data.coords.latitude;
+        const longitude = data.coords.longitude;
 
-                        this.setState(state);
-                    })
-                    .catch(error => console.warn(error));
-            },
-            () => {
-                alert(
-                    "Não foi possivel encontrar sua localização, tente novamente."
-                );
-            }
-        );
-    };
+        Geocoder.from(latitude, longitude)
+          .then(json => {
+            const res = json.results[0];
+            const state = this.state;
 
-    render() {
-        return (
-            <View style={styles.container}>
-                <Header
-                    iconLeft="menu"
-                    iconRight="yuque"
-                    iconRightFamily="AntDesign"
-                    onPressLeft={this.props.navigation.openDrawer}
-                    onPressRight={() =>
-                        this.props.navigation.navigate("SeeCanaries")
-                    }
-                />
-                <ScrollView>
-                    <View style={styles.category}>
-                        <Text style={[styles.text, { flex: 1 }]}>Apelido</Text>
-                    </View>
+            state.num = res.address_components[0].long_name;
+            state.street = res.address_components[1].long_name;
+            state.neighborhood = res.address_components[2].long_name;
+            state.city = res.address_components[3].long_name;
+            state.latitude = latitude;
+            state.longitude = longitude;
 
-                    <Input
-                        textInput={{
-                            style: styles.textInput,
-                            placeholder: "Nome",
-                            onChangeText: name => this.setState({ name })
-                        }}
-                    />
+            this.setState(state);
+          })
+          .catch(error => console.warn(error));
+      },
+      () => {
+        alert("Não foi possivel encontrar sua localização, tente novamente.");
+      }
+    );
+  }
 
-                    <View style={styles.category}>
-                        <Text style={[styles.text, { flex: 1 }]}>Endereço</Text>
-                    </View>
+  render() {
+    return (
+      <View style={styles.container}>
+        <Header
+          iconLeft="menu"
+          iconRight="yuque"
+          iconRightFamily="AntDesign"
+          onPressLeft={this.props.navigation.openDrawer}
+          onPressRight={() => this.props.navigation.navigate("SeeCanaries")}
+        />
+        <ScrollView>
+          <View style={styles.category}>
+            <Text style={[styles.text, { flex: 1 }]}>Apelido</Text>
+          </View>
 
-                    <Input
-                        textInput={{
-                            style: styles.textInput,
-                            placeholder: "Cidade",
-                            value: this.state.city,
-                            onChangeText: city => this.setState({ city })
-                        }}
-                    />
+          <Input
+            textInput={{
+              style: styles.textInput,
+              placeholder: "Nome",
+              onChangeText: name => this.setState({ name })
+            }}
+          />
 
-                    <View style={styles.street}>
-                        <Input
-                            styleInput={{ flex: 7 }}
-                            textInput={{
-                                style: styles.textInput,
-                                placeholder: "Rua",
-                                value: this.state.street,
-                                onChangeText: street =>
-                                    this.setState({ street })
-                            }}
-                        />
+          <View style={styles.category}>
+            <Text style={[styles.text, { flex: 1 }]}>Endereço</Text>
+          </View>
 
-                        <Input
-                            styleInput={{ flex: 3 }}
-                            textInput={{
-                                style: styles.textInput,
-                                placeholder: "Nº",
-                                value: this.state.num,
-                                onChangeText: num => this.setState({ num })
-                            }}
-                        />
-                    </View>
+          <Input
+            textInput={{
+              style: styles.textInput,
+              placeholder: "Cidade",
+              value: this.state.city,
+              onChangeText: city => this.setState({ city })
+            }}
+          />
 
-                    <Input
-                        textInput={{
-                            style: styles.textInput,
-                            placeholder: "Bairro",
-                            value: this.state.neighborhood,
-                            onChangeText: neighborhood =>
-                                this.setState({ neighborhood })
-                        }}
-                    />
-                    <View style={styles.buttonContainer}>
-                        <Button style={styles.button} onPress={this.getData}>
-                            <Text style={styles.buttonText}>
-                                Localizar Canário
-                            </Text>
-                        </Button>
-                    </View>
-                    <View style={styles.buttonContainer}>
-                        <Button style={styles.button}
-                            onPress={this.sendData}>
-                            <Text style={styles.buttonText}>Cadastrar</Text>
-                        </Button>
-                    </View>
-                </ScrollView>
-            </View>
-        );
-    }
+          <View style={styles.street}>
+            <Input
+              styleInput={{ flex: 7 }}
+              textInput={{
+                style: styles.textInput,
+                placeholder: "Rua",
+                value: this.state.street,
+                onChangeText: street => this.setState({ street })
+              }}
+            />
+
+            <Input
+              styleInput={{ flex: 3 }}
+              textInput={{
+                style: styles.textInput,
+                placeholder: "Nº",
+                value: this.state.num,
+                onChangeText: num => this.setState({ num })
+              }}
+            />
+          </View>
+
+          <Input
+            textInput={{
+              style: styles.textInput,
+              placeholder: "Bairro",
+              value: this.state.neighborhood,
+              onChangeText: neighborhood => this.setState({ neighborhood })
+            }}
+          />
+          <View style={styles.buttonContainer}>
+            <Button style={styles.button} onPress={this.getData}>
+              <Text style={styles.buttonText}>Localizar Canário</Text>
+            </Button>
+          </View>
+          <View style={styles.buttonContainer}>
+            <Button style={styles.button} onPress={this.sendData}>
+              <Text style={styles.buttonText}>Cadastrar</Text>
+            </Button>
+          </View>
+        </ScrollView>
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: colors.primaryLightColor
-    },
-    body: {
-        flex: 1
-    },
-    category: {
-        backgroundColor: "rgba(255, 255, 255, 0.5)",
-        flexDirection: "row",
-        alignItems: "center",
-        marginVertical: 16,
-        paddingHorizontal: 16,
-        height: 46
-    },
-    text: {
-        color: colors.secondaryTextColor,
-        fontSize: 16,
-        fontFamily: "Lato-Bold"
-    },
-    textInput: {
-        flex: 1,
-        color: "#fff",
-        fontSize: 16,
-        fontFamily: "Lato-Regular"
-    },
-    street: {
-        flex: 1,
-        flexDirection: "row",
-        alignItems: "center"
-    },
-    button: {
-        backgroundColor: colors.primaryColor,
-        width: 140,
-        height: 36,
-        justifyContent: "center",
-        marginTop: 40
-    },
-    buttonText: {
-        color: "#fff",
-        fontWeight: "bold"
-    },
-    buttonContainer: {
-        alignItems: "center",
-        justifyContent: "center"
-    }
+  container: {
+    flex: 1,
+    backgroundColor: colors.primaryLightColor
+  },
+  body: {
+    flex: 1
+  },
+  category: {
+    backgroundColor: "rgba(255, 255, 255, 0.5)",
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 16,
+    paddingHorizontal: 16,
+    height: 46
+  },
+  text: {
+    color: colors.secondaryTextColor,
+    fontSize: 16,
+    fontFamily: "Lato-Bold"
+  },
+  textInput: {
+    flex: 1,
+    color: "#fff",
+    fontSize: 16,
+    fontFamily: "Lato-Regular"
+  },
+  street: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center"
+  },
+  button: {
+    backgroundColor: colors.primaryColor,
+    width: 140,
+    height: 36,
+    justifyContent: "center",
+    marginTop: 40
+  },
+  buttonText: {
+    color: "#fff",
+    fontWeight: "bold"
+  },
+  buttonContainer: {
+    alignItems: "center",
+    justifyContent: "center"
+  }
 });

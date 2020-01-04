@@ -8,87 +8,87 @@ import Octicons from "react-native-vector-icons/Octicons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 class DrawerItem extends Component {
-    iconProps = {
-        name: this.props.iconName,
-        color: this.iconColor(),
-        size: this.iconSize(),
-        style: this.iconStyle()
-    };
+  iconProps = {
+    name: this.props.iconName,
+    color: this.iconColor(),
+    size: this.iconSize(),
+    style: this.iconStyle()
+  };
 
-    icon() {
-        let returning = "";
-        switch (this.props.iconFamily) {
-            case "SimpleIcon":
-                returning = <SimpleIcon {...this.iconProps} />;
-                break;
-            case "AntDesign":
-                returning = <AntDesign {...this.iconProps} />;
-                break;
-            case "MaterialCommunityIcons":
-                returning = <MaterialCommunityIcons {...this.iconProps} />;
-                break;
-            case "Octicons":
-                returning = <Octicons {...this.iconProps} />;
-                break;
-            case "FontAwesome":
-                returning = <FontAwesome {...this.iconProps} />;
-                break;
-        }
-        return returning;
+  icon() {
+    let returning = "";
+    switch (this.props.iconFamily) {
+      case "SimpleIcon":
+        returning = <SimpleIcon {...this.iconProps} />;
+        break;
+      case "AntDesign":
+        returning = <AntDesign {...this.iconProps} />;
+        break;
+      case "MaterialCommunityIcons":
+        returning = <MaterialCommunityIcons {...this.iconProps} />;
+        break;
+      case "Octicons":
+        returning = <Octicons {...this.iconProps} />;
+        break;
+      case "FontAwesome":
+        returning = <FontAwesome {...this.iconProps} />;
+        break;
     }
+    return returning;
+  }
 
-    iconSize() {
-        return this.props.iconSize ? this.props.iconSize : 20;
-    }
+  iconSize() {
+    return this.props.iconSize ? this.props.iconSize : 20;
+  }
 
-    iconColor() {
-        return this.props.iconColor ? this.props.iconColor : "#fff";
-    }
+  iconColor() {
+    return this.props.iconColor ? this.props.iconColor : "#fff";
+  }
 
-    iconStyle() {
-        return this.props.iconStyle ? this.props.iconStyle : styles.icon;
-    }
+  iconStyle() {
+    return this.props.iconStyle ? this.props.iconStyle : styles.icon;
+  }
 
-    containerStyle() {
-        let style = this.props.containerStyle
-            ? [styles.itemContainer, this.props.containerStyle]
-            : styles.itemContainer;
-        return style;
-    }
+  containerStyle() {
+    let style = this.props.containerStyle
+      ? [styles.itemContainer, this.props.containerStyle]
+      : styles.itemContainer;
+    return style;
+  }
 
-    textStyle() {
-        return this.props.textStyle ? this.props.textStyle : styles.item;
-    }
+  textStyle() {
+    return this.props.textStyle ? this.props.textStyle : styles.item;
+  }
 
-    render() {
-        return (
-            <TouchableOpacity
-                style={this.containerStyle()}
-                onPress={this.props.onPress}
-            >
-                {this.icon()}
-                <Text style={this.textStyle()}>{this.props.name}</Text>
-            </TouchableOpacity>
-        );
-    }
+  render() {
+    return (
+      <TouchableOpacity
+        style={this.containerStyle()}
+        onPress={this.props.onPress}
+      >
+        {this.icon()}
+        <Text style={this.textStyle()}>{this.props.name}</Text>
+      </TouchableOpacity>
+    );
+  }
 }
 
 export default DrawerItem;
 
 const styles = StyleSheet.create({
-    item: {
-        color: "white",
-        marginLeft: 10,
-        fontSize: 16,
-        fontFamily: "Lato-Regular",
-    },
-    icon: {
-        marginHorizontal: 16
-    },
-    itemContainer: {
-        flexDirection: "row",
-        flexWrap: "wrap",
-        marginTop: 8,
-        paddingVertical: 1
-    }
+  item: {
+    color: "white",
+    marginLeft: 10,
+    fontSize: 16,
+    fontFamily: "Lato-Regular"
+  },
+  icon: {
+    marginHorizontal: 16
+  },
+  itemContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    marginTop: 8,
+    paddingVertical: 1
+  }
 });

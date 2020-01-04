@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import {
-    View,
-    Text,
-    StyleSheet,
-    TouchableOpacity,
-    TextInput,
-    AsyncStorage
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  TextInput,
+  AsyncStorage
 } from "react-native";
 
 import Header from "../components/Header";
@@ -15,181 +15,166 @@ import DrawerItem from "../components/DrawerItem";
 import axios from "axios";
 
 import {
-    server,
-    colors,
-    validateEmail,
-    validateName,
-    isEquals,
-    validatePassword,
-    showError,
-    showInfo
+  server,
+  colors,
+  validateEmail,
+  validateName,
+  isEquals,
+  validatePassword,
+  showError,
+  showInfo
 } from "../common";
 
 export default class Profile extends Component {
-    initialState = {
-        name: "",
-        email: ""
-    };
+  initialState = {
+    name: "",
+    email: ""
+  };
 
-    state = {
-        edit: false,
-        id: 0,
-        name: "Nome",
-        email: "E-mail",
-        password: "",
-        confirmPassword: ""
-    };
+  state = {
+    edit: false,
+    id: 0,
+    name: "Nome",
+    email: "E-mail",
+    password: "",
+    confirmPassword: ""
+  };
 
-    componentWillMount = async () => {
+  componentWillMount = async () => {
+    const json = await AsyncStorage.getItem("userData");
+    const { id, name, email } = JSON.parse(json);
+
+    initialState = { name, email };
+    this.setState({ id, name, email });
+  };
+
+  handleEdit = async () => {
+    const edit = !this.state.edit;
+
+    if (this.state.edit) {
+      const { id, name, email, password, confirmPassword } = this.state;
+      const isEmailEquals = isEquals(this.initialState.name, name);
+      const isNameEquals = isEquals(this.initialState.email, email);
+
+      if (!isEmailEquals && !isNameEquals) {
         const json = await AsyncStorage.getItem("userData");
-        const { id, name, email } = JSON.parse(json);
+        const userData = JSON.parse(json);
+        const user = {};
 
-        initialState = { name, email };
-        this.setState({ id, name, email });
-    };
-
-    handleEdit = async () => {
-        const edit = !this.state.edit;
-
-        if (this.state.edit) {
-            const { id, name, email, password, confirmPassword } = this.state;
-            const isEmailEquals = isEquals(this.initialState.name, name);
-            const isNameEquals = isEquals(this.initialState.email, email);
-
-            if (!isEmailEquals && !isNameEquals) {
-                const json = await AsyncStorage.getItem("userData");
-                const userData = JSON.parse(json);
-                const user = {};
-
-                if (validateName(name)) {
-                    user.name = name;
-                    userData.name = name;
-                }
-
-                if (validateEmail(email)) {
-                    user.email = email;
-                    userData.email = email;
-                }
-
-                if (
-                    validatePassword(password) &&
-                    isEquals(password, confirmPassword)
-                ) {
-                    user.password = password;
-                    userData.password = password;
-                }
-
-                try {
-                    await axios.put(`${server}/users/${id}`, user);
-
-                    AsyncStorage.setItem("userData", JSON.stringify(userData));
-
-                    showInfo("Dados atualizados com sucesso");
-                } catch (err) {
-                    showError(err);
-                }
-            }
+        if (validateName(name)) {
+          user.name = name;
+          userData.name = name;
         }
 
-        this.setState({ edit });
-    };
+        if (validateEmail(email)) {
+          user.email = email;
+          userData.email = email;
+        }
 
-    render() {
-        const { edit, name, email } = this.state;
+        if (validatePassword(password) && isEquals(password, confirmPassword)) {
+          user.password = password;
+          userData.password = password;
+        }
 
-        return (
-            <View style={styles.container}>
-                <Header
-                    iconLeft="menu"
-                    iconRight="yuque"
-                    iconRightFamily="AntDesign"
-                    onPressLeft={this.props.navigation.openDrawer}
-                    onPressRight={() =>
-                        this.props.navigation.navigate("SeeCanaries")
-                    }
-                />
+        try {
+          await axios.put(`${server}/users/${id}`, user);
 
-                <View style={styles.category}>
-                    <Text style={[styles.text, { flex: 1 }]}> Perfil </Text>
+          AsyncStorage.setItem("userData", JSON.stringify(userData));
 
-                    <TouchableOpacity onPress={this.handleEdit}>
-                        <SimpleLineIcons
-                            name={edit ? "check" : "pencil"}
-                            color="#000"
-                            size={22}
-                        />
-                    </TouchableOpacity>
-                </View>
+          showInfo("Dados atualizados com sucesso");
+        } catch (err) {
+          showError(err);
+        }
+      }
+    }
 
-                <View style={styles.input}>
-                    <SimpleLineIcons name="user" size={20} color="#fff" />
+    this.setState({ edit });
+  };
 
-                    <TextInput
-                        style={styles.textInput}
-                        value={name}
-                        editable={edit}
-                        onChangeText={name => this.setState({ name })}
-                    />
-                </View>
+  render() {
+    const { edit, name, email } = this.state;
 
-                <View style={styles.divider} />
+    return (
+      <View style={styles.container}>
+        <Header
+          iconLeft="menu"
+          iconRight="yuque"
+          iconRightFamily="AntDesign"
+          onPressLeft={this.props.navigation.openDrawer}
+          onPressRight={() => this.props.navigation.navigate("SeeCanaries")}
+        />
 
-                <View style={styles.input}>
-                    <SimpleLineIcons name="envelope" size={20} color="#fff" />
+        <View style={styles.category}>
+          <Text style={[styles.text, { flex: 1 }]}> Perfil </Text>
 
-                    <TextInput
-                        style={styles.textInput}
-                        value={email}
-                        editable={edit}
-                        onChangeText={email => this.setState({ email })}
-                    />
-                </View>
+          <TouchableOpacity onPress={this.handleEdit}>
+            <SimpleLineIcons
+              name={edit ? "check" : "pencil"}
+              color="#000"
+              size={22}
+            />
+          </TouchableOpacity>
+        </View>
 
-                <View style={styles.divider} />
+        <View style={styles.input}>
+          <SimpleLineIcons name="user" size={20} color="#fff" />
 
-                {edit && (
-                    <View>
-                        <View style={styles.input}>
-                            <SimpleLineIcons
-                                name="lock"
-                                size={20}
-                                color="#fff"
-                            />
+          <TextInput
+            style={styles.textInput}
+            value={name}
+            editable={edit}
+            onChangeText={name => this.setState({ name })}
+          />
+        </View>
 
-                            <TextInput
-                                style={styles.textInput}
-                                placeholder="Nova senha"
-                                secureTextEntry={true}
-                                onChangeText={password =>
-                                    this.setState({ password })
-                                }
-                            />
-                        </View>
+        <View style={styles.divider} />
 
-                        <View style={styles.divider} />
+        <View style={styles.input}>
+          <SimpleLineIcons name="envelope" size={20} color="#fff" />
 
-                        <View style={styles.input}>
-                            <SimpleLineIcons
-                                name="lock"
-                                size={20}
-                                color="#fff"
-                            />
+          <TextInput
+            style={styles.textInput}
+            value={email}
+            editable={edit}
+            onChangeText={email => this.setState({ email })}
+          />
+        </View>
 
-                            <TextInput
-                                style={styles.textInput}
-                                placeholder="Confirmar senha"
-                                secureTextEntry={true}
-                                onChangeText={confirmPassword =>
-                                    this.setState({ confirmPassword })
-                                }
-                            />
-                        </View>
+        <View style={styles.divider} />
 
-                        <View style={styles.divider} />
-                    </View>
-                )}
+        {edit && (
+          <View>
+            <View style={styles.input}>
+              <SimpleLineIcons name="lock" size={20} color="#fff" />
 
-                {/*
+              <TextInput
+                style={styles.textInput}
+                placeholder="Nova senha"
+                secureTextEntry={true}
+                onChangeText={password => this.setState({ password })}
+              />
+            </View>
+
+            <View style={styles.divider} />
+
+            <View style={styles.input}>
+              <SimpleLineIcons name="lock" size={20} color="#fff" />
+
+              <TextInput
+                style={styles.textInput}
+                placeholder="Confirmar senha"
+                secureTextEntry={true}
+                onChangeText={confirmPassword =>
+                  this.setState({ confirmPassword })
+                }
+              />
+            </View>
+
+            <View style={styles.divider} />
+          </View>
+        )}
+
+        {/*
                     <View style={styles.category}>
                         <Text style={styles.text}> Canario </Text>
                         <SimpleLineIcons />
@@ -208,45 +193,44 @@ export default class Profile extends Component {
                         iconName="close"
                     />
                 */}
-                
-            </View>
-        );
-    }
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: colors.primaryLightColor
-    },
-    category: {
-        backgroundColor: "rgba(255, 255, 255, 0.5)",
-        flexDirection: "row",
-        alignItems: "center",
-        marginVertical: 16,
-        paddingHorizontal: 16,
-        height: 46
-    },
-    text: {
-        color: colors.secondaryTextColor,
-        fontSize: 16,
-        fontFamily: "Lato-Bold"
-    },
-    input: {
-        flexDirection: "row",
-        alignItems: "center",
-        marginHorizontal: 24
-    },
-    textInput: {
-        color: "#fff",
-        fontSize: 16,
-        fontFamily: "Lato-Regular",
-        marginLeft: 16
-    },
-    divider: {
-        borderColor: "rgba(255, 255, 255, 0.5)",
-        height: 0,
-        borderWidth: 2,
-        marginHorizontal: 16
-    }
+  container: {
+    flex: 1,
+    backgroundColor: colors.primaryLightColor
+  },
+  category: {
+    backgroundColor: "rgba(255, 255, 255, 0.5)",
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 16,
+    paddingHorizontal: 16,
+    height: 46
+  },
+  text: {
+    color: colors.secondaryTextColor,
+    fontSize: 16,
+    fontFamily: "Lato-Bold"
+  },
+  input: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginHorizontal: 24
+  },
+  textInput: {
+    color: "#fff",
+    fontSize: 16,
+    fontFamily: "Lato-Regular",
+    marginLeft: 16
+  },
+  divider: {
+    borderColor: "rgba(255, 255, 255, 0.5)",
+    height: 0,
+    borderWidth: 2,
+    marginHorizontal: 16
+  }
 });

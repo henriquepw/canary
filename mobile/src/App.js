@@ -1,7 +1,7 @@
 import {
-    createStackNavigator,
-    createDrawerNavigator,
-    createAppContainer
+  createStackNavigator,
+  createDrawerNavigator,
+  createAppContainer
 } from "react-navigation";
 
 import About from "./screens/About";
@@ -17,30 +17,30 @@ import Canaries from "./screens/Canaries";
 import Maps from "./screens/Maps";
 
 const AppDrawerNavigator = createDrawerNavigator(
-    {
-        About: { screen: About },
-        Home: { screen: Home },
-        Profile: { screen: Profile },
-        CanaryRegister2: { screen: CanaryRegister2 },
-        SeeCanaries: { screen: Canaries },
-        Maps: { screen: Maps },
-        RemoveCanary: { screen: RemoveCanary }
-    },
-    {
-        initialRouteName: "Home",
-        contentComponent: CustomDrawerComponent
-    }
+  {
+    About: { screen: About },
+    Home: { screen: Home },
+    Profile: { screen: Profile },
+    CanaryRegister2: { screen: CanaryRegister2 },
+    SeeCanaries: { screen: Canaries },
+    Maps: { screen: Maps },
+    RemoveCanary: { screen: RemoveCanary }
+  },
+  {
+    initialRouteName: "Home",
+    contentComponent: CustomDrawerComponent
+  }
 );
 
 const AppStackNavigator = createStackNavigator(
-    {
-        SplashScreen: { screen: SplashScreen },
-        Autentication: { screen: Autentication },
-        Home: { screen: AppDrawerNavigator }
-    },
-    {
-        headerMode: "none"
-    }
+  {
+    SplashScreen: { screen: SplashScreen },
+    Autentication: { screen: Autentication },
+    Home: { screen: AppDrawerNavigator }
+  },
+  {
+    headerMode: "none"
+  }
 );
 
 export default createAppContainer(AppStackNavigator);
