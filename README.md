@@ -13,7 +13,7 @@
 
   <!-- License -->
   <a href="./LICENSE" alt="License: MIT">
-    <img src="https://img.shields.io/badge/License-MIT-brightgreen.svg" />
+    <img src="https://img.shields.io/badge/License-MIT-1EAE72.svg" />
   </a>
 
   <!-- codefactor -->
@@ -134,5 +134,3 @@ This project is under the MIT license. See the file [LICENSE](LICENSE) for more 
 ---
 
 Build with 💙 By [Henrique Miranda](https://thehenry.dev), [Gabriel Barros](https://github.com/GabrielSBarros), and [David Luna](https://github.com/DavidLuna0)
-
-Based on the [readme template](https://gist.github.com/henry-ns/a00234378353d9ca43e1bfe043202192) by [Henrique Miranda](http://thehenry.dev/)
